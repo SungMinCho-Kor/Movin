@@ -148,6 +148,7 @@
 				DEVELOPMENT_TEAM = 7CQAR4CYZX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Movin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Movin;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -181,6 +182,7 @@
 				DEVELOPMENT_TEAM = 7CQAR4CYZX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Movin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Movin;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
