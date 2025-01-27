@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5916F0F02D479A5E00822291 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5916F0EF2D479A5E00822291 /* Alamofire */; };
+		5916F0F32D479A6C00822291 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5916F0F22D479A6C00822291 /* Kingfisher */; };
+		5916F0F62D479A7A00822291 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5916F0F52D479A7A00822291 /* SnapKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		5916F0452D4785F100822291 /* Movin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5916F0F62D479A7A00822291 /* SnapKit in Frameworks */,
+				5916F0F32D479A6C00822291 /* Kingfisher in Frameworks */,
+				5916F0F02D479A5E00822291 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +87,9 @@
 			);
 			name = Movin;
 			packageProductDependencies = (
+				5916F0EF2D479A5E00822291 /* Alamofire */,
+				5916F0F22D479A6C00822291 /* Kingfisher */,
+				5916F0F52D479A7A00822291 /* SnapKit */,
 			);
 			productName = Movin;
 			productReference = 5916F0452D4785F100822291 /* Movin.app */;
@@ -107,6 +119,11 @@
 			);
 			mainGroup = 5916F03C2D4785F100822291;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5916F0EE2D479A5E00822291 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				5916F0F12D479A6C00822291 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				5916F0F42D479A7A00822291 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5916F0462D4785F100822291 /* Products */;
 			projectDirPath = "";
@@ -140,6 +157,8 @@
 /* Begin XCBuildConfiguration section */
 		5916F0592D4785F300822291 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 5916F0472D4785F100822291 /* Movin */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -152,8 +171,10 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -174,6 +195,8 @@
 		};
 		5916F05A2D4785F300822291 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 5916F0472D4785F100822291 /* Movin */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -186,8 +209,10 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -347,6 +372,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5916F0EE2D479A5E00822291 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		5916F0F12D479A6C00822291 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.3;
+			};
+		};
+		5916F0F42D479A7A00822291 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5916F0EF2D479A5E00822291 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5916F0EE2D479A5E00822291 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		5916F0F22D479A6C00822291 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5916F0F12D479A6C00822291 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		5916F0F52D479A7A00822291 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5916F0F42D479A7A00822291 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5916F03D2D4785F100822291 /* Project object */;
 }
