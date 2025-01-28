@@ -12,6 +12,7 @@ final class ProfileViewController: BaseViewController {
     private let nicknameTextField = UITextField()
     private let nicknameTextFieldUnderlineView = UIView()
     private let alertLabel = UILabel()
+    private let completeButton = BorderedButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +24,8 @@ final class ProfileViewController: BaseViewController {
             profleImageview,
             nicknameTextField,
             nicknameTextFieldUnderlineView,
-            alertLabel
+            alertLabel,
+            completeButton
         ].forEach(view.addSubview)
     }
     
@@ -50,6 +52,12 @@ final class ProfileViewController: BaseViewController {
             make.top.equalTo(nicknameTextFieldUnderlineView.snp.bottom).offset(16)
             make.leading.equalTo(nicknameTextField)
         }
+        
+        completeButton.snp.makeConstraints { make in
+            make.top.equalTo(alertLabel.snp.bottom).offset(24)
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.height.equalTo(52)
+        }
     }
     
     override func configureViews() {
@@ -74,6 +82,21 @@ final class ProfileViewController: BaseViewController {
         alertLabel.font = .systemFont(ofSize: 14)
         alertLabel.text = "ㅇ제댜러제ㅑㄹ"
         alertLabel.isHidden = true
+        
+        completeButton.setTitle(
+            "완료",
+            for: .normal
+        )
+        completeButton.setTitleColor(
+            .movinPrimary,
+            for: .disabled
+        )
+        completeButton.isEnabled = false
+        completeButton.addTarget(
+            self,
+            action: #selector(completeButtonTapped),
+            for: .touchUpInside
+        )
     }
     
     private func configureNavigation() {
@@ -88,15 +111,23 @@ final class ProfileViewController: BaseViewController {
         if text.count >= 10 || text.count < 2 {
             alertLabel.isHidden = false
             alertLabel.text = "2글자 이상 10글자 미만으로 설정해주세요."
+            completeButton.isEnabled = false
         } else if !text.matches(of: /[@#\$%]/).isEmpty {
             alertLabel.isHidden = false
             alertLabel.text = "닉네임에 @, #, $, % 는 포함할 수 없어요"
+            completeButton.isEnabled = false
         } else if !text.matches(of: /\d/).isEmpty {
             alertLabel.isHidden = false
             alertLabel.text = "닉네임에 숫자를 포함할 수 없어요"
+            completeButton.isEnabled = false
         } else {
             alertLabel.text = "사용할 수 있는 닉네임이에요"
             alertLabel.isHidden = false
+            completeButton.isEnabled = true
         }
+    }
+    
+    @objc private func completeButtonTapped() {
+        print("complete")
     }
 }

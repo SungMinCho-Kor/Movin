@@ -44,7 +44,7 @@ final class OnboardingViewController: BaseViewController {
         startButton.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(32)
             make.horizontalEdges.equalToSuperview().inset(16)
-            make.height.equalTo(44)
+            make.height.equalTo(52)
         }
     }
     
