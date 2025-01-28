@@ -11,7 +11,7 @@ import Alamofire
 final class APIService {
     static let shared = APIService()
     
-    private init() {}
+    private init() { }
     
     func request<T: Router, U: Decodable>(
         api: T,
