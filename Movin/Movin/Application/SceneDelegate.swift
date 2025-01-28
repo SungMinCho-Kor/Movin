@@ -7,15 +7,21 @@
 
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
+        setAppearance()
         window = UIWindow(windowScene: scene)
-        window?.rootViewController = TabBarController()
+        
+        let navigationController = BasicNavigationController(rootViewController: OnboardingViewController())
+        
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
+    
+    private func setAppearance() {
+        UILabel.appearance().textColor = .movinWhite
+    }
 }
-
