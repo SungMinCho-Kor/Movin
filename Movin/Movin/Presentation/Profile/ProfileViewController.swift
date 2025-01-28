@@ -128,6 +128,10 @@ final class ProfileViewController: BaseViewController {
     }
     
     @objc private func completeButtonTapped() {
-        print("complete")
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else {
+            return
+        }
+        window.rootViewController = UINavigationController(rootViewController: TabBarController())
+        window.makeKeyAndVisible()
     }
 }
