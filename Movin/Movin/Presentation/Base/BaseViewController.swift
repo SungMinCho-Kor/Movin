@@ -22,5 +22,6 @@ class BaseViewController: UIViewController, ViewConfiguration {
     
     private func configureBase() {
         view.backgroundColor = .movinBlack
+        navigationItem.backButtonDisplayMode = .minimal
     }
 }

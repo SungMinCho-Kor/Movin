@@ -23,5 +23,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func setAppearance() {
         UILabel.appearance().textColor = .movinWhite
+        UITextField.appearance().textColor = .movinWhite
     }
 }
