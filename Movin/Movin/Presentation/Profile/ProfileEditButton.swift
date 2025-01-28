@@ -42,6 +42,8 @@ final class ProfileEditButton: UIButton {
     }
     
     private func configureViews() {
+        profileImageView.changeSelection(to: true)
+        
         editImageView.contentMode = .center
         editImageView.image = UIImage(systemName: "camera.fill")?
             .resizeKeepRatio(newWidth: 20)
