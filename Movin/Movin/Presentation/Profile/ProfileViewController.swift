@@ -13,7 +13,7 @@ final class ProfileViewController: BaseViewController {
     private let nicknameTextFieldUnderlineView = UIView()
     private let alertLabel = UILabel()
     private let completeButton = BorderedButton()
-    private var currentImageIndex = Int.random(in: 0...11) {
+    private var currentImageIndex = UserDefaultsManager.shared.profileImageIndex {
         didSet {
             profileEditButton.setImage(UIImage(named: "profile_\(currentImageIndex)"))
         }
@@ -134,6 +134,12 @@ final class ProfileViewController: BaseViewController {
     
     @objc private func completeButtonTapped() {
         UserDefaultsManager.shared.isOnboardingStarted = true
+        guard let nickname = nicknameTextField.text else {
+            print(#function, "nickname text nil")
+            return
+        }
+        UserDefaultsManager.shared.nickname = nickname
+        UserDefaultsManager.shared.profileImageIndex = currentImageIndex
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else {
             return

@@ -37,6 +37,11 @@ final class ProfileImageEditViewController: BaseViewController {
         setSelectedImage()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        profileDelegate?.setProfile(index: currentImageIndex)
+    }
+    
     override func configureHierarchy() {
         [
             currentProfile,
@@ -138,6 +143,5 @@ extension ProfileImageEditViewController: UICollectionViewDelegate, UICollection
     ) {
         currentImageIndex = indexPath.row
         currentProfile.setImage(imageList[currentImageIndex])
-        profileDelegate?.setProfile(index: currentImageIndex)
     }
 }

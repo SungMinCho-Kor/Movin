@@ -9,6 +9,8 @@ import Foundation
 
 enum UserDefaultsKey: String {
     case isOnboardingStarted
+    case nickname
+    case profileImageIndex
 }
 
 final class UserDefaultsManager {
@@ -19,6 +21,16 @@ final class UserDefaultsManager {
         defaultValue: false
     )
     var isOnboardingStarted: Bool
+    @UserDefault(
+        key: UserDefaultsKey.nickname.rawValue,
+        defaultValue: nil
+    )
+    var nickname: String?
+    @UserDefault(
+        key: UserDefaultsKey.profileImageIndex.rawValue,
+        defaultValue: Int.random(in: 0...11)
+    )
+    var profileImageIndex: Int
     
     private init() { }
 }
