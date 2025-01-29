@@ -79,7 +79,7 @@ final class OnboardingViewController: BaseViewController {
     
     @objc private func startButtonTapped() {
         navigationController?.pushViewController(
-            ProfileViewController(),
+            ProfileEditViewController(),
             animated: true
         )
     }
