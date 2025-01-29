@@ -68,15 +68,14 @@ final class TabBarController: UITabBarController {
         viewController: UIViewController,
         tabTitle: String?,
         tabImage: UIImage?
-    ) -> UINavigationController {
-        let navigationController = UINavigationController(rootViewController: viewController)
+    ) -> BasicNavigationController {
+        let navigationController = BasicNavigationController(rootViewController: viewController)
         navigationController.tabBarItem.image = tabImage
         navigationController.tabBarItem.title = tabTitle
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .movinBlack
         navigationController.navigationBar.standardAppearance = appearance
         navigationController.navigationBar.scrollEdgeAppearance = appearance
-        
         return navigationController
     }
 }

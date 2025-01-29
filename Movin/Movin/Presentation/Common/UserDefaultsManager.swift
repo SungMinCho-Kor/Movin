@@ -12,6 +12,7 @@ enum UserDefaultsKey: String {
     case nickname
     case profileImageIndex
     case signUpDate
+    case likeMovies
 }
 
 final class UserDefaultsManager {
@@ -37,6 +38,11 @@ final class UserDefaultsManager {
         defaultValue: Date()
     )
     var signUpDate: Date
+    @UserDefault(
+        key: UserDefaultsKey.likeMovies.rawValue,
+        defaultValue: []
+    )
+    var likeMovies: [Int]
     
     private init() { }
 }

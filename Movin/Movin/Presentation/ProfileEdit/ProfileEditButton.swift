@@ -8,29 +8,26 @@
 import UIKit
 import SnapKit
 
-final class ProfileEditButton: UIButton {
+final class ProfileEditButton: BaseButton {
     private let profileImageView = ProfileImageView()
     private let editImageView = UIImageView()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureHierarchy()
-        configureLayout()
-        configureViews()
+    override init() {
+        super.init()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureHierarchy() {
+    override func configureHierarchy() {
         [
             profileImageView,
             editImageView
         ].forEach(addSubview)
     }
     
-    private func configureLayout() {
+    override func configureLayout() {
         profileImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -41,7 +38,7 @@ final class ProfileEditButton: UIButton {
         }
     }
     
-    private func configureViews() {
+    override func configureViews() {
         profileImageView.changeSelection(to: true)
         
         editImageView.contentMode = .center
