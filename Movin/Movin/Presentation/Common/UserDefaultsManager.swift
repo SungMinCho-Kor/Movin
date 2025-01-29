@@ -11,6 +11,7 @@ enum UserDefaultsKey: String {
     case isOnboardingStarted
     case nickname
     case profileImageIndex
+    case signUpDate
 }
 
 final class UserDefaultsManager {
@@ -31,6 +32,11 @@ final class UserDefaultsManager {
         defaultValue: Int.random(in: 0...11)
     )
     var profileImageIndex: Int
+    @UserDefault(
+        key: UserDefaultsKey.signUpDate.rawValue,
+        defaultValue: Date()
+    )
+    var signUpDate: Date
     
     private init() { }
 }

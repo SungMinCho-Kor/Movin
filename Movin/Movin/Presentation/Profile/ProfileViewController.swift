@@ -140,6 +140,7 @@ final class ProfileViewController: BaseViewController {
         }
         UserDefaultsManager.shared.nickname = nickname
         UserDefaultsManager.shared.profileImageIndex = currentImageIndex
+        UserDefaultsManager.shared.signUpDate = Date()
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else {
             return
