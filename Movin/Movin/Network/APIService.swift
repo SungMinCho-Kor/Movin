@@ -24,7 +24,8 @@ final class APIService {
                 switch response.result {
                 case .success(let data):
                     successCompletion(data)
-                case .failure:
+                case .failure(let error):
+                    dump(error)
                     let customError = self?.handleWrongStatusCode(response.response?.statusCode) ?? .deinitialized
                     dump(customError.alert)
                     failureCompletion(customError)
