@@ -22,7 +22,7 @@ final class CinemaViewController: BaseViewController {
     
     override func configureLayout() {
         profileView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
             make.height.equalToSuperview().multipliedBy(0.18)
         }
@@ -31,6 +31,17 @@ final class CinemaViewController: BaseViewController {
     
     override func configureViews() {
         navigationItem.title = "Movin"
+        navigationItem.setRightBarButtonItems(
+            [
+                UIBarButtonItem(
+                    image: UIImage(systemName: "magnifyingglass"),
+                    style: .plain,
+                    target: self,
+                    action: #selector(searchButtonTapped)
+                )
+            ],
+            animated: true
+        )
         
         profileView.profileInfoButton.addTarget(
             self,
@@ -41,5 +52,12 @@ final class CinemaViewController: BaseViewController {
     
     @objc private func profileInfoButtonTapped() {
         print("Profile Edit")
+    }
+    
+    @objc private func searchButtonTapped() {
+        navigationController?.pushViewController(
+            SearchViewController(),
+            animated: true
+        )
     }
 }
