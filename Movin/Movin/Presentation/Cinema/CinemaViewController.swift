@@ -10,7 +10,8 @@ import UIKit
 final class CinemaViewController: BaseViewController {
     private let profileView = CinemaProfileView()
     private let recentSearchHeader = UILabel()
-    private let recentEmptyLabel = UILabel()
+    private let recentSearchHistoryEmptyLabel = UILabel()
+    private let removeAllRecentSearchHistoryButton = UIButton()
     private let recentSearchScrollView = UIScrollView()
     private let recentSearchStackView = UIStackView()
     
@@ -28,8 +29,9 @@ final class CinemaViewController: BaseViewController {
         [
             profileView,
             recentSearchHeader,
+            removeAllRecentSearchHistoryButton,
             recentSearchScrollView,
-            recentEmptyLabel
+            recentSearchHistoryEmptyLabel
         ].forEach(view.addSubview)
         recentSearchScrollView.addSubview(recentSearchStackView)
     }
@@ -46,17 +48,22 @@ final class CinemaViewController: BaseViewController {
             make.leading.equalToSuperview().offset(16)
         }
         
+        removeAllRecentSearchHistoryButton.snp.makeConstraints { make in
+            make.centerY.equalTo(recentSearchHeader)
+            make.trailing.equalToSuperview().inset(16)
+        }
+        
         recentSearchScrollView.snp.makeConstraints { make in
             make.top.equalTo(recentSearchHeader.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview()
         }
         
         recentSearchStackView.snp.makeConstraints { make in
-            make.edges.equalTo(recentSearchScrollView)//TODO: 맞나?
+            make.edges.equalTo(recentSearchScrollView)
             make.height.equalTo(recentSearchScrollView)
         }
         
-        recentEmptyLabel.snp.makeConstraints { make in
+        recentSearchHistoryEmptyLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(recentSearchScrollView)
         }
@@ -89,6 +96,25 @@ final class CinemaViewController: BaseViewController {
             weight: .bold
         )
         
+        //TODO: 왜 attribute에서 설정해줬는데 자꾸 흰색으로 변할까요...
+        let attributedTitle = NSAttributedString(
+            string: "전체 삭제",
+            attributes: [
+                .foregroundColor: UIColor.movinPrimary,
+                .font: UIFont.systemFont(ofSize: 14)
+            ]
+        )
+        removeAllRecentSearchHistoryButton.setAttributedTitle(
+            attributedTitle,
+            for: .normal
+        )
+        removeAllRecentSearchHistoryButton.isHidden = UserDefaultsManager.shared.searchHistory.isEmpty
+        removeAllRecentSearchHistoryButton.addTarget(
+            self,
+            action: #selector(removeAllRecentSearchHistoryButtonTapped),
+            for: .touchUpInside
+        )
+        
         recentSearchStackView.spacing = 8
         recentSearchStackView.distribution = .fillProportionally
         
@@ -103,13 +129,14 @@ final class CinemaViewController: BaseViewController {
         
         configureRecentSearchHistory()
         
-        recentEmptyLabel.text = "최근 검색어 내역이 없습니다."
-        recentEmptyLabel.font = .systemFont(ofSize: 14)
-        recentEmptyLabel.textColor = .movinDarkGray
-        recentEmptyLabel.isHidden = !UserDefaultsManager.shared.searchHistory.isEmpty
+        recentSearchHistoryEmptyLabel.text = "최근 검색어 내역이 없습니다."
+        recentSearchHistoryEmptyLabel.font = .systemFont(ofSize: 14)
+        recentSearchHistoryEmptyLabel.textColor = .movinDarkGray
+        recentSearchHistoryEmptyLabel.isHidden = !UserDefaultsManager.shared.searchHistory.isEmpty
     }
     
     @objc private func profileInfoButtonTapped() {
+        //TODO: Profile 변경으로 이동
         print("Profile Edit")
     }
     
@@ -129,7 +156,8 @@ final class CinemaViewController: BaseViewController {
     }
     
     private func configureRecentSearchHistory() {
-        recentEmptyLabel.isHidden = !UserDefaultsManager.shared.searchHistory.isEmpty
+        recentSearchHistoryEmptyLabel.isHidden = !UserDefaultsManager.shared.searchHistory.isEmpty
+        removeAllRecentSearchHistoryButton.isHidden = UserDefaultsManager.shared.searchHistory.isEmpty
         for idx in 0..<UserDefaultsManager.shared.searchHistory.count {
             let keyword = UserDefaultsManager.shared.searchHistory[idx]
             let buttonView = RecentSearchKeywordButtonView()
@@ -151,12 +179,19 @@ final class CinemaViewController: BaseViewController {
     }
     
     @objc private func keywordButtonTapped(_ sender: UIButton) {
-        print(#function, sender.tag)
-        
+        navigationController?.pushViewController(
+            SearchViewController(searchKeyword: UserDefaultsManager.shared.searchHistory[sender.tag]),
+            animated: true
+        )
     }
     
     @objc private func removeButtonTapped(_ sender: UIButton) {
         UserDefaultsManager.shared.removeSearchHistory(index: sender.tag)
+        refreshView()
+    }
+    
+    @objc private func removeAllRecentSearchHistoryButtonTapped() {
+        UserDefaultsManager.shared.searchHistory.removeAll()
         refreshView()
     }
 }

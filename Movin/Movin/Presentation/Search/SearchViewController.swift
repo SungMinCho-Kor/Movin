@@ -21,9 +21,21 @@ final class SearchViewController: BaseViewController {
     private var paginationEnd = false
     private var searchKeyword = ""
     
+    override init() {
+        super.init()
+    }
+    
+    init(searchKeyword: String) {
+        super.init()
+        self.searchBar.searchTextField.text = searchKeyword
+        searchBarSearchButtonClicked(searchBar)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchBar.searchTextField.becomeFirstResponder()
+        if searchKeyword.isEmpty {
+            searchBar.searchTextField.becomeFirstResponder()
+        }
     }
     
     override func configureHierarchy() {

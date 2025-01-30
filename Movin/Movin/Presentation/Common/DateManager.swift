@@ -18,6 +18,9 @@ final class DateManager {
     }
     
     func searchDateFormat(dateString: String) -> String {
+        if dateString.isEmpty {
+            return ""
+        }
         dateFormatter.dateFormat = "yyyy-MM-dd"
         guard let date = dateFormatter.date(from: dateString) else {
             print(#function, "worng format")
