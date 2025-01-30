@@ -76,6 +76,7 @@ final class SearchViewController: BaseViewController {
             forCellReuseIdentifier: SearchTableViewCell.identifier
         )
         
+        emptyResultLabel.isHidden = true
         emptyResultLabel.textAlignment = .center
         emptyResultLabel.text = "원하는 검색결과를 찾지 못했습니다."
         emptyResultLabel.textColor = .movinDarkGray
