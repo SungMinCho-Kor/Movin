@@ -67,6 +67,7 @@ final class SearchViewController: BaseViewController {
         searchResultTableView.keyboardDismissMode = .onDrag
         searchResultTableView.delegate = self
         searchResultTableView.dataSource = self
+        searchResultTableView.prefetchDataSource = self
         searchResultTableView.rowHeight = 160
         searchResultTableView.separatorStyle = .singleLine
         searchResultTableView.separatorColor = .movinDarkGray
@@ -94,6 +95,7 @@ extension SearchViewController: UISearchBarDelegate {
         if text == searchKeyword || text.isEmpty {
             return
         }
+        paginationEnd = false
         page = 1
         searchKeyword = text
         UserDefaultsManager.shared.appendSearchHistory(keyword: text)
@@ -125,7 +127,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
-extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDataSourcePrefetching {
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
@@ -147,5 +149,29 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(content: resultList[indexPath.row])
         
         return cell
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        prefetchRowsAt indexPaths: [IndexPath]
+    ) {
+        if indexPaths.last?.row == resultList.count - 1, !paginationEnd {
+            page += 1
+            APIService.shared.request(
+                api: DefaultRouter.search(
+                    dto: SearchRequestDTO(
+                        query: searchKeyword,
+                        page: page
+                    )
+                )
+            ) { [weak self] (result: SearchResponseDTO) in
+                if result.total_pages == result.page {
+                    self?.paginationEnd = true
+                }
+                self?.resultList.append(contentsOf: result.results)
+            } failureCompletion: { error in
+                dump(error)
+            }
+        }
     }
 }
