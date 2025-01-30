@@ -148,6 +148,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
             return UITableViewCell()
         }
         cell.configure(content: resultList[indexPath.row])
+        cell.likeButton.tag = indexPath.row
+        cell.likeButton.addTarget(
+            self,
+            action: #selector(likeButtonTapped),
+            for: .touchUpInside
+        )
         
         return cell
     }
@@ -174,5 +180,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
                 dump(error)
             }
         }
+    }
+    
+    @objc private func likeButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        UserDefaultsManager.shared.toggleLikeMovie(movieID: resultList[sender.tag].id)
     }
 }

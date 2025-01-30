@@ -14,6 +14,11 @@ final class CinemaViewController: BaseViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        profileView.refreshView()
+    }
+    
     override func configureHierarchy() {
         [
             profileView

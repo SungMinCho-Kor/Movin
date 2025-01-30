@@ -32,9 +32,11 @@ final class ProfileImageView: UIImageView {
         if isSelected {
             layer.borderWidth = 3
             layer.borderColor = UIColor.movinPrimary.cgColor
+            alpha = 1
         } else {
             layer.borderColor = UIColor.movinDarkGray.cgColor
             layer.borderWidth = 1
+            alpha = 0.5
         }
     }
 }

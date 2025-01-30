@@ -69,4 +69,9 @@ final class ProfileInfoButton: BaseButton {
         selectionAccessoryImageView.contentMode = .scaleToFill
         selectionAccessoryImageView.tintColor = .lightGray
     }
+    
+    func refreshView() {
+        nicknameLabel.text = UserDefaultsManager.shared.nickname
+        profileImageView.image = UIImage(named: "profile_\(UserDefaultsManager.shared.profileImageIndex)")
+    }
 }

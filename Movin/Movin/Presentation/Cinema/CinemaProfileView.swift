@@ -47,4 +47,14 @@ final class CinemaProfileView: BaseView {
         layer.cornerRadius = 20
         backgroundColor = .movinDarkGray.withAlphaComponent(0.4)
     }
+    
+    func refreshView() {
+        var attributedString = AttributedString("\(UserDefaultsManager.shared.likeMovies.count) 개의 무비박스 보관중")
+        attributedString.font = .systemFont(
+            ofSize: 16,
+            weight: .bold
+        )
+        movieBoxButton.configuration?.attributedTitle = attributedString
+        profileInfoButton.refreshView()
+    }
 }

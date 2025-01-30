@@ -69,4 +69,12 @@ final class UserDefaultsManager {
     func removeSearchHistory(index: Int) {
         searchHistory.remove(at: index)
     }
+    
+    func toggleLikeMovie(movieID: Int) {
+        if likeMovies.contains(movieID) {
+            likeMovies.removeAll { $0 == movieID }
+        } else {
+            likeMovies.append(movieID)
+        }
+    }
 }

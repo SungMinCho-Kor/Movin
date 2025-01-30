@@ -12,7 +12,7 @@ final class SearchTableViewCell: BaseTableViewCell {
     private let titleLabel = UILabel()
     private let dateLabel = UILabel()
     private let genreStackView = UIStackView()
-    private let likeButton = UIButton()
+    let likeButton = UIButton()//TODO: private 안 풀고 하는 방법
     
     override init(
         style: UITableViewCell.CellStyle,
