@@ -13,6 +13,7 @@ enum UserDefaultsKey: String {
     case profileImageIndex
     case signUpDate
     case likeMovies
+    case searchHistory
 }
 
 final class UserDefaultsManager {
@@ -43,6 +44,29 @@ final class UserDefaultsManager {
         defaultValue: []
     )
     var likeMovies: [Int]
+    @UserDefault(
+        key: UserDefaultsKey.searchHistory.rawValue,
+        defaultValue: []
+    )
+    var searchHistory: [String]
     
     private init() { }
+    
+    func appendSearchHistory(keyword: String) {
+        removeSearchHistory(keyword: keyword)
+        searchHistory.insert(
+            keyword,
+            at: 0
+        )
+    }
+    
+    func removeSearchHistory(keyword: String) {
+        if let firstIndex = searchHistory.firstIndex(of: keyword) {
+            searchHistory.remove(at: firstIndex)
+        }
+    }
+    
+    func removeSearchHistory(index: Int) {
+        searchHistory.remove(at: index)
+    }
 }

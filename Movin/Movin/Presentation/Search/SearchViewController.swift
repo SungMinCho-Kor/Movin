@@ -19,6 +19,7 @@ final class SearchViewController: BaseViewController {
     }
     private var page = 0
     private var paginationEnd = false
+    private var searchKeyword = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,7 +91,12 @@ extension SearchViewController: UISearchBarDelegate {
             print(#function, "SearchBar Text Nil")
             return
         }
+        if text == searchKeyword || text.isEmpty {
+            return
+        }
         page = 1
+        searchKeyword = text
+        UserDefaultsManager.shared.appendSearchHistory(keyword: text)
         APIService.shared.request(
             api: DefaultRouter.search(
                 dto: SearchRequestDTO(
@@ -98,11 +104,11 @@ extension SearchViewController: UISearchBarDelegate {
                     page: page
                 )
             )
-        ) { (result: SearchResponseDTO) in
+        ) { [weak self] (result: SearchResponseDTO) in
             if result.total_pages == result.page {
-                self.paginationEnd = true
+                self?.paginationEnd = true
             }
-            self.resultList = result.results
+            self?.resultList = result.results
         } failureCompletion: { error in
             dump(error)
         }
