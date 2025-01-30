@@ -9,6 +9,7 @@ import Alamofire
 import Foundation
 
 enum DefaultRouter {
+    case search(dto: SearchRequestDTO)
 }
 
 extension DefaultRouter: Router {
@@ -18,7 +19,9 @@ extension DefaultRouter: Router {
     
     var path: String {
         switch self {
-        default: 
+        case .search:
+            return "/3/search/movie"
+        default:
             return ""
         }
     }
@@ -34,13 +37,16 @@ extension DefaultRouter: Router {
         switch self {
         default:
             return [
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": "Bearer \(Environment.accessToken.value)"
             ]
         }
     }
     
     var parameters: [String : Any] {
         switch self {
+        case .search(let dto):
+            return dto.asDictionary()
         default:
             return [:]
         }
@@ -48,6 +54,8 @@ extension DefaultRouter: Router {
     
     var encoding: (any ParameterEncoding)? {
         switch self {
+        case .search:
+            return URLEncoding.default
         default:
             return nil
         }
