@@ -209,7 +209,7 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
         } else if collectionView == castView.collectionView {
             let height = collectionView.bounds.height
             let width = collectionView.bounds.width
-            return CGSize(width: width / 2 , height: height / 2 - 16)
+            return CGSize(width: width / 2 , height: height / 2 - 8)
         }
         return .zero
     }

@@ -50,8 +50,8 @@ final class CastView: BaseView {
     
     private func createCollectionViewLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 16
-        layout.minimumInteritemSpacing = 16
+        layout.minimumInteritemSpacing = 8
+        layout.minimumInteritemSpacing = 8
         layout.scrollDirection = .horizontal
         
         return layout

@@ -52,6 +52,7 @@ final class CastCollectionViewCell: BaseCollectionViewCell {
     
     override func configureViews() {
         profileImageView.clipsToBounds = true
+        profileImageView.contentMode = .scaleAspectFill
         profileImageView.backgroundColor = .movinDarkGray
         profileImageView.tintColor = .movinBlack
         
