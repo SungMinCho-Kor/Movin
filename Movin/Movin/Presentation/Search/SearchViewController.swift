@@ -31,6 +31,11 @@ final class SearchViewController: BaseViewController {
         searchBarSearchButtonClicked(searchBar)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        searchResultTableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if searchKeyword.isEmpty {
@@ -192,6 +197,26 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
                 dump(error)
             }
         }
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        let detailViewController = MovieDetailViewController(
+            movieDetail: MovieDetail(
+                movieID: resultList[indexPath.row].id,
+                dateString: resultList[indexPath.row].release_date,
+                rate: resultList[indexPath.row].vote_average,
+                genreList: resultList[indexPath.row].genre_ids.prefix(2).compactMap { Genre(rawValue: $0) },
+                overview: resultList[indexPath.row].overview
+            )
+        )
+        detailViewController.navigationItem.title = resultList[indexPath.row].title
+        navigationController?.pushViewController(
+            detailViewController,
+            animated: true
+        )
     }
     
     @objc private func likeButtonTapped(_ sender: UIButton) {
