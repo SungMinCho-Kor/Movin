@@ -8,7 +8,6 @@
 import UIKit
 
 class BaseCollectionViewCell: UICollectionViewCell, ViewConfiguration, ReusableIdentifier {
-    
     static var identifier: String { String(describing: self) }
     
     override init(frame: CGRect) {

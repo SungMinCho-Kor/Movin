@@ -8,7 +8,6 @@
 import UIKit
 
 class BaseTableViewCell: UITableViewCell, ViewConfiguration, ReusableIdentifier {
-    
     override init(
         style: UITableViewCell.CellStyle,
         reuseIdentifier: String?

@@ -52,6 +52,7 @@ final class OnboardingViewController: BaseViewController {
         imageView.image = .onboarding
         
         titleLabel.text = "Movin"
+        titleLabel.textColor = .movinWhite
         titleLabel.textAlignment = .center
         titleLabel.font = .systemFont(
             ofSize: 36,
@@ -59,6 +60,7 @@ final class OnboardingViewController: BaseViewController {
         )
         
         descriptionLabel.text = "당신만의 영화 세상,\nMovin을 시작해보세요."
+        descriptionLabel.textColor = .movinWhite
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = .systemFont(
