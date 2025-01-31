@@ -134,7 +134,7 @@ final class ProfileEditViewController: BaseViewController {
     
     private func configureNavigation() {
         if UserDefaultsManager.shared.isOnboardingDone {
-            navigationItem.title = "프로필 변경"
+            navigationItem.title = "프로필 편집"
             navigationItem.setRightBarButtonItems(
                 [
                     UIBarButtonItem(

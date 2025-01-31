@@ -41,7 +41,7 @@ final class RecentSearchView: BaseView {
         }
         
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(headerLabel.snp.bottom).offset(16)
+            make.top.equalTo(headerLabel.snp.bottom).offset(12)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(28)
         }

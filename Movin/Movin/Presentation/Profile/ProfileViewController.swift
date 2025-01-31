@@ -55,6 +55,8 @@ final class ProfileViewController: BaseViewController {
     }
     
     override func configureViews() {
+        navigationItem.title = "설정"
+        
         profileView.profileInfoButton.addTarget(
             self,
             action: #selector(profileInfoButtonTapped),

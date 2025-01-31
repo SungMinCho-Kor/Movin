@@ -78,7 +78,7 @@ final class ProfileImageEditViewController: BaseViewController {
     
     private func configureNavigation() {
         if UserDefaultsManager.shared.isOnboardingDone {
-            navigationItem.title = "프로필 이미지 변경"
+            navigationItem.title = "프로필 이미지 편집"
         } else {
             navigationItem.title = "프로필 이미지 설정"
         }
