@@ -12,7 +12,8 @@ final class BackdropView: BaseView {
         frame: .zero,
         collectionViewLayout: createCollectionViewLayout()
     )
-    
+    private let pageControlView = UIView()
+    let pageControl = UIPageControl()
     //TODO: 아래와 같은 뷰는 재사용하지 않는데 커스텀 뷰로 빼는 것이 좋을까?..
     private let infoStackView = UIStackView()
     private let dateImageView = UIImageView(image: UIImage(systemName: "calendar"))
@@ -24,10 +25,17 @@ final class BackdropView: BaseView {
     private let firstDivider = UIView()
     private let secondDivider = UIView()
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        pageControlView.layer.cornerRadius = pageControlView.bounds.height / 2
+    }
+    
     override func configureHierarchy() {
         [
             collectionView,
-            infoStackView
+            infoStackView,
+            pageControlView,
+            pageControl
         ].forEach(addSubview)
         [
             dateImageView,
@@ -46,6 +54,15 @@ final class BackdropView: BaseView {
             make.top.equalToSuperview().offset(16)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(280)
+        }
+        
+        pageControl.snp.makeConstraints { make in
+            make.bottom.equalTo(collectionView).inset(16)
+            make.centerX.equalTo(collectionView)
+        }
+        
+        pageControlView.snp.makeConstraints { make in
+            make.edges.equalTo(pageControl).inset(-8)
         }
         
         infoStackView.snp.makeConstraints { make in
@@ -104,6 +121,10 @@ final class BackdropView: BaseView {
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .movinBlack
+        
+        pageControl.backgroundStyle = .minimal
+        pageControlView.backgroundColor = .movinDarkGray.withAlphaComponent(0.6)
+        pageControlView.clipsToBounds = true
     }
     
     private func createCollectionViewLayout() -> UICollectionViewLayout {

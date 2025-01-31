@@ -141,6 +141,7 @@ final class MovieDetailViewController: BaseViewController {
         }
         group.notify(queue: .main) {
             self.backdropView.collectionView.reloadData()
+            self.backdropView.pageControl.numberOfPages = self.backdropImageList.count
             self.castView.collectionView.reloadData()
             self.posterView.collectionView.reloadData()
         }
@@ -252,5 +253,15 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
             return CGSize(width: 100, height: height)
         }
         return .zero
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        if collectionView == backdropView.collectionView {
+            backdropView.pageControl.currentPage = indexPath.row
+        }
     }
 }
