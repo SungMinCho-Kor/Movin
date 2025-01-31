@@ -10,6 +10,7 @@ import Foundation
 
 enum DefaultRouter {
     case search(dto: SearchRequestDTO)
+    case fetchTodayMovie
 }
 
 extension DefaultRouter: Router {
@@ -21,8 +22,8 @@ extension DefaultRouter: Router {
         switch self {
         case .search:
             return "/3/search/movie"
-        default:
-            return ""
+        case .fetchTodayMovie:
+            return "/3/trending/movie/day"
         }
     }
     
@@ -47,18 +48,18 @@ extension DefaultRouter: Router {
         switch self {
         case .search(let dto):
             return dto.asDictionary()
-        default:
-            return [:]
+        case .fetchTodayMovie:
+            return [
+                "language" : "ko-KR",
+                "page": 1
+            ]
         }
     }
     
     var encoding: (any ParameterEncoding)? {
         switch self {
-        case .search:
+        case .search, .fetchTodayMovie:
             return URLEncoding.default
-        default:
-            return nil
         }
     }
-    
 }
