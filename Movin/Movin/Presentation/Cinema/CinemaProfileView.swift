@@ -41,7 +41,7 @@ final class CinemaProfileView: BaseView {
         var buttonConfiguration = UIButton.Configuration.filled()
         buttonConfiguration.attributedTitle = attributedString
         buttonConfiguration.baseForegroundColor = .movinWhite
-        buttonConfiguration.baseBackgroundColor = .movinPrimary.withAlphaComponent(0.8)
+        buttonConfiguration.baseBackgroundColor = .movinPrimary.withAlphaComponent(0.5)
         movieBoxButton.configuration = buttonConfiguration
         
         layer.cornerRadius = 20

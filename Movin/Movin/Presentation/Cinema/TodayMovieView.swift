@@ -27,7 +27,7 @@ final class TodayMovieView: BaseView {
         }
         
         movieCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(headerLabel.snp.bottom).offset(16)
+            make.top.equalTo(headerLabel.snp.bottom).offset(8)
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }

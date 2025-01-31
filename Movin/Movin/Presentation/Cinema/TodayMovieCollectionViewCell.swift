@@ -27,7 +27,7 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
         imageView.image = nil
         imageView.backgroundColor = .movinDarkGray
         titleLabel.text = ""
-        descriptionLabel.text = ""
+        descriptionLabel.text = "\n"//TODO: 이게 최선일까?
         likeButton.isSelected = false
     }
     
@@ -100,7 +100,11 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
             imageView.contentMode = .center
         }
         titleLabel.text = content.title
-        descriptionLabel.text = content.overview
+        if content.overview.isEmpty {
+            descriptionLabel.text = "\n"
+        } else {
+            descriptionLabel.text = content.overview
+        }
         likeButton.isSelected = UserDefaultsManager.shared.likeMovies.contains(content.id)
     }
 }
