@@ -46,6 +46,8 @@ final class CinemaProfileView: BaseView {
         
         layer.cornerRadius = 20
         backgroundColor = .movinDarkGray.withAlphaComponent(0.4)
+        
+        movieBoxButton.isUserInteractionEnabled = false
     }
     
     func refreshView() {

@@ -38,6 +38,9 @@ final class ProfileEditViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
+        if !UserDefaultsManager.shared.isOnboardingDone {
+            currentImageIndex = Int.random(in: 0...11)
+        }
     }
     
     override func configureHierarchy() {

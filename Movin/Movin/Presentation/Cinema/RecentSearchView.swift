@@ -44,6 +44,7 @@ final class RecentSearchView: BaseView {
             make.top.equalTo(headerLabel.snp.bottom).offset(12)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(28)
+            make.bottom.equalToSuperview()
         }
         
         stackView.snp.makeConstraints { make in
