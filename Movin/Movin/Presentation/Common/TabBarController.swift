@@ -74,6 +74,9 @@ final class TabBarController: UITabBarController {
         navigationController.tabBarItem.title = tabTitle
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .movinBlack
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.movinWhite
+        ]
         navigationController.navigationBar.standardAppearance = appearance
         navigationController.navigationBar.scrollEdgeAppearance = appearance
         return navigationController
