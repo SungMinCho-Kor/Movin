@@ -43,7 +43,7 @@ final class RecentSearchView: BaseView {
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(headerLabel.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.height.equalTo(28)
         }
         
         stackView.snp.makeConstraints { make in
@@ -53,7 +53,7 @@ final class RecentSearchView: BaseView {
         
         emptyLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(scrollView)
+            make.top.equalTo(headerLabel.snp.bottom)
             make.bottom.equalToSuperview()
         }
     }
@@ -66,7 +66,6 @@ final class RecentSearchView: BaseView {
             weight: .bold
         )
         
-        //TODO: 왜 attribute에서 설정해줬는데 자꾸 흰색으로 변할까요...
         let attributedTitle = NSAttributedString(
             string: "전체 삭제",
             attributes: [
@@ -102,6 +101,7 @@ final class RecentSearchView: BaseView {
         emptyLabel.text = "최근 검색어 내역이 없습니다."
         emptyLabel.font = .systemFont(ofSize: 14)
         emptyLabel.textColor = .movinDarkGray
+        emptyLabel.textAlignment = .center
         emptyLabel.isHidden = !UserDefaultsManager.shared.searchHistory.isEmpty
     }
     
