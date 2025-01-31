@@ -90,8 +90,12 @@ final class CinemaViewController: BaseViewController {
     }
     
     @objc private func profileInfoButtonTapped() {
-        //TODO: Profile 변경으로 이동
-        print("Profile Edit")
+        let profileEditViewController = ProfileEditViewController()
+        profileEditViewController.delegate = self
+        present(
+            BasicNavigationController(rootViewController: profileEditViewController),
+            animated: true
+        )
     }
     
     @objc private func searchButtonTapped() {
@@ -114,6 +118,12 @@ extension CinemaViewController: RecentSearchViewDelegate {
             SearchViewController(searchKeyword: UserDefaultsManager.shared.searchHistory[tag]),
             animated: true
         )
+    }
+}
+
+extension CinemaViewController: ProfileSaveDelegate {
+    func reloadProfile() {
+        profileView.refreshView()
     }
 }
 

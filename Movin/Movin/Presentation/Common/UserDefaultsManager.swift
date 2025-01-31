@@ -8,7 +8,7 @@
 import Foundation
 
 enum UserDefaultsKey: String {
-    case isOnboardingStarted
+    case isOnboardingDone
     case nickname
     case profileImageIndex
     case signUpDate
@@ -20,10 +20,10 @@ final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     
     @UserDefault(
-        key: UserDefaultsKey.isOnboardingStarted.rawValue,
+        key: UserDefaultsKey.isOnboardingDone.rawValue,
         defaultValue: false
     )
-    var isOnboardingStarted: Bool
+    var isOnboardingDone: Bool
     @UserDefault(
         key: UserDefaultsKey.nickname.rawValue,
         defaultValue: nil

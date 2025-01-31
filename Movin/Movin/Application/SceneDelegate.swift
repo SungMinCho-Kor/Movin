@@ -15,7 +15,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         setAppearance()
         window = UIWindow(windowScene: scene)
         
-        let navigationController = UserDefaultsManager.shared.isOnboardingStarted ? TabBarController() : BasicNavigationController(rootViewController: OnboardingViewController())
+        let navigationController = UserDefaultsManager.shared.isOnboardingDone ? TabBarController() : BasicNavigationController(rootViewController: OnboardingViewController())
         
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

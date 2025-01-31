@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ProfileSaveDelegate: AnyObject {
+    func reloadProfile()
+}
+
 final class ProfileEditViewController: BaseViewController {
     private let profileEditButton = ProfileEditButton()
     private let nicknameTextField = UITextField()
@@ -16,8 +20,20 @@ final class ProfileEditViewController: BaseViewController {
     private var currentImageIndex = UserDefaultsManager.shared.profileImageIndex {
         didSet {
             profileEditButton.setImage(UIImage(named: "profile_\(currentImageIndex)"))
+            guard let nickname = nicknameTextField.text else {
+                return
+            }
+            if UserDefaultsManager.shared.isOnboardingDone {
+                if isValidNickname(nickname) && (UserDefaultsManager.shared.profileImageIndex != currentImageIndex || UserDefaultsManager.shared.nickname != nickname) {
+                    navigationItem.rightBarButtonItem?.isEnabled = true
+                } else {
+                    navigationItem.rightBarButtonItem?.isEnabled = false
+                }
+            }
         }
     }
+    
+    weak var delegate: ProfileSaveDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,12 +101,19 @@ final class ProfileEditViewController: BaseViewController {
             action: #selector(nicknameTextFieldChanged),
             for: .editingChanged
         )
+        nicknameTextField.autocorrectionType = .no
+        nicknameTextField.autocapitalizationType = .none
         
         nicknameTextFieldUnderlineView.backgroundColor = .movinWhite
         
         alertLabel.textColor = .movinPrimary
         alertLabel.font = .systemFont(ofSize: 14)
         alertLabel.text = " "//TODO: 임시 방편 제거
+        
+        if UserDefaultsManager.shared.isOnboardingDone {
+            nicknameTextField.text = UserDefaultsManager.shared.nickname
+            alertLabel.text = "사용할 수 있는 닉네임이에요"
+        }
         
         completeButton.setTitle(
             "완료",
@@ -106,10 +129,38 @@ final class ProfileEditViewController: BaseViewController {
             action: #selector(completeButtonTapped),
             for: .touchUpInside
         )
+        completeButton.isHidden = UserDefaultsManager.shared.isOnboardingDone
     }
     
     private func configureNavigation() {
-        navigationItem.title = "프로필 설정"
+        if UserDefaultsManager.shared.isOnboardingDone {
+            navigationItem.title = "프로필 변경"
+            navigationItem.setRightBarButtonItems(
+                [
+                    UIBarButtonItem(
+                        title: "저장",
+                        style: .plain,
+                        target: self,
+                        action: #selector(saveButtonTapped)
+                    )
+                ],
+                animated: true
+            )
+            navigationItem.rightBarButtonItem?.isEnabled = false
+            navigationItem.setLeftBarButtonItems(
+                [
+                    UIBarButtonItem(
+                        image: UIImage(systemName: "xmark") ,
+                        style: .plain,
+                        target: self,
+                        action: #selector(closeButtonTapped)
+                    )
+                ],
+                animated: true
+            )
+        } else {
+            navigationItem.title = "프로필 설정"
+        }
     }
     
     @objc private func nicknameTextFieldChanged(_ sender: UITextField) {
@@ -117,23 +168,35 @@ final class ProfileEditViewController: BaseViewController {
             print(#function, "nickname text is nil")
             return
         }
-        if text.count >= 10 || text.count < 2 {
+        let validation = isValidNickname(text)
+        completeButton.isEnabled = validation
+        if UserDefaultsManager.shared.isOnboardingDone {
+            if validation && (UserDefaultsManager.shared.nickname != text || UserDefaultsManager.shared.profileImageIndex != currentImageIndex) {
+                navigationItem.rightBarButtonItem?.isEnabled = true
+            } else {
+                navigationItem.rightBarButtonItem?.isEnabled = false
+            }
+        }
+    }
+    
+    private func isValidNickname(_ nickname: String) -> Bool {
+        if nickname.count >= 10 || nickname.count < 2 {
             alertLabel.text = "2글자 이상 10글자 미만으로 설정해주세요."
-            completeButton.isEnabled = false
-        } else if !text.matches(of: /[@#\$%]/).isEmpty {
+            return false
+        } else if !nickname.matches(of: /[@#\$%]/).isEmpty {
             alertLabel.text = "닉네임에 @, #, $, % 는 포함할 수 없어요"
-            completeButton.isEnabled = false
-        } else if !text.matches(of: /\d/).isEmpty {
+            return false
+        } else if !nickname.matches(of: /\d/).isEmpty {
             alertLabel.text = "닉네임에 숫자를 포함할 수 없어요"
-            completeButton.isEnabled = false
+            return false
         } else {
             alertLabel.text = "사용할 수 있는 닉네임이에요"
-            completeButton.isEnabled = true
+            return true
         }
     }
     
     @objc private func completeButtonTapped() {
-        UserDefaultsManager.shared.isOnboardingStarted = true
+        UserDefaultsManager.shared.isOnboardingDone = true
         guard let nickname = nicknameTextField.text else {
             print(#function, "nickname text nil")
             return
@@ -156,6 +219,21 @@ final class ProfileEditViewController: BaseViewController {
             profileImageEditViewController,
             animated: true
         )
+    }
+    
+    @objc private func saveButtonTapped() {
+        guard let nickname = nicknameTextField.text else {
+            print(#function, "nickname text nil")
+            return
+        }
+        UserDefaultsManager.shared.nickname = nickname
+        UserDefaultsManager.shared.profileImageIndex = currentImageIndex
+        delegate?.reloadProfile()
+        dismiss(animated: true)
+    }
+    
+    @objc private func closeButtonTapped() {
+        dismiss(animated: true)
     }
 }
 

@@ -137,6 +137,7 @@ final class BackdropView: BaseView {
     }
     
     //TODO: init으로 내용을 채우는 것과 configure로 채우는 것의 고민
+    //TODO: 하나의 객체로 묶어서 전달하는 것과 여러 매개변수로 받는 것의 고민
     func configure(
         dateString: String,
         rate: Double,

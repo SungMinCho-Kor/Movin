@@ -35,6 +35,7 @@ final class ProfileImageEditViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setSelectedImage()
+        configureNavigation()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,6 +74,14 @@ final class ProfileImageEditViewController: BaseViewController {
             forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier
         )
         profileCollectionView.backgroundColor = .movinBlack
+    }
+    
+    private func configureNavigation() {
+        if UserDefaultsManager.shared.isOnboardingDone {
+            navigationItem.title = "프로필 이미지 변경"
+        } else {
+            navigationItem.title = "프로필 이미지 설정"
+        }
     }
     
     private func collectionViewLayout() -> UICollectionViewLayout {
