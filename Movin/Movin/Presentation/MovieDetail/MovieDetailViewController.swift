@@ -12,12 +12,14 @@ struct MovieDetail {
     let dateString: String
     let rate: Double
     let genreList: [Genre]
+    let overview: String
 }
 
 final class MovieDetailViewController: BaseViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let backdropView = BackdropView()
+    private let synopsisView = SynopsisView()
     
     private var backdropImageList: [String] = []
     private let movieDetail: MovieDetail
@@ -36,7 +38,8 @@ final class MovieDetailViewController: BaseViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         [
-            backdropView
+            backdropView,
+            synopsisView
         ].forEach(contentView.addSubview)
     }
     
@@ -53,6 +56,11 @@ final class MovieDetailViewController: BaseViewController {
             make.top.equalToSuperview().offset(8)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(300)
+        }
+        
+        synopsisView.snp.makeConstraints { make in
+            make.top.equalTo(backdropView.snp.bottom).offset(32)
+            make.horizontalEdges.equalToSuperview().inset(16)
             make.bottom.equalToSuperview()
         }
     }
@@ -76,6 +84,9 @@ final class MovieDetailViewController: BaseViewController {
         )
         backdropView.collectionView.delegate = self
         backdropView.collectionView.dataSource = self
+        
+        synopsisView.configure(synopsis: movieDetail.overview)
+        synopsisView.isUserInteractionEnabled = true
     }
     
     private func fetchBackdropImages() {

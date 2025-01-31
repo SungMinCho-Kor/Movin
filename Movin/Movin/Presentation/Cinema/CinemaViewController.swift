@@ -169,7 +169,8 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 movieID: todayMovieList[indexPath.row].id,
                 dateString: todayMovieList[indexPath.row].release_date,
                 rate: todayMovieList[indexPath.row].vote_average,
-                genreList: todayMovieList[indexPath.row].genre_ids.prefix(2).compactMap { Genre(rawValue: $0) }
+                genreList: todayMovieList[indexPath.row].genre_ids.prefix(2).compactMap { Genre(rawValue: $0) },
+                overview: todayMovieList[indexPath.row].overview
             )
         )
         detailViewController.navigationItem.title = todayMovieList[indexPath.row].title
