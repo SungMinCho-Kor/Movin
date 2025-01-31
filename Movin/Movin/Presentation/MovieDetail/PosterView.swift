@@ -1,5 +1,5 @@
 //
-//  CastView.swift
+//  PosterView.swift
 //  Movin
 //
 //  Created by 조성민 on 2/1/25.
@@ -7,13 +7,12 @@
 
 import UIKit
 
-final class CastView: BaseView {
+final class PosterView: BaseView {
     private let headerLabel = UILabel()
     lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createCollectionViewLayout()
     )
-    
     override func configureHierarchy() {
         [
             headerLabel,
@@ -34,7 +33,7 @@ final class CastView: BaseView {
     }
     
     override func configureViews() {
-        headerLabel.text = "Cast"
+        headerLabel.text = "Poster"
         headerLabel.textColor = .movinWhite
         headerLabel.font = .systemFont(
             ofSize: 16,
@@ -42,8 +41,8 @@ final class CastView: BaseView {
         )
         
         collectionView.register(
-            CastCollectionViewCell.self,
-            forCellWithReuseIdentifier: CastCollectionViewCell.identifier
+            PosterCollectionViewCell.self,
+            forCellWithReuseIdentifier: PosterCollectionViewCell.identifier
         )
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .movinBlack
@@ -51,16 +50,14 @@ final class CastView: BaseView {
     
     private func createCollectionViewLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 8
-        layout.minimumInteritemSpacing = 8
-        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 16
         layout.sectionInset = UIEdgeInsets(
             top: 0,
             left: 16,
             bottom: 0,
             right: 16
         )
-        
+        layout.scrollDirection = .horizontal
         return layout
     }
 }
