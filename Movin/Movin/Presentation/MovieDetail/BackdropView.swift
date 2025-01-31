@@ -43,13 +43,15 @@ final class BackdropView: BaseView {
     
     override func configureLayout() {
         collectionView.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalToSuperview()
+            make.top.equalToSuperview().offset(16)
+            make.horizontalEdges.equalToSuperview()
             make.height.equalTo(280)
         }
         
         infoStackView.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
         
         [

@@ -20,8 +20,10 @@ final class MovieDetailViewController: BaseViewController {
     private let contentView = UIView()
     private let backdropView = BackdropView()
     private let synopsisView = SynopsisView()
+    private let castView = CastView()
     
     private var backdropImageList: [String] = []
+    private var castList: [Cast] = []
     private let movieDetail: MovieDetail
     
     init(movieDetail: MovieDetail) {
@@ -31,7 +33,7 @@ final class MovieDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchBackdropImages()
+        fetchData()
     }
     
     override func configureHierarchy() {
@@ -39,7 +41,8 @@ final class MovieDetailViewController: BaseViewController {
         scrollView.addSubview(contentView)
         [
             backdropView,
-            synopsisView
+            synopsisView,
+            castView
         ].forEach(contentView.addSubview)
     }
     
@@ -55,12 +58,21 @@ final class MovieDetailViewController: BaseViewController {
         backdropView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(8)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(300)
         }
         
         synopsisView.snp.makeConstraints { make in
-            make.top.equalTo(backdropView.snp.bottom).offset(32)
+            make.top.equalTo(backdropView.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
+        castView.snp.makeConstraints { make in
+            if movieDetail.overview.isEmpty {
+                make.top.equalTo(backdropView.snp.bottom).offset(16)
+            } else {
+                make.top.equalTo(synopsisView.snp.bottom).offset(16)
+            }
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.height.equalTo(200)
             make.bottom.equalToSuperview()
         }
     }
@@ -85,15 +97,48 @@ final class MovieDetailViewController: BaseViewController {
         backdropView.collectionView.delegate = self
         backdropView.collectionView.dataSource = self
         
+        
         synopsisView.configure(synopsis: movieDetail.overview)
-        synopsisView.isUserInteractionEnabled = true
+        if movieDetail.overview.isEmpty {
+            synopsisView.isHidden = true
+        }
+        
+        castView.collectionView.delegate = self
+        castView.collectionView.dataSource = self
     }
     
-    private func fetchBackdropImages() {
+    private func fetchData() {
+        let group = DispatchGroup()
+        
+        group.enter()
+        DispatchQueue.global().async {
+            self.fetchBackdropImages(group: group)
+        }
+        group.enter()
+        DispatchQueue.global().async {
+            self.fetchCastList(group: group)
+        }
+        group.notify(queue: .main) {
+            self.backdropView.collectionView.reloadData()
+            self.castView.collectionView.reloadData()
+        }
+    }
+    
+    private func fetchBackdropImages(group: DispatchGroup) {
         APIService.shared.request(
             api: DefaultRouter.fetchMovieImages(movieID: movieDetail.movieID)) { [weak self] (result: FetchBackdropImagesResponseDTO) in
                 self?.backdropImageList = result.backdrops.prefix(5).map { $0.file_path }
-                self?.backdropView.collectionView.reloadData()
+                group.leave()
+            } failureCompletion: { error in
+                dump(error)
+            }
+    }
+    
+    private func fetchCastList(group: DispatchGroup) {
+        APIService.shared.request(
+            api: DefaultRouter.fetchCast(movieID: movieDetail.movieID)) { [weak self] (result: FetchCastResponseDTO) in
+                self?.castList = result.cast
+                group.leave()
             } failureCompletion: { error in
                 dump(error)
             }
@@ -112,7 +157,10 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
     ) -> Int {
         if collectionView == backdropView.collectionView {
             return backdropImageList.count
+        } else if collectionView == castView.collectionView {
+            return castList.count
         } else {
+            print(#function, "Cell Count Wrong")
             return 0
         }
     }
@@ -132,6 +180,17 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
             cell.configure(image: backdropImageList[indexPath.row])
             
             return cell
+        } else if collectionView == castView.collectionView {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CastCollectionViewCell.identifier,
+                for: indexPath
+            ) as? CastCollectionViewCell else {
+                print(#function, "CastCollectionViewCell Wrong")
+                return UICollectionViewCell()
+            }
+            cell.configure(cast: castList[indexPath.row])
+            
+            return cell
         } else {
             print(#function, "UICollectionViewCell Wrong")
             return UICollectionViewCell()
@@ -143,8 +202,15 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let width = collectionView.bounds.width
-        
-        return CGSize(width: width, height: width * 0.7)
+        if collectionView == backdropView.collectionView {
+            let width = collectionView.bounds.width
+            
+            return CGSize(width: width, height: width * 0.7)
+        } else if collectionView == castView.collectionView {
+            let height = collectionView.bounds.height
+            let width = collectionView.bounds.width
+            return CGSize(width: width / 2 , height: height / 2 - 16)
+        }
+        return .zero
     }
 }

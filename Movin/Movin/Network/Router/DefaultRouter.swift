@@ -12,6 +12,7 @@ enum DefaultRouter {
     case search(dto: SearchRequestDTO)
     case fetchTodayMovie
     case fetchMovieImages(movieID: Int)
+    case fetchCast(movieID: Int)
 }
 
 extension DefaultRouter: Router {
@@ -27,6 +28,8 @@ extension DefaultRouter: Router {
             return "/3/trending/movie/day"
         case .fetchMovieImages(let movieID):
             return "/3/movie/\(movieID)/images"
+        case .fetchCast(let movieID):
+            return "/3/movie/\(movieID)/credits"
         }
     }
     
@@ -58,12 +61,16 @@ extension DefaultRouter: Router {
             ]
         case .fetchMovieImages:
             return [:]
+        case .fetchCast:
+            return [
+                "language" : "ko-KR"
+            ]
         }
     }
     
     var encoding: (any ParameterEncoding)? {
         switch self {
-        case .search, .fetchTodayMovie:
+        case .search, .fetchTodayMovie, .fetchCast:
             return URLEncoding.default
         case .fetchMovieImages:
             return nil
