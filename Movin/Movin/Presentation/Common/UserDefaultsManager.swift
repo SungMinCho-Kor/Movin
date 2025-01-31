@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum UserDefaultsKey: String {
+enum UserDefaultsKey: String, CaseIterable {
     case isOnboardingDone
     case nickname
     case profileImageIndex
@@ -75,6 +75,12 @@ final class UserDefaultsManager {
             likeMovies.removeAll { $0 == movieID }
         } else {
             likeMovies.append(movieID)
+        }
+    }
+    
+    func resetUserData() {
+        UserDefaultsKey.allCases.forEach { key in
+            UserDefaults.standard.removeObject(forKey: key.rawValue)
         }
     }
 }
