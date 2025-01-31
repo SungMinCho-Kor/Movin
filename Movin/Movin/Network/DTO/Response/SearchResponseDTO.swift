@@ -17,4 +17,6 @@ struct SearchResult: Decodable {
     let poster_path: String?
     let title: String
     let genre_ids: [Int]
+    let overview: String
+    let vote_average: Double
 }

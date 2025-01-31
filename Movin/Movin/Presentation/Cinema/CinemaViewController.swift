@@ -82,7 +82,6 @@ final class CinemaViewController: BaseViewController {
     private func fetchTodayMovieList() {
         APIService.shared.request(
             api: DefaultRouter.fetchTodayMovie) { [weak self] (result: FetchTodayMovieResponseDTO) in
-                dump(result)
                 self?.todayMovieList = result.results
                 self?.todayMovieView.refreshView()
             } failureCompletion: { error in
@@ -158,6 +157,25 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return CGSize(
             width: height * 0.6,
             height: height
+        )
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        let detailViewController = MovieDetailViewController(
+            movieDetail: MovieDetail(
+                movieID: todayMovieList[indexPath.row].id,
+                dateString: todayMovieList[indexPath.row].release_date,
+                rate: todayMovieList[indexPath.row].vote_average,
+                genreList: todayMovieList[indexPath.row].genre_ids.prefix(2).compactMap { Genre(rawValue: $0) }
+            )
+        )
+        detailViewController.navigationItem.title = todayMovieList[indexPath.row].title
+        navigationController?.pushViewController(
+            detailViewController,
+            animated: true
         )
     }
 }
