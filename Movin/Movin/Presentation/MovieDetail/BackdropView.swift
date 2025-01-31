@@ -144,7 +144,7 @@ final class BackdropView: BaseView {
         genreList: [Genre]
     ) {
         dateLabel.text = dateString
-        rateLabel.text = "\(rate)"
+        rateLabel.text = "\((rate * 10).rounded() / 10)"
         genreLabel.text = genreList.map { $0.name }.joined(separator: ", ")
     }
 }
