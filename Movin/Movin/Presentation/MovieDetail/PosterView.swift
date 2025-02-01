@@ -9,6 +9,7 @@ import UIKit
 
 final class PosterView: BaseView {
     private let headerLabel = UILabel()
+    private let emptyLabel = UILabel()
     lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createCollectionViewLayout()
@@ -16,7 +17,8 @@ final class PosterView: BaseView {
     override func configureHierarchy() {
         [
             headerLabel,
-            collectionView
+            collectionView,
+            emptyLabel
         ].forEach(addSubview)
     }
     
@@ -24,10 +26,16 @@ final class PosterView: BaseView {
         headerLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(16)
         }
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(headerLabel.snp.bottom).offset(16)
+            make.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        emptyLabel.snp.makeConstraints { make in
+            make.top.equalTo(headerLabel.snp.bottom)
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
@@ -46,6 +54,12 @@ final class PosterView: BaseView {
         )
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .movinBlack
+        
+        emptyLabel.text = "포스터가 없습니다"
+        emptyLabel.font = .systemFont(ofSize: 14)
+        emptyLabel.textAlignment = .center
+        emptyLabel.textColor = .movinDarkGray
+        emptyLabel.isHidden = true
     }
     
     private func createCollectionViewLayout() -> UICollectionViewLayout {
@@ -59,5 +73,10 @@ final class PosterView: BaseView {
         )
         layout.scrollDirection = .horizontal
         return layout
+    }
+    
+    func showEmptyView() {
+        emptyLabel.isHidden = false
+        collectionView.isHidden = true
     }
 }

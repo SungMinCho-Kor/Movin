@@ -9,7 +9,7 @@ import UIKit
 
 struct MovieDetail {
     let movieID: Int
-    let dateString: String
+    let dateString: String?
     let rate: Double
     let genreList: [Genre]
     let overview: String
@@ -69,11 +69,7 @@ final class MovieDetailViewController: BaseViewController {
         }
         
         castView.snp.makeConstraints { make in
-            if movieDetail.overview.isEmpty {
-                make.top.equalTo(backdropView.snp.bottom).offset(16)
-            } else {
-                make.top.equalTo(synopsisView.snp.bottom).offset(16)
-            }
+            make.top.equalTo(synopsisView.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(200)
         }
@@ -115,11 +111,7 @@ final class MovieDetailViewController: BaseViewController {
         backdropView.collectionView.delegate = self
         backdropView.collectionView.dataSource = self
         
-        
         synopsisView.configure(synopsis: movieDetail.overview)
-        if movieDetail.overview.isEmpty {
-            synopsisView.isHidden = true
-        }
         
         castView.collectionView.delegate = self
         castView.collectionView.dataSource = self
@@ -140,10 +132,22 @@ final class MovieDetailViewController: BaseViewController {
             self.fetchCastList(group: group)
         }
         group.notify(queue: .main) {
-            self.backdropView.collectionView.reloadData()
-            self.backdropView.pageControl.numberOfPages = self.backdropImageList.count
-            self.castView.collectionView.reloadData()
-            self.posterView.collectionView.reloadData()
+            if self.backdropImageList.isEmpty {
+                self.backdropView.showEmptyView()
+            } else {
+                self.backdropView.collectionView.reloadData()
+                self.backdropView.pageControl.numberOfPages = self.backdropImageList.count
+            }
+            if self.castList.isEmpty {
+                self.castView.showEmptyView()
+            } else {
+                self.castView.collectionView.reloadData()
+            }
+            if self.posterImageList.isEmpty {
+                self.posterView.showEmptyView()
+            } else {
+                self.posterView.collectionView.reloadData()
+            }
         }
     }
     
@@ -155,6 +159,7 @@ final class MovieDetailViewController: BaseViewController {
                 group.leave()
             } failureCompletion: { error in
                 dump(error)
+                group.leave()
             }
     }
     
@@ -165,6 +170,7 @@ final class MovieDetailViewController: BaseViewController {
                 group.leave()
             } failureCompletion: { error in
                 dump(error)
+                group.leave()
             }
     }
     

@@ -13,10 +13,10 @@ struct SearchResponseDTO: Decodable {
 
 struct SearchResult: Decodable {
     let id: Int
-    let release_date: String
+    let release_date: String?
     let poster_path: String?
     let title: String
-    let genre_ids: [Int]
+    let genre_ids: [Int]?
     let overview: String
-    let vote_average: Double
+    let vote_average: Double?
 }

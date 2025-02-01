@@ -10,13 +10,15 @@ import UIKit
 final class SynopsisView: BaseView {
     private let headerLabel = UILabel()
     private let synopsisLabel = UILabel()
+    private let emptyLabel = UILabel()
     private let moreButton = UIButton()
     
     override func configureHierarchy() {
         [
             headerLabel,
             synopsisLabel,
-            moreButton
+            moreButton,
+            emptyLabel
         ].forEach(addSubview)
     }
     
@@ -27,8 +29,13 @@ final class SynopsisView: BaseView {
         
         synopsisLabel.snp.makeConstraints { make in
             make.top.equalTo(headerLabel.snp.bottom).offset(8)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        emptyLabel.snp.makeConstraints { make in
+            make.top.equalTo(headerLabel.snp.bottom)
+            make.horizontalEdges.bottom.equalToSuperview()
+            make.height.equalTo(44)
         }
         
         moreButton.snp.makeConstraints { make in
@@ -67,6 +74,12 @@ final class SynopsisView: BaseView {
             action: #selector(moreButtonTapped),
             for: .touchUpInside
         )
+        
+        emptyLabel.text = "줄거리가 없습니다"
+        emptyLabel.font = .systemFont(ofSize: 14)
+        emptyLabel.textAlignment = .center
+        emptyLabel.textColor = .movinDarkGray
+        emptyLabel.isHidden = true
     }
     
     @objc private func moreButtonTapped(_ sender: UIButton) {
@@ -81,6 +94,16 @@ final class SynopsisView: BaseView {
     }
     
     func configure(synopsis: String) {
-        synopsisLabel.text = synopsis
+        if synopsis.isEmpty {
+            showEmptyView()
+        } else {
+            synopsisLabel.text = synopsis
+        }
+    }
+    
+    private func showEmptyView() {
+        synopsisLabel.isHidden = true
+        emptyLabel.isHidden = false
+        moreButton.isHidden = true
     }
 }

@@ -210,8 +210,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
             movieDetail: MovieDetail(
                 movieID: resultList[indexPath.row].id,
                 dateString: resultList[indexPath.row].release_date,
-                rate: resultList[indexPath.row].vote_average,
-                genreList: resultList[indexPath.row].genre_ids.prefix(2).compactMap { Genre(rawValue: $0) },
+                rate: resultList[indexPath.row].vote_average ?? 0.0,
+                genreList: resultList[indexPath.row].genre_ids?.prefix(2).compactMap { Genre(rawValue: $0) } ?? [],
                 overview: resultList[indexPath.row].overview
             )
         )

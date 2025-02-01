@@ -12,6 +12,7 @@ final class BackdropView: BaseView {
         frame: .zero,
         collectionViewLayout: createCollectionViewLayout()
     )
+    private let emptyLabel = UILabel()
     private let pageControlView = UIView()
     let pageControl = UIPageControl()
     //TODO: 아래와 같은 뷰는 재사용하지 않는데 커스텀 뷰로 빼는 것이 좋을까?..
@@ -35,7 +36,8 @@ final class BackdropView: BaseView {
             collectionView,
             infoStackView,
             pageControlView,
-            pageControl
+            pageControl,
+            emptyLabel
         ].forEach(addSubview)
         [
             dateImageView,
@@ -51,6 +53,12 @@ final class BackdropView: BaseView {
     
     override func configureLayout() {
         collectionView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(16)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(280)
+        }
+        
+        emptyLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(280)
@@ -125,6 +133,11 @@ final class BackdropView: BaseView {
         pageControl.backgroundStyle = .minimal
         pageControlView.backgroundColor = .movinDarkGray.withAlphaComponent(0.6)
         pageControlView.clipsToBounds = true
+        
+        emptyLabel.text = "백드롭 사진이 없습니다"
+        emptyLabel.font = .systemFont(ofSize: 14)
+        emptyLabel.textAlignment = .center
+        emptyLabel.textColor = .movinDarkGray
     }
     
     private func createCollectionViewLayout() -> UICollectionViewLayout {
@@ -139,12 +152,31 @@ final class BackdropView: BaseView {
     //TODO: init으로 내용을 채우는 것과 configure로 채우는 것의 고민
     //TODO: 하나의 객체로 묶어서 전달하는 것과 여러 매개변수로 받는 것의 고민
     func configure(
-        dateString: String,
+        dateString: String?,
         rate: Double,
         genreList: [Genre]
     ) {
-        dateLabel.text = dateString
+        if let dateString {
+            dateLabel.text = dateString
+        } else {
+            dateImageView.isHidden = true
+            firstDivider.isHidden = true
+        }
         rateLabel.text = "\((rate * 10).rounded() / 10)"
         genreLabel.text = genreList.map { $0.name }.joined(separator: ", ")
+        if genreList.isEmpty {
+            secondDivider.isHidden = true
+            genreLabel.isHidden = true
+            genreImageView.isHidden = true
+        }
+        emptyLabel.isHidden = true
+    }
+    
+    func showEmptyView() {
+        collectionView.isHidden = true
+        emptyLabel.isHidden = false
+        pageControlView.isHidden = true
+        rateImageView.isHidden = true
+        rateLabel.isHidden = true
     }
 }

@@ -11,10 +11,10 @@ struct FetchTodayMovieResponseDTO: Decodable {
 
 struct TodayMovie: Decodable {
     let id: Int
-    let release_date: String
+    let release_date: String?
     let poster_path: String?
     let overview: String
     let title: String
-    let genre_ids: [Int]
-    let vote_average: Double
+    let genre_ids: [Int]?
+    let vote_average: Double?
 }

@@ -9,6 +9,7 @@ import UIKit
 
 final class CastView: BaseView {
     private let headerLabel = UILabel()
+    private let emptyLabel = UILabel()
     lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createCollectionViewLayout()
@@ -17,7 +18,8 @@ final class CastView: BaseView {
     override func configureHierarchy() {
         [
             headerLabel,
-            collectionView
+            collectionView,
+            emptyLabel
         ].forEach(addSubview)
     }
     
@@ -25,10 +27,16 @@ final class CastView: BaseView {
         headerLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(16)//TODO: Height 미지정시 EmptyLabel의 top에 맞게 늘어남
         }
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(headerLabel.snp.bottom).offset(16)
+            make.horizontalEdges.bottom.equalToSuperview()
+        }
+        
+        emptyLabel.snp.makeConstraints { make in
+            make.top.equalTo(headerLabel.snp.bottom)
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
@@ -47,6 +55,12 @@ final class CastView: BaseView {
         )
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .movinBlack
+        
+        emptyLabel.text = "캐스트가 없습니다"
+        emptyLabel.font = .systemFont(ofSize: 14)
+        emptyLabel.textAlignment = .center
+        emptyLabel.textColor = .movinDarkGray
+        emptyLabel.isHidden = true
     }
     
     private func createCollectionViewLayout() -> UICollectionViewLayout {
@@ -62,5 +76,10 @@ final class CastView: BaseView {
         )
         
         return layout
+    }
+    
+    func showEmptyView() {
+        collectionView.isHidden = true
+        emptyLabel.isHidden = false
     }
 }

@@ -127,10 +127,10 @@ final class SearchTableViewCell: BaseTableViewCell {
             searchKeyword: searchKeyword
         )
         
-        if !content.release_date.isEmpty {
-            dateLabel.text = DateManager.shared.searchDateFormat(dateString: content.release_date)
+        if let releaseDate = content.release_date, !releaseDate.isEmpty {
+            dateLabel.text = DateManager.shared.searchDateFormat(dateString: releaseDate)
         }
-        content.genre_ids.prefix(2).forEach { genreID in
+        content.genre_ids?.prefix(2).forEach { genreID in
             guard let genre = Genre(rawValue: genreID) else {
                 print(#function, "Genre Rawvalue Wrong")
                 return
