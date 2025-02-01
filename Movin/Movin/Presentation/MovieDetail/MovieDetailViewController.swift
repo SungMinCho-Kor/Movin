@@ -28,6 +28,8 @@ final class MovieDetailViewController: BaseViewController {
     private var castList: [Cast] = []
     private let movieDetail: MovieDetail
     
+    private var isErrorAlertShow: Bool = false
+    
     init(movieDetail: MovieDetail) {
         self.movieDetail = movieDetail
         super.init()
@@ -148,6 +150,10 @@ final class MovieDetailViewController: BaseViewController {
             } else {
                 self.posterView.collectionView.reloadData()
             }
+            
+            if self.isErrorAlertShow {
+                self.showErrorAlert()
+            }
         }
     }
     
@@ -157,8 +163,9 @@ final class MovieDetailViewController: BaseViewController {
                 self?.backdropImageList = result.backdrops.prefix(5).map { $0.file_path }
                 self?.posterImageList = result.posters.map { $0.file_path }
                 group.leave()
-            } failureCompletion: { error in
+            } failureCompletion: { [weak self] error in
                 dump(error)
+                self?.isErrorAlertShow = true
                 group.leave()
             }
     }
@@ -168,8 +175,9 @@ final class MovieDetailViewController: BaseViewController {
             api: DefaultRouter.fetchCast(movieID: movieDetail.movieID)) { [weak self] (result: FetchCastResponseDTO) in
                 self?.castList = result.cast
                 group.leave()
-            } failureCompletion: { error in
+            } failureCompletion: { [weak self] error in
                 dump(error)
+                self?.isErrorAlertShow = true
                 group.leave()
             }
     }

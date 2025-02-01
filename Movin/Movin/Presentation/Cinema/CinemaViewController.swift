@@ -84,8 +84,9 @@ final class CinemaViewController: BaseViewController {
             api: DefaultRouter.fetchTodayMovie) { [weak self] (result: FetchTodayMovieResponseDTO) in
                 self?.todayMovieList = result.results
                 self?.todayMovieView.refreshView()
-            } failureCompletion: { error in
+            } failureCompletion: { [weak self] error in
                 dump(error)
+                self?.showErrorAlert()
             }
     }
     

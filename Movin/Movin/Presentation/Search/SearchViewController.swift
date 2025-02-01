@@ -129,8 +129,9 @@ extension SearchViewController: UISearchBarDelegate {
                 self?.paginationEnd = true
             }
             self?.resultList = result.results
-        } failureCompletion: { error in
+        } failureCompletion: { [weak self] error in
             dump(error)
+            self?.showErrorAlert()
         }
         if !resultList.isEmpty {
             searchResultTableView.scrollToRow(
@@ -196,8 +197,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
                     self?.paginationEnd = true
                 }
                 self?.resultList.append(contentsOf: result.results)
-            } failureCompletion: { error in
+            } failureCompletion: { [weak self] error in
                 dump(error)
+                self?.showErrorAlert()
             }
         }
     }
