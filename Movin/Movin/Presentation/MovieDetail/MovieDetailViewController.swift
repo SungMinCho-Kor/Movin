@@ -10,7 +10,7 @@ import UIKit
 struct MovieDetail {
     let movieID: Int
     let dateString: String?
-    let rate: Double
+    let rate: Double?
     let genreList: [Genre]
     let overview: String
 }

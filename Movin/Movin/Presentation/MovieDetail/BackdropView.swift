@@ -153,30 +153,43 @@ final class BackdropView: BaseView {
     //TODO: 하나의 객체로 묶어서 전달하는 것과 여러 매개변수로 받는 것의 고민
     func configure(
         dateString: String?,
-        rate: Double,
+        rate: Double?,
         genreList: [Genre]
     ) {
-        if let dateString {
+        if let dateString, !dateString.isEmpty {
             dateLabel.text = dateString
         } else {
             dateImageView.isHidden = true
-            firstDivider.isHidden = true
+            dateLabel.isHidden = true
         }
-        rateLabel.text = "\((rate * 10).rounded() / 10)"
+        if let rate {
+            rateLabel.text = "\((rate * 10).rounded() / 10)"
+        } else {
+            rateLabel.isHidden = true
+            rateImageView.isHidden = true
+        }
         genreLabel.text = genreList.map { $0.name }.joined(separator: ", ")
         if genreList.isEmpty {
-            secondDivider.isHidden = true
             genreLabel.isHidden = true
             genreImageView.isHidden = true
         }
         emptyLabel.isHidden = true
+        hideDivider()
     }
     
     func showEmptyView() {
         collectionView.isHidden = true
         emptyLabel.isHidden = false
         pageControlView.isHidden = true
-        rateImageView.isHidden = true
-        rateLabel.isHidden = true
+    }
+    
+    private func hideDivider() {
+        if rateLabel.isHidden {
+            firstDivider.isHidden = true
+            secondDivider.isHidden = dateLabel.isHidden || genreLabel.isHidden
+        } else {
+            firstDivider.isHidden = dateLabel.isHidden
+            secondDivider.isHidden = genreLabel.isHidden
+        }
     }
 }

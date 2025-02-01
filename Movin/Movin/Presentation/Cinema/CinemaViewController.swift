@@ -178,7 +178,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             movieDetail: MovieDetail(
                 movieID: todayMovieList[indexPath.row].id,
                 dateString: todayMovieList[indexPath.row].release_date,
-                rate: todayMovieList[indexPath.row].vote_average ?? 0.0,
+                rate: todayMovieList[indexPath.row].vote_average,
                 genreList: todayMovieList[indexPath.row].genre_ids?.prefix(2).compactMap { Genre(rawValue: $0) } ?? [],
                 overview: todayMovieList[indexPath.row].overview
             )

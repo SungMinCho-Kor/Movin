@@ -33,9 +33,9 @@ final class SynopsisView: BaseView {
         }
         
         emptyLabel.snp.makeConstraints { make in
-            make.top.equalTo(headerLabel.snp.bottom)
-            make.horizontalEdges.bottom.equalToSuperview()
-            make.height.equalTo(44)
+            make.top.equalTo(headerLabel.snp.bottom).offset(16)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview().inset(16)
         }
         
         moreButton.snp.makeConstraints { make in
