@@ -37,7 +37,6 @@ final class SearchTableViewCell: BaseTableViewCell {
         likeButton.isSelected = false
     }
     
-    
     override func configureHierarchy() {
         [
             posterImageView,

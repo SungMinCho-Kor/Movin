@@ -20,7 +20,7 @@ enum NetworkError: Error {
     var alert: String {
         switch self {
         case .badRequest:
-            return "잘못된 요청입니다. "
+            return "잘못된 요청입니다."
         case .unauthorized:
             return "인증에 실패했습니다."
         case .forbidden:

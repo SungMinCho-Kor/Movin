@@ -153,6 +153,7 @@ final class MovieDetailViewController: BaseViewController {
             
             if self.isErrorAlertShow {
                 self.showErrorAlert()
+                self.isErrorAlertShow = false
             }
         }
     }

@@ -27,8 +27,6 @@ class BaseTableViewCell: UITableViewCell, ViewConfiguration, ReusableIdentifier 
     }
     
     func configureHierarchy() { }
-    
     func configureLayout() { }
-    
     func configureViews() { }
 }

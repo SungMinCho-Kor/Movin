@@ -28,7 +28,10 @@ extension Router {
         
         if let encoding = encoding {
             do {
-                return try encoding.encode(request, with: parameters)
+                return try encoding.encode(
+                    request,
+                    with: parameters
+                )
             } catch {
                 throw RouterError.encoding
             }
