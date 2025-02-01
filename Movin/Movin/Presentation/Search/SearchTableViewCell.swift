@@ -28,7 +28,7 @@ final class SearchTableViewCell: BaseTableViewCell {
         super.prepareForReuse()
         posterImageView.image = nil
         posterImageView.backgroundColor = .movinDarkGray
-        titleLabel.text = ""
+        titleLabel.attributedText = NSAttributedString(string: "")
         dateLabel.text = ""
         genreStackView.arrangedSubviews.forEach { subview in
             genreStackView.removeArrangedSubview(subview)
@@ -107,7 +107,10 @@ final class SearchTableViewCell: BaseTableViewCell {
         likeButton.tintColor = .movinPrimary
     }
     
-    func configure(content: SearchResult) {
+    func configure(
+        content: SearchResult,
+        searchKeyword: String
+    ) {
         if let posterPath = content.poster_path {
             posterImageView.backgroundColor = .clear
             posterImageView.contentMode = .scaleAspectFill
@@ -118,7 +121,12 @@ final class SearchTableViewCell: BaseTableViewCell {
             posterImageView.tintColor = .movinBlack
             posterImageView.contentMode = .center
         }
-        titleLabel.text = content.title
+        
+        configureHighlightTitle(
+            content.title,
+            searchKeyword: searchKeyword
+        )
+        
         if !content.release_date.isEmpty {
             dateLabel.text = DateManager.shared.searchDateFormat(dateString: content.release_date)
         }
@@ -132,5 +140,22 @@ final class SearchTableViewCell: BaseTableViewCell {
             genreStackView.addArrangedSubview(label)
         }
         likeButton.isSelected = UserDefaultsManager.shared.likeMovies.contains(content.id)
+    }
+    
+    func configureHighlightTitle(
+        _ text: String,
+        searchKeyword: String
+    ) {
+        let highlightRange = (text as NSString).range(
+            of: searchKeyword,
+            options: .caseInsensitive
+        )
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(
+            .foregroundColor,
+            value: UIColor.movinPrimary,
+            range: highlightRange
+        )
+        titleLabel.attributedText = attributedString
     }
 }

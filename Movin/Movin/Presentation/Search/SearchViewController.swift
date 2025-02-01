@@ -164,7 +164,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
             print(#function, "SearchTableViewCell Wrong")
             return UITableViewCell()
         }
-        cell.configure(content: resultList[indexPath.row])
+        cell.configure(
+            content: resultList[indexPath.row],
+            searchKeyword: searchKeyword
+        )
         cell.likeButton.tag = indexPath.row
         cell.likeButton.addTarget(
             self,
