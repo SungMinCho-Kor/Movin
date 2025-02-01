@@ -70,7 +70,8 @@ final class BackdropView: BaseView {
         }
         
         pageControlView.snp.makeConstraints { make in
-            make.edges.equalTo(pageControl).inset(-8)
+            make.verticalEdges.equalTo(pageControl).inset(-8)
+            make.horizontalEdges.equalTo(pageControl).inset(-4)
         }
         
         infoStackView.snp.makeConstraints { make in
