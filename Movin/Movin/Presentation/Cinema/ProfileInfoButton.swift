@@ -53,10 +53,14 @@ final class ProfileInfoButton: BaseButton {
         labelStackView.alignment = .leading
         labelStackView.axis = .vertical
         labelStackView.spacing = 4
+        labelStackView.isUserInteractionEnabled = false
         
         nicknameLabel.text = UserDefaultsManager.shared.nickname
         nicknameLabel.textColor = .movinWhite
-        nicknameLabel.font = .systemFont(ofSize: 16, weight: .black)
+        nicknameLabel.font = .systemFont(
+            ofSize: 16,
+            weight: .black
+        )
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yy.MM.dd"
