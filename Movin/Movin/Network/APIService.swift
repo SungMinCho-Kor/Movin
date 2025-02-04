@@ -15,20 +15,19 @@ final class APIService {
     
     func request<T: Router, U: Decodable>(
         api: T,
-        successCompletion: @escaping (U) -> Void,
-        failureCompletion: @escaping (NetworkError) -> Void
+        completion: @escaping (Result<U, NetworkError>) -> Void
     ) {
         AF.request(api)
             .validate()
             .responseDecodable(of: U.self) { [weak self] response in
                 switch response.result {
                 case .success(let data):
-                    successCompletion(data)
+                    completion(.success(data))
                 case .failure(let error):
                     dump(error)
                     let customError = self?.handleWrongStatusCode(response.response?.statusCode) ?? .deinitialized
                     dump(customError.alert)
-                    failureCompletion(customError)
+                    completion(.failure(customError))
                 }
             }
     }

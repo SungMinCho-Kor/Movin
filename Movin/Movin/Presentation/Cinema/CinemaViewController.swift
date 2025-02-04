@@ -81,12 +81,15 @@ final class CinemaViewController: BaseViewController {
     
     private func fetchTodayMovieList() {
         APIService.shared.request(
-            api: DefaultRouter.fetchTodayMovie) { [weak self] (result: FetchTodayMovieResponseDTO) in
-                self?.todayMovieList = result.results
-                self?.todayMovieView.refreshView()
-            } failureCompletion: { [weak self] error in
-                dump(error)
-                self?.showErrorAlert()
+            api: DefaultRouter.fetchTodayMovie) { [weak self] (result: Result<FetchTodayMovieResponseDTO, NetworkError>) in
+                switch result {
+                case .success(let value):
+                    self?.todayMovieList = value.results
+                    self?.todayMovieView.refreshView()
+                case .failure(let error):
+                    dump(error)
+                    self?.showErrorAlert()
+                }
             }
     }
     

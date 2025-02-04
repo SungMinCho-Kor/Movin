@@ -124,14 +124,17 @@ extension SearchViewController: UISearchBarDelegate {
                     page: page
                 )
             )
-        ) { [weak self] (result: SearchResponseDTO) in
-            if result.total_pages == result.page {
-                self?.paginationEnd = true
+        ) { [weak self] (result: Result<SearchResponseDTO, NetworkError>) in
+            switch result {
+            case .success(let value):
+                if value.total_pages == value.page {
+                    self?.paginationEnd = true
+                }
+                self?.resultList = value.results
+            case .failure(let error):
+                dump(error)
+                self?.showErrorAlert()
             }
-            self?.resultList = result.results
-        } failureCompletion: { [weak self] error in
-            dump(error)
-            self?.showErrorAlert()
         }
         if !resultList.isEmpty {
             searchResultTableView.scrollToRow(
@@ -192,14 +195,17 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
                         page: page
                     )
                 )
-            ) { [weak self] (result: SearchResponseDTO) in
-                if result.total_pages == result.page {
-                    self?.paginationEnd = true
+            ) { [weak self] (result: Result<SearchResponseDTO, NetworkError>) in
+                switch result {
+                case .success(let value):
+                    if value.total_pages == value.page {
+                        self?.paginationEnd = true
+                    }
+                    self?.resultList.append(contentsOf: value.results)
+                case .failure(let error):
+                    dump(error)
+                    self?.showErrorAlert()
                 }
-                self?.resultList.append(contentsOf: result.results)
-            } failureCompletion: { [weak self] error in
-                dump(error)
-                self?.showErrorAlert()
             }
         }
     }

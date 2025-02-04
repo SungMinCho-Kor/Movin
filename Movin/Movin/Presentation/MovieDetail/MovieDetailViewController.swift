@@ -160,25 +160,29 @@ final class MovieDetailViewController: BaseViewController {
     
     private func fetchBackdropImages(group: DispatchGroup) {
         APIService.shared.request(
-            api: DefaultRouter.fetchMovieImages(movieID: movieDetail.movieID)) { [weak self] (result: FetchImagesResponseDTO) in
-                self?.backdropImageList = result.backdrops.prefix(5).map { $0.file_path }
-                self?.posterImageList = result.posters.map { $0.file_path }
-                group.leave()
-            } failureCompletion: { [weak self] error in
-                dump(error)
-                self?.isErrorAlertShow = true
+            api: DefaultRouter.fetchMovieImages(movieID: movieDetail.movieID)) { [weak self] (result: Result<FetchImagesResponseDTO, NetworkError>) in
+                switch result {
+                case .success(let value):
+                    self?.backdropImageList = value.backdrops.prefix(5).map { $0.file_path }
+                    self?.posterImageList = value.posters.map { $0.file_path }
+                case .failure(let error):
+                    dump(error)
+                    self?.isErrorAlertShow = true
+                }
                 group.leave()
             }
     }
     
     private func fetchCastList(group: DispatchGroup) {
         APIService.shared.request(
-            api: DefaultRouter.fetchCast(movieID: movieDetail.movieID)) { [weak self] (result: FetchCastResponseDTO) in
-                self?.castList = result.cast
-                group.leave()
-            } failureCompletion: { [weak self] error in
-                dump(error)
-                self?.isErrorAlertShow = true
+            api: DefaultRouter.fetchCast(movieID: movieDetail.movieID)) { [weak self] (result: Result<FetchCastResponseDTO, NetworkError>) in
+                switch result {
+                case .success(let value):
+                    self?.castList = value.cast
+                case .failure(let error):
+                    dump(error)
+                    self?.isErrorAlertShow = true
+                }
                 group.leave()
             }
     }
