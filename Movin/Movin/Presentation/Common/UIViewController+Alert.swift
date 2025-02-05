@@ -1,5 +1,5 @@
 //
-//  AlertManager.swift
+//  UIViewController+Alert.swift
 //  Movin
 //
 //  Created by 조성민 on 2/1/25.

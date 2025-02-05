@@ -74,10 +74,9 @@ final class SearchViewController: BaseViewController {
         let attributedString = NSMutableAttributedString(string: "영화를 검색해보세요.", attributes: [
             NSAttributedString.Key.foregroundColor: UIColor.movinDarkGray
         ])
+        searchBar.searchBarStyle = .minimal
         searchBar.searchTextField.attributedPlaceholder = attributedString
         searchBar.searchTextField.leftView?.tintColor = .movinDarkGray
-        searchBar.barTintColor = .clear
-        searchBar.searchTextField.backgroundColor = .darkGray.withAlphaComponent(0.6)
         searchBar.delegate = self
         
         searchResultTableView.backgroundColor = .clear

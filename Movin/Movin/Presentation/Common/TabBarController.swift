@@ -77,6 +77,7 @@ final class TabBarController: UITabBarController {
         appearance.titleTextAttributes = [
             .foregroundColor: UIColor.movinWhite
         ]
+        appearance.shadowColor = nil
         navigationController.navigationBar.standardAppearance = appearance
         navigationController.navigationBar.scrollEdgeAppearance = appearance
         return navigationController
