@@ -12,35 +12,66 @@ protocol ProfileDelegate: AnyObject {
 }
 
 final class ProfileImageEditViewController: BaseViewController {
+    private let viewModel: ProfileImageEditViewModel
+    
     //TODO: ImageView 역할인데 이미 만들어 놓은 Button을 쓰는 것이 맞을까?
     private let currentProfile = ProfileEditButton()
     private lazy var profileCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewLayout()
     )
-    private let imageList: [UIImage] = [
-        .profile0, .profile1, .profile2,
-        .profile3, .profile4, .profile5,
-        .profile6, .profile7, .profile8,
-        .profile9, .profile10, .profile11
-    ]
-    private var profileImage: MovinProfileImage
     weak var profileDelegate: ProfileDelegate?
     
-    init(profileImage: MovinProfileImage) {
-        self.profileImage = profileImage
+    private let input: ProfileImageEditViewModel.Input
+    
+    // TODO: selectedIndex를 UserDefault에서 가져오기 (Int?)
+    init(
+        viewModel: ProfileImageEditViewModel,
+        selectedIndex: Int
+    ) {
+        self.viewModel = viewModel
+        self.input = ProfileImageEditViewModel.Input(selectCell: Observable(selectedIndex))
         super.init()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setSelectedImage()
-        configureNavigation()
+        bind()
+        
+        input.viewDidLoad.value = ()
+    }
+    
+    private func bind() {
+        let output = viewModel.transform(input: input)
+        
+        output.delegateSetProfile.bind { [weak self] image in
+            self?.profileDelegate?.setProfile(image)
+        }
+        
+        output.navigationItemTitle.bind { [weak self] navigationItemTitle in
+            self?.navigationItem.title = navigationItemTitle
+        }
+        
+        output.setSelectedItem.bind { [weak self] row in
+            guard let newProfileImage = MovinProfileImage(rawValue: row) else {
+                print(#function, "MovinProfileImage wrong")
+                return
+            }
+            self?.currentProfile.setImage(newProfileImage.image)
+            self?.profileCollectionView.selectItem(
+                at: IndexPath(
+                    row: row,
+                    section: 0
+                ),
+                animated: true,
+                scrollPosition: .centeredHorizontally
+            )
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        profileDelegate?.setProfile(profileImage)
+        input.viewWillDisappear.value = ()
     }
     
     override func configureHierarchy() {
@@ -65,8 +96,6 @@ final class ProfileImageEditViewController: BaseViewController {
     }
     
     override func configureViews() {
-        currentProfile.setImage(profileImage.image)
-        
         profileCollectionView.delegate = self
         profileCollectionView.dataSource = self
         profileCollectionView.register(
@@ -74,14 +103,6 @@ final class ProfileImageEditViewController: BaseViewController {
             forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier
         )
         profileCollectionView.backgroundColor = .movinBlack
-    }
-    
-    private func configureNavigation() {
-        if UserDefaultsManager.shared.isOnboardingDone {
-            navigationItem.title = "프로필 이미지 편집"
-        } else {
-            navigationItem.title = "프로필 이미지 설정"
-        }
     }
     
     private func collectionViewLayout() -> UICollectionViewLayout {
@@ -110,17 +131,6 @@ final class ProfileImageEditViewController: BaseViewController {
         
         return layout
     }
-    
-    private func setSelectedImage() {
-        profileCollectionView.selectItem(
-            at: IndexPath(
-                item: profileImage.rawValue,
-                section: 0
-            ),
-            animated: false,
-            scrollPosition: .centeredHorizontally
-        )
-    }
 }
 
 extension ProfileImageEditViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -128,7 +138,7 @@ extension ProfileImageEditViewController: UICollectionViewDelegate, UICollection
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return imageList.count
+        return MovinProfileImage.allCases.count
     }
     
     func collectionView(
@@ -141,7 +151,7 @@ extension ProfileImageEditViewController: UICollectionViewDelegate, UICollection
         ) as? ProfileCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.configure(image: imageList[indexPath.row])
+        cell.configure(image: MovinProfileImage.allCases[indexPath.row].image)
         
         return cell
     }
@@ -150,11 +160,6 @@ extension ProfileImageEditViewController: UICollectionViewDelegate, UICollection
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        guard let newProfileImage = MovinProfileImage(rawValue: indexPath.row) else {
-            print(#function, "MovinProfileImage wrong")
-            return
-        }
-        currentProfile.setImage(newProfileImage.image)
-        profileImage = newProfileImage
+        input.selectCell.value = indexPath.row
     }
 }

@@ -25,7 +25,7 @@ final class ProfileCollectionViewCell: BaseCollectionViewCell {
         imageView.changeSelection(to: false)
     }
     
-    func configure(image: UIImage) {
+    func configure(image: UIImage?) {
         imageView.image = image
     }
     

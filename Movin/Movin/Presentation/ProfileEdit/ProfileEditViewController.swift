@@ -104,7 +104,10 @@ final class ProfileEditViewController: BaseViewController {
                 print("Wrong MovinProfileImage Index")
                 return
             }
-            let profileImageEditViewController = ProfileImageEditViewController(profileImage: profileImage)
+            let profileImageEditViewController = ProfileImageEditViewController(
+                viewModel: ProfileImageEditViewModel(selectedProfileImage: profileImage),
+                selectedIndex: profileImage.rawValue
+            )
             profileImageEditViewController.profileDelegate = self
             self?.navigationController?.pushViewController(
                 profileImageEditViewController,

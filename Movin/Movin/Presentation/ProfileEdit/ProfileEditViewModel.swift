@@ -8,7 +8,6 @@
 import Foundation
 
 final class ProfileEditViewModel: ViewModel {
-    
     enum ProfileAlert: String {
         case length = "2글자 이상 10글자 미만으로 설정해주세요."
         case special = "닉네임에 @, #, $, % 는 포함할 수 없어요"
