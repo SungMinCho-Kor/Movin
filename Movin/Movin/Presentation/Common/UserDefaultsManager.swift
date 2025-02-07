@@ -11,6 +11,7 @@ enum UserDefaultsKey: String, CaseIterable {
     case isOnboardingDone
     case nickname
     case profileImageIndex
+    case profileImage
     case signUpDate
     case likeMovies
     case searchHistory
@@ -26,14 +27,15 @@ final class UserDefaultsManager {
     var isOnboardingDone: Bool
     @UserDefault(
         key: UserDefaultsKey.nickname.rawValue,
+        defaultValue: ""
+    )
+    var nickname: String
+    @UserDefault(
+        key: UserDefaultsKey.profileImage.rawValue,
         defaultValue: nil
     )
-    var nickname: String?
-    @UserDefault(
-        key: UserDefaultsKey.profileImageIndex.rawValue,
-        defaultValue: Int.random(in: 0...11)
-    )
-    var profileImageIndex: Int
+    var profileImageIndex: Int?
+    
     @UserDefault(
         key: UserDefaultsKey.signUpDate.rawValue,
         defaultValue: Date()

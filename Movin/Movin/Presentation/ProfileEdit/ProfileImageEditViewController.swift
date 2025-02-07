@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProfileDelegate: AnyObject {
-    func setProfile(index: Int)
+    func setProfile(_ profileImage: MovinProfileImage)
 }
 
 final class ProfileImageEditViewController: BaseViewController {
@@ -24,11 +24,11 @@ final class ProfileImageEditViewController: BaseViewController {
         .profile6, .profile7, .profile8,
         .profile9, .profile10, .profile11
     ]
-    private var currentImageIndex: Int
+    private var profileImage: MovinProfileImage
     weak var profileDelegate: ProfileDelegate?
     
-    init(currentImageIndex: Int) {
-        self.currentImageIndex = currentImageIndex
+    init(profileImage: MovinProfileImage) {
+        self.profileImage = profileImage
         super.init()
     }
     
@@ -40,7 +40,7 @@ final class ProfileImageEditViewController: BaseViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        profileDelegate?.setProfile(index: currentImageIndex)
+        profileDelegate?.setProfile(profileImage)
     }
     
     override func configureHierarchy() {
@@ -65,7 +65,7 @@ final class ProfileImageEditViewController: BaseViewController {
     }
     
     override func configureViews() {
-        currentProfile.setImage(imageList[currentImageIndex])
+        currentProfile.setImage(profileImage.image)
         
         profileCollectionView.delegate = self
         profileCollectionView.dataSource = self
@@ -114,7 +114,7 @@ final class ProfileImageEditViewController: BaseViewController {
     private func setSelectedImage() {
         profileCollectionView.selectItem(
             at: IndexPath(
-                item: currentImageIndex,
+                item: profileImage.rawValue,
                 section: 0
             ),
             animated: false,
@@ -150,7 +150,11 @@ extension ProfileImageEditViewController: UICollectionViewDelegate, UICollection
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        currentImageIndex = indexPath.row
-        currentProfile.setImage(imageList[currentImageIndex])
+        guard let newProfileImage = MovinProfileImage(rawValue: indexPath.row) else {
+            print(#function, "MovinProfileImage wrong")
+            return
+        }
+        currentProfile.setImage(newProfileImage.image)
+        profileImage = newProfileImage
     }
 }

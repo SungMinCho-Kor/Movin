@@ -47,7 +47,6 @@ final class ProfileInfoButton: BaseButton {
     }
     
     override func configureViews() {
-        profileImageView.image = UIImage(named: "profile_\(UserDefaultsManager.shared.profileImageIndex)")
         profileImageView.changeSelection(to: true)
         
         labelStackView.alignment = .leading
@@ -76,6 +75,11 @@ final class ProfileInfoButton: BaseButton {
     
     func refreshView() {
         nicknameLabel.text = UserDefaultsManager.shared.nickname
-        profileImageView.image = UIImage(named: "profile_\(UserDefaultsManager.shared.profileImageIndex)")
+        guard let index = UserDefaultsManager.shared.profileImageIndex,
+                let image = MovinProfileImage(rawValue: index)?.image else {
+            print("UserDefaultsManager.shared.profileImageIndex Wrong")
+            return
+        }
+        profileImageView.image = image
     }
 }
