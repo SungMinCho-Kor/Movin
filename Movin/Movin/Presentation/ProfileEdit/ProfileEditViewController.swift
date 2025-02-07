@@ -24,6 +24,8 @@ final class ProfileEditViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
+        
+        input.viewDidLoad.value = ()
     }
     
     private let input = ProfileEditViewModel.Input()
@@ -35,36 +37,34 @@ final class ProfileEditViewController: BaseViewController {
             self?.navigationItem.title = navigationTitle
         }
         
-        output.completeLocationToggle.bind { [weak self] isEditable in
+        output.convertToEdit.bind { [weak self] _ in
             guard let self else {
                 print(#function, "No self")
                 return
             }
-            if isEditable {
-                navigationItem.setRightBarButtonItems(
-                    [
-                        UIBarButtonItem(
-                            title: "저장",
-                            style: .plain,
-                            target: self,
-                            action: #selector(saveButtonTapped)
-                        )
-                    ],
-                    animated: true
-                )
-                navigationItem.setLeftBarButtonItems(
-                    [
-                        UIBarButtonItem(
-                            image: UIImage(systemName: "xmark") ,
-                            style: .plain,
-                            target: self,
-                            action: #selector(closeButtonTapped)
-                        )
-                    ],
-                    animated: true
-                )
-                completeButton.isHidden = true
-            }
+            navigationItem.setRightBarButtonItems(
+                [
+                    UIBarButtonItem(
+                        title: "저장",
+                        style: .plain,
+                        target: self,
+                        action: #selector(saveButtonTapped)
+                    )
+                ],
+                animated: true
+            )
+            navigationItem.setLeftBarButtonItems(
+                [
+                    UIBarButtonItem(
+                        image: UIImage(systemName: "xmark") ,
+                        style: .plain,
+                        target: self,
+                        action: #selector(closeButtonTapped)
+                    )
+                ],
+                animated: true
+            )
+            completeButton.isHidden = true
         }
         
         output.profileImage.bind { [weak self] image in
@@ -104,16 +104,13 @@ final class ProfileEditViewController: BaseViewController {
                 print("Wrong MovinProfileImage Index")
                 return
             }
-            let profileImageEditViewController =
-            ProfileImageEditViewController(profileImage: profileImage)
+            let profileImageEditViewController = ProfileImageEditViewController(profileImage: profileImage)
             profileImageEditViewController.profileDelegate = self
             self?.navigationController?.pushViewController(
                 profileImageEditViewController,
                 animated: true
             )
         }
-        
-        input.viewDidLoad.value = ()
     }
     
     override func configureHierarchy() {

@@ -30,7 +30,7 @@ final class ProfileEditViewModel: ViewModel {
         let navigationTitle: Observable<String>
         let profileImage: Observable<MovinProfileImage>
         let alertLabelText: Observable<String>
-        let completeLocationToggle: Observable<Bool>
+        let convertToEdit: Observable<Void>
         let isCompleteButtonEnabled: Observable<Bool>
         let complete: Observable<Void>
         let dismiss: Observable<Void>
@@ -51,7 +51,7 @@ final class ProfileEditViewModel: ViewModel {
         let navigationTitle: Observable<String> = Observable("")
         let profileImage: Observable<MovinProfileImage> = Observable(profileImage)
         let alertLabelText: Observable<String> = Observable(" ")
-        let completeLocationToggle: Observable<Bool> = Observable(UserDefaultsManager.shared.isOnboardingDone)
+        let convertToEdit: Observable<Void> = Observable(())
         let isCompleteButtonEnabled: Observable<Bool> = Observable(false)
         let complete: Observable<Void> = Observable(())
         let dismiss: Observable<Void> = Observable(())
@@ -61,7 +61,7 @@ final class ProfileEditViewModel: ViewModel {
             navigationTitle: navigationTitle,
             profileImage: profileImage,
             alertLabelText: alertLabelText,
-            completeLocationToggle: completeLocationToggle,
+            convertToEdit: convertToEdit,
             isCompleteButtonEnabled: isCompleteButtonEnabled,
             complete: complete,
             dismiss: dismiss,
@@ -78,13 +78,13 @@ final class ProfileEditViewModel: ViewModel {
                 output.profileImage.value = prevProfileImage
                 self?.profileImage = prevProfileImage
                 output.navigationTitle.value = "프로필 편집"
+                output.convertToEdit.value = ()
             } else {
                 let randomImage = MovinProfileImage.allCases.randomElement()!
                 output.profileImage.value = randomImage
                 self?.profileImage = randomImage
                 output.navigationTitle.value = "프로필 설정"
             }
-            output.completeLocationToggle.value = UserDefaultsManager.shared.isOnboardingDone
         }
         
         input.profileImageButtonTapped.bind { [weak self] _ in
