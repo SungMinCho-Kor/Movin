@@ -36,7 +36,7 @@ final class MBTIView: BaseView {
     
     override func configureViews() {
         headerLabel.text = "MBTI"
-        headerLabel.textColor = .movinWhite
+        headerLabel.textColor = .movinLabel
         headerLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold

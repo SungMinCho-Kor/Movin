@@ -73,7 +73,7 @@ final class MBTICollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureViews() {
-        backgroundColor = .movinWhite
+        backgroundColor = .movinLabel
         
         titleLabel.font = .systemFont(
             ofSize: 16,
@@ -94,8 +94,8 @@ final class MBTICollectionViewCell: BaseCollectionViewCell {
     
     func configure(index: Int, isSelected: Bool) {
         input.configure.value = index
-        backgroundColor = isSelected ? .movinPrimary : .movinWhite
-        titleLabel.textColor = isSelected ? .movinWhite : .movinDarkGray
+        backgroundColor = isSelected ? .movinPrimary : .movinLabel
+        titleLabel.textColor = isSelected ? .movinLabel : .movinDarkGray
         layer.borderWidth = isSelected ? 0 : 1
     }
 }

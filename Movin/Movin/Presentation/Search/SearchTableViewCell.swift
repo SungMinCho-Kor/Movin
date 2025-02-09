@@ -83,7 +83,7 @@ final class SearchTableViewCell: BaseTableViewCell {
         posterImageView.clipsToBounds = true
         
         titleLabel.numberOfLines = 2
-        titleLabel.textColor = .movinWhite
+        titleLabel.textColor = .movinLabel
         titleLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold

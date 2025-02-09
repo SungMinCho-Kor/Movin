@@ -185,7 +185,7 @@ final class ProfileEditViewController: BaseViewController {
         nicknameTextField.autocorrectionType = .no
         nicknameTextField.autocapitalizationType = .none
         
-        nicknameTextFieldUnderlineView.backgroundColor = .movinWhite
+        nicknameTextFieldUnderlineView.backgroundColor = .movinLabel
         
         alertLabel.textColor = .movinPrimary
         alertLabel.font = .systemFont(ofSize: 14)
@@ -201,11 +201,11 @@ final class ProfileEditViewController: BaseViewController {
             for: .normal
         )
         completeButton.setTitleColor(
-            .movinWhite,
+            .movinLabel,
             for: .normal
         )
         completeButton.setTitleColor(
-            .movinWhite,
+            .movinLabel,
             for: .disabled
         )
         completeButton.isEnabled = false

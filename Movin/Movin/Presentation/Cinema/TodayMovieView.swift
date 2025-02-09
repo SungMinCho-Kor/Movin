@@ -38,7 +38,7 @@ final class TodayMovieView: BaseView {
             ofSize: 16,
             weight: .bold
         )
-        headerLabel.textColor = .movinWhite
+        headerLabel.textColor = .movinLabel
         
         movieCollectionView.backgroundColor = .movinBackground
         movieCollectionView.showsHorizontalScrollIndicator = false

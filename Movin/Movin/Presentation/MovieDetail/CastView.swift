@@ -43,7 +43,7 @@ final class CastView: BaseView {
     
     override func configureViews() {
         headerLabel.text = "Cast"
-        headerLabel.textColor = .movinWhite
+        headerLabel.textColor = .movinLabel
         headerLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold

@@ -46,14 +46,14 @@ final class SynopsisView: BaseView {
     
     override func configureViews() {
         headerLabel.text = "Synopsis"
-        headerLabel.textColor = .movinWhite
+        headerLabel.textColor = .movinLabel
         headerLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold
         )
         
         synopsisLabel.font = .systemFont(ofSize: 14)
-        synopsisLabel.textColor = .movinWhite
+        synopsisLabel.textColor = .movinLabel
         synopsisLabel.numberOfLines = 3
         
         var attributedString = AttributedString("More")

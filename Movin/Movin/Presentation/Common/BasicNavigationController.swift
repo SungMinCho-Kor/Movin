@@ -23,7 +23,7 @@ final class BasicNavigationController: UINavigationController {
         navigationBar.backgroundColor = .movinBackground
         navigationBar.isTranslucent = false
         navigationBar.titleTextAttributes = [ //TODO: 안 된다
-            .foregroundColor: UIColor.movinWhite
+            .foregroundColor: UIColor.movinLabel
         ]
     }
 }

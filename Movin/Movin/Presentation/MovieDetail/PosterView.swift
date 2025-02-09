@@ -42,7 +42,7 @@ final class PosterView: BaseView {
     
     override func configureViews() {
         headerLabel.text = "Poster"
-        headerLabel.textColor = .movinWhite
+        headerLabel.textColor = .movinLabel
         headerLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold

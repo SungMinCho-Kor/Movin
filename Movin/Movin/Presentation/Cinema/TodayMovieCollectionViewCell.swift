@@ -67,13 +67,13 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         
-        titleLabel.textColor = .movinWhite
+        titleLabel.textColor = .movinLabel
         titleLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold
         )
         
-        descriptionLabel.textColor = .movinWhite
+        descriptionLabel.textColor = .movinLabel
         descriptionLabel.font = .systemFont(ofSize: 12)
         descriptionLabel.numberOfLines = 2
         

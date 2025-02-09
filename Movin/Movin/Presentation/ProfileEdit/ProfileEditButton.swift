@@ -45,7 +45,7 @@ final class ProfileEditButton: BaseButton {
         editImageView.image = UIImage(systemName: "camera.fill")?
             .resizeKeepRatio(newWidth: 20)
             .withTintColor(
-                .movinWhite,
+                .movinLabel,
                 renderingMode: .alwaysOriginal
             )
         editImageView.backgroundColor = .movinPrimary

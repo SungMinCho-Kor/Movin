@@ -60,7 +60,7 @@ final class CastCollectionViewCell: BaseCollectionViewCell {
         nameStackView.alignment = .leading
         nameStackView.axis = .vertical
         
-        nameLabel.textColor = .movinWhite
+        nameLabel.textColor = .movinLabel
         nameLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold

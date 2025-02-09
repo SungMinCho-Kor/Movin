@@ -61,7 +61,7 @@ final class RecentSearchView: BaseView {
     
     override func configureViews() {
         headerLabel.text = "최근검색어"
-        headerLabel.textColor = .movinWhite
+        headerLabel.textColor = .movinLabel
         headerLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold

@@ -75,7 +75,7 @@ final class TabBarController: UITabBarController {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .movinBackground
         appearance.titleTextAttributes = [
-            .foregroundColor: UIColor.movinWhite
+            .foregroundColor: UIColor.movinLabel
         ]
         appearance.shadowColor = nil
         navigationController.navigationBar.standardAppearance = appearance

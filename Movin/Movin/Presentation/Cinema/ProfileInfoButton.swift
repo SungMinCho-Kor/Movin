@@ -55,7 +55,7 @@ final class ProfileInfoButton: BaseButton {
         labelStackView.isUserInteractionEnabled = false
         
         nicknameLabel.text = UserDefaultsManager.shared.nickname
-        nicknameLabel.textColor = .movinWhite
+        nicknameLabel.textColor = .movinLabel
         nicknameLabel.font = .systemFont(
             ofSize: 16,
             weight: .black

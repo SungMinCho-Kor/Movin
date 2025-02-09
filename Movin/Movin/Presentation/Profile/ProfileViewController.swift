@@ -124,7 +124,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell()
         var configuration = cell.defaultContentConfiguration()
         configuration.text = Setting.allCases[indexPath.row].rawValue
-        configuration.textProperties.color = .movinWhite
+        configuration.textProperties.color = .movinLabel
         configuration.textProperties.font = .systemFont(ofSize: 16)
         cell.contentConfiguration = configuration
         cell.backgroundColor = .movinBackground
