@@ -19,8 +19,8 @@ final class BasicNavigationController: UINavigationController {
     
     private func configureNavigationBar() {
         navigationBar.tintColor = .movinPrimary
-        navigationBar.barTintColor = .movinBlack
-        navigationBar.backgroundColor = .movinBlack
+        navigationBar.barTintColor = .movinBackground
+        navigationBar.backgroundColor = .movinBackground
         navigationBar.isTranslucent = false
         navigationBar.titleTextAttributes = [ //TODO: 안 된다
             .foregroundColor: UIColor.movinWhite

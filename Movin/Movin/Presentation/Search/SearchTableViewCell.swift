@@ -76,7 +76,7 @@ final class SearchTableViewCell: BaseTableViewCell {
     }
     
     override func configureViews() {
-        backgroundColor = .movinBlack
+        backgroundColor = .movinBackground
         selectionStyle = .none
         
         posterImageView.layer.cornerRadius = 10
@@ -117,7 +117,7 @@ final class SearchTableViewCell: BaseTableViewCell {
         } else {
             posterImageView.backgroundColor = .movinDarkGray
             posterImageView.image = UIImage(systemName: "xmark.octagon.fill")
-            posterImageView.tintColor = .movinBlack
+            posterImageView.tintColor = .movinBackground
             posterImageView.contentMode = .center
         }
         

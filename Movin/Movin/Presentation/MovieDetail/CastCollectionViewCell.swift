@@ -54,7 +54,7 @@ final class CastCollectionViewCell: BaseCollectionViewCell {
         profileImageView.clipsToBounds = true
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.backgroundColor = .movinDarkGray
-        profileImageView.tintColor = .movinBlack
+        profileImageView.tintColor = .movinBackground
         
         nameStackView.spacing = 8
         nameStackView.alignment = .leading

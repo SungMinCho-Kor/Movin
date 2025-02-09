@@ -102,7 +102,7 @@ final class ProfileImageEditViewController: BaseViewController {
             ProfileCollectionViewCell.self,
             forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier
         )
-        profileCollectionView.backgroundColor = .movinBlack
+        profileCollectionView.backgroundColor = .movinBackground
     }
     
     private func collectionViewLayout() -> UICollectionViewLayout {

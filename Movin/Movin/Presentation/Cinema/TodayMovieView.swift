@@ -40,7 +40,7 @@ final class TodayMovieView: BaseView {
         )
         headerLabel.textColor = .movinWhite
         
-        movieCollectionView.backgroundColor = .movinBlack
+        movieCollectionView.backgroundColor = .movinBackground
         movieCollectionView.showsHorizontalScrollIndicator = false
         movieCollectionView.register(
             TodayMovieCollectionViewCell.self,

@@ -96,7 +96,7 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
         } else {
             imageView.backgroundColor = .movinDarkGray
             imageView.image = UIImage(systemName: "xmark.octagon.fill")
-            imageView.tintColor = .movinBlack
+            imageView.tintColor = .movinBackground
             imageView.contentMode = .center
         }
         titleLabel.text = content.title

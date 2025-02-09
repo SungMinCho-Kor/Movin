@@ -53,7 +53,7 @@ final class PosterView: BaseView {
             forCellWithReuseIdentifier: PosterCollectionViewCell.identifier
         )
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .movinBlack
+        collectionView.backgroundColor = .movinBackground
         
         emptyLabel.text = "포스터가 없습니다"
         emptyLabel.font = .systemFont(ofSize: 14)

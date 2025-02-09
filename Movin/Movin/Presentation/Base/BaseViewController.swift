@@ -33,7 +33,7 @@ class BaseViewController: UIViewController, ViewConfiguration {
     func configureViews() { }
     
     private func configureBase() {
-        view.backgroundColor = .movinBlack
+        view.backgroundColor = .movinBackground
         navigationItem.backButtonDisplayMode = .minimal
     }
 }

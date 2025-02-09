@@ -129,7 +129,7 @@ final class BackdropView: BaseView {
         )
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .movinBlack
+        collectionView.backgroundColor = .movinBackground
         
         pageControl.backgroundStyle = .minimal
         pageControlView.backgroundColor = .movinDarkGray.withAlphaComponent(0.6)

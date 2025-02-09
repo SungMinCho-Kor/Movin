@@ -54,7 +54,7 @@ final class CastView: BaseView {
             forCellWithReuseIdentifier: CastCollectionViewCell.identifier
         )
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .movinBlack
+        collectionView.backgroundColor = .movinBackground
         
         emptyLabel.text = "캐스트가 없습니다"
         emptyLabel.font = .systemFont(ofSize: 14)
