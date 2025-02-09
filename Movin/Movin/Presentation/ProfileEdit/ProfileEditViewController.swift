@@ -81,6 +81,10 @@ final class ProfileEditViewController: BaseViewController {
             self?.alertLabel.text = alert
         }
         
+        output.alertLabelColor.bind { [weak self] color in
+            self?.alertLabel.textColor = color.value
+        }
+        
         output.isCompleteButtonEnabled.bind { [weak self] isEnabled in
             self?.completeButton.isEnabled = isEnabled
             self?.navigationItem.rightBarButtonItem?.isEnabled = isEnabled
