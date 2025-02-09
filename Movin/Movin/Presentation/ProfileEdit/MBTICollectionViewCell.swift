@@ -22,13 +22,13 @@ final class MBTICollectionViewCellViewModel: ViewModel {
         
         input.configure.bind { index in
             guard let index else { return }
-            if let element = MBTIElement.EI(rawValue: index) {
+            if let element = MBTI.EI(rawValue: index) {
                 output.setTitle.value = element.title
-            } else if let element = MBTIElement.SN(rawValue: index) {
+            } else if let element = MBTI.SN(rawValue: index) {
                 output.setTitle.value = element.title
-            } else if let element = MBTIElement.TF(rawValue: index) {
+            } else if let element = MBTI.TF(rawValue: index) {
                 output.setTitle.value = element.title
-            } else if let element = MBTIElement.JP(rawValue: index) {
+            } else if let element = MBTI.JP(rawValue: index) {
                 output.setTitle.value = element.title
             } else {
                 output.setTitle.value = nil
@@ -58,7 +58,7 @@ final class MBTICollectionViewCell: BaseCollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = bounds.height / 2
-        layer.borderWidth = isSelected ? 0 : 1
+        layer.borderWidth = 1
         layer.borderColor = UIColor.movinDarkGray.cgColor
     }
     
@@ -92,15 +92,10 @@ final class MBTICollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configure(index: Int) {
+    func configure(index: Int, isSelected: Bool) {
         input.configure.value = index
-    }
-    
-    override var isSelected: Bool {
-        didSet {
-            backgroundColor = isSelected ? .movinPrimary : .movinWhite
-            titleLabel.textColor = isSelected ? .movinWhite : .movinDarkGray
-            layer.borderWidth = isSelected ? 0 : 1
-        }
+        backgroundColor = isSelected ? .movinPrimary : .movinWhite
+        titleLabel.textColor = isSelected ? .movinWhite : .movinDarkGray
+        layer.borderWidth = isSelected ? 0 : 1
     }
 }

@@ -20,9 +20,9 @@ final class ProfileEditViewModel: ViewModel {
         let profileImageButtonTapped: Observable<Void> = Observable(())
         let profileChanged: Observable<MovinProfileImage?> = Observable(nil)
         let nicknameChanged: Observable<String> = Observable(" ")
-        let mbtiChanged: Observable<Void> = Observable(())// TODO 수정
         let completeButtonTapped: Observable<Void> = Observable(())
         let rightBarButtonTapped: Observable<Void> = Observable(())
+        let cellSelect: Observable<Int?> = Observable(nil)
     }
     
     struct Output {
@@ -34,6 +34,7 @@ final class ProfileEditViewModel: ViewModel {
         let complete: Observable<Void>
         let dismiss: Observable<Void>
         let presentProfileImageEditViewController: Observable<Int>
+        let reloadMBTI: Observable<Void>
     }
     
     private var nickname: String = UserDefaultsManager.shared.nickname
@@ -45,6 +46,7 @@ final class ProfileEditViewModel: ViewModel {
             return MovinProfileImage.allCases.randomElement()!
         }
     }()
+    var mbtiElement = UserDefaultsManager.shared.mbti
     
     func transform(input: Input) -> Output {
         let navigationTitle: Observable<String> = Observable("")
@@ -55,6 +57,7 @@ final class ProfileEditViewModel: ViewModel {
         let complete: Observable<Void> = Observable(())
         let dismiss: Observable<Void> = Observable(())
         let presentProfileImageEditViewController: Observable<Int> = Observable(self.profileImage.rawValue)
+        let reloadMBTI: Observable<Void> = Observable(())
         
         let output = Output(
             navigationTitle: navigationTitle,
@@ -64,7 +67,8 @@ final class ProfileEditViewModel: ViewModel {
             isCompleteButtonEnabled: isCompleteButtonEnabled,
             complete: complete,
             dismiss: dismiss,
-            presentProfileImageEditViewController: presentProfileImageEditViewController
+            presentProfileImageEditViewController: presentProfileImageEditViewController,
+            reloadMBTI: reloadMBTI
         )
         
         input.viewDidLoad.bind { [weak self] _ in
@@ -111,7 +115,8 @@ final class ProfileEditViewModel: ViewModel {
             self.nickname = nickname
             let alertCase = self.getAlertCase()
             output.alertLabelText.value = alertCase.rawValue
-            output.isCompleteButtonEnabled.value = alertCase == .success //TODO: MBTI 다 있는지 고려
+            output.isCompleteButtonEnabled.value = alertCase == .success && mbtiElement.isFull()
+            
         }
         
         input.completeButtonTapped.bind { [weak self] _ in
@@ -123,7 +128,7 @@ final class ProfileEditViewModel: ViewModel {
             UserDefaultsManager.shared.profileImageIndex = self.profileImage.rawValue
             UserDefaultsManager.shared.isOnboardingDone = true
             UserDefaultsManager.shared.signUpDate = Date()
-            // TODO: MBTI도 저장
+            UserDefaultsManager.shared.mbti = self.mbtiElement
             output.complete.value = ()
         }
         
@@ -134,8 +139,20 @@ final class ProfileEditViewModel: ViewModel {
             }
             UserDefaultsManager.shared.nickname = nickname
             UserDefaultsManager.shared.profileImageIndex = self.profileImage.rawValue
-            // TODO: MBTI도 저장
+            UserDefaultsManager.shared.mbti = self.mbtiElement
             output.dismiss.value = ()
+        }
+        
+        input.cellSelect.bind { [weak self] index in
+            guard let index else {
+                print(#function, "no index")
+                return
+            }
+            
+            self?.mbtiElement.select(index: index)
+            output.reloadMBTI.value = ()
+            let alertCase = self?.getAlertCase()
+            output.isCompleteButtonEnabled.value = alertCase == .success && self?.mbtiElement.isFull() == true
         }
         
         return output

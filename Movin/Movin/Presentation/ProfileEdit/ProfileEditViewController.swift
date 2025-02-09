@@ -115,6 +115,10 @@ final class ProfileEditViewController: BaseViewController {
                 animated: true
             )
         }
+        
+        output.reloadMBTI.bind { [weak self] _ in
+            self?.mbtiView.collectionView.reloadData()
+        }
     }
     
     override func configureHierarchy() {
@@ -248,7 +252,7 @@ extension ProfileEditViewController: UICollectionViewDelegate, UICollectionViewD
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return MBTIElement.EI.allCases.count + MBTIElement.SN.allCases.count + MBTIElement.TF.allCases.count + MBTIElement.JP.allCases.count
+        return viewModel.mbtiElement.getIndexList().count
     }
     
     func collectionView(
@@ -262,21 +266,19 @@ extension ProfileEditViewController: UICollectionViewDelegate, UICollectionViewD
             print(#function, "MBTICollectionViewCell Wrong")
             return UICollectionViewCell()
         }
-        cell.configure(index: indexPath.row)
+        
+        cell.configure(index: indexPath.row, isSelected: viewModel.mbtiElement.getIndexList()[indexPath.row])
         
         return cell
     }
     
+    // TODO: 구현의 궁금증 - 일단 select를 false를 주고 검증 후에 select를 실행시키는 것이 좋을까?
     func collectionView(
         _ collectionView: UICollectionView,
         shouldSelectItemAt indexPath: IndexPath
     ) -> Bool {
-        // TODO: ViewModel MBTI 검사
+        input.cellSelect.value = indexPath.row
         return true
-    }
-    
-    func collectionViewDidEndMultipleSelectionInteraction(_ collectionView: UICollectionView) {
-        dump(collectionView.indexPathsForSelectedItems)
     }
 }
 

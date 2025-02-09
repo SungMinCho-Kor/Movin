@@ -15,6 +15,7 @@ enum UserDefaultsKey: String, CaseIterable {
     case signUpDate
     case likeMovies
     case searchHistory
+    case mbti
 }
 
 final class UserDefaultsManager {
@@ -35,7 +36,6 @@ final class UserDefaultsManager {
         defaultValue: nil
     )
     var profileImageIndex: Int?
-    
     @UserDefault(
         key: UserDefaultsKey.signUpDate.rawValue,
         defaultValue: Date()
@@ -51,6 +51,11 @@ final class UserDefaultsManager {
         defaultValue: []
     )
     var searchHistory: [String]
+    @UserDefault(
+        key: UserDefaultsKey.mbti.rawValue,
+        defaultValue: MBTI()
+    )
+    var mbti: MBTI
     
     private init() { }
     
