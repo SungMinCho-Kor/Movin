@@ -18,6 +18,7 @@ final class ProfileEditViewController: BaseViewController {
     private let nicknameTextField = UITextField()
     private let nicknameTextFieldUnderlineView = UIView()
     private let alertLabel = UILabel()
+    private let mbtiView = MBTIView()
     private let completeButton = BorderedButton()
     weak var delegate: ProfileSaveDelegate?
     
@@ -122,6 +123,7 @@ final class ProfileEditViewController: BaseViewController {
             nicknameTextField,
             nicknameTextFieldUnderlineView,
             alertLabel,
+            mbtiView,
             completeButton
         ].forEach(view.addSubview)
     }
@@ -150,8 +152,14 @@ final class ProfileEditViewController: BaseViewController {
             make.leading.equalTo(nicknameTextField)
         }
         
+        mbtiView.snp.makeConstraints { make in
+            make.top.equalTo(alertLabel.snp.bottom).offset(32)
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.height.equalTo(mbtiView.collectionView.snp.width).dividedBy(2)
+        }
+        
         completeButton.snp.makeConstraints { make in
-            make.top.equalTo(alertLabel.snp.bottom).offset(24)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(24)
             make.horizontalEdges.equalToSuperview().inset(16)
             make.height.equalTo(52)
         }
@@ -181,12 +189,19 @@ final class ProfileEditViewController: BaseViewController {
         
         nicknameTextField.text = UserDefaultsManager.shared.nickname
         
+        mbtiView.collectionView.delegate = self
+        mbtiView.collectionView.dataSource = self
+        
         completeButton.setTitle(
             "완료",
             for: .normal
         )
         completeButton.setTitleColor(
-            .movinPrimary,
+            .movinWhite,
+            for: .normal
+        )
+        completeButton.setTitleColor(
+            .movinWhite,
             for: .disabled
         )
         completeButton.isEnabled = false
@@ -225,5 +240,42 @@ final class ProfileEditViewController: BaseViewController {
 extension ProfileEditViewController: ProfileDelegate {
     func setProfile(_ profileImage: MovinProfileImage) {
         input.profileChanged.value = profileImage
+    }
+}
+
+extension ProfileEditViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        return MBTIElement.EI.allCases.count + MBTIElement.SN.allCases.count + MBTIElement.TF.allCases.count + MBTIElement.JP.allCases.count
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MBTICollectionViewCell.identifier,
+            for: indexPath
+        ) as? MBTICollectionViewCell else {
+            print(#function, "MBTICollectionViewCell Wrong")
+            return UICollectionViewCell()
+        }
+        cell.configure(index: indexPath.row)
+        
+        return cell
+    }
+}
+
+extension ProfileEditViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        let height = collectionView.bounds.height
+        
+        return CGSize(width: height / 2 - 8, height: height / 2 - 8)
     }
 }
