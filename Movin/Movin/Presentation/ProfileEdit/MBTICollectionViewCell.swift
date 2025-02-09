@@ -58,7 +58,7 @@ final class MBTICollectionViewCell: BaseCollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = bounds.height / 2
-        layer.borderWidth = 1
+        layer.borderWidth = isSelected ? 0 : 1
         layer.borderColor = UIColor.movinDarkGray.cgColor
     }
     
@@ -94,5 +94,13 @@ final class MBTICollectionViewCell: BaseCollectionViewCell {
     
     func configure(index: Int) {
         input.configure.value = index
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            backgroundColor = isSelected ? .movinPrimary : .movinWhite
+            titleLabel.textColor = isSelected ? .movinWhite : .movinDarkGray
+            layer.borderWidth = isSelected ? 0 : 1
+        }
     }
 }

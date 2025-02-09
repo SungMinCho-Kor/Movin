@@ -266,6 +266,18 @@ extension ProfileEditViewController: UICollectionViewDelegate, UICollectionViewD
         
         return cell
     }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        shouldSelectItemAt indexPath: IndexPath
+    ) -> Bool {
+        // TODO: ViewModel MBTI 검사
+        return true
+    }
+    
+    func collectionViewDidEndMultipleSelectionInteraction(_ collectionView: UICollectionView) {
+        dump(collectionView.indexPathsForSelectedItems)
+    }
 }
 
 extension ProfileEditViewController: UICollectionViewDelegateFlowLayout {
