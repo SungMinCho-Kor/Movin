@@ -18,7 +18,8 @@ final class BasicNavigationController: UINavigationController {
     }
     
     private func configureNavigationBar() {
-        navigationBar.tintColor = .movinPrimary
+//        navigationBar.tintColor = .movinPrimary
+        navigationBar.tintColor = .movinLabel
         navigationBar.barTintColor = .movinBackground
         navigationBar.backgroundColor = .movinBackground
         navigationBar.isTranslucent = false

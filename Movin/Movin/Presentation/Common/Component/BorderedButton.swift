@@ -41,7 +41,7 @@ final class BorderedButton: UIButton {
     
     private func configurate() {
         var buttonConfiguration = UIButton.Configuration.filled()
-        buttonConfiguration.baseForegroundColor = .movinLabel
+        buttonConfiguration.baseForegroundColor = .movinBackground
         buttonConfiguration.baseBackgroundColor = .movinPrimary
         buttonConfiguration.cornerStyle = .capsule
         self.configuration = buttonConfiguration

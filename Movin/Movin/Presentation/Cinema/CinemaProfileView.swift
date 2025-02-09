@@ -9,7 +9,7 @@ import UIKit
 
 final class CinemaProfileView: BaseView {
     let profileInfoButton = ProfileInfoButton()
-    let movieBoxButton = UIButton()//TODO: 커스텀 뷰 내부의 버튼에서 addTarget을 해야한다면 private을 푸는 것이 좋을까? delegate로 하는 것이 좋을까?
+    let movieBoxButton = UIButton()
     
     override func configureHierarchy() {
         [
@@ -40,12 +40,12 @@ final class CinemaProfileView: BaseView {
         
         var buttonConfiguration = UIButton.Configuration.filled()
         buttonConfiguration.attributedTitle = attributedString
-        buttonConfiguration.baseForegroundColor = .movinLabel
-        buttonConfiguration.baseBackgroundColor = .movinPrimary.withAlphaComponent(0.5)
+        buttonConfiguration.baseForegroundColor = .movinBackground
+        buttonConfiguration.baseBackgroundColor = .movinPrimary.withAlphaComponent(0.7)
         movieBoxButton.configuration = buttonConfiguration
         
         layer.cornerRadius = 20
-        backgroundColor = .movinDarkGray.withAlphaComponent(0.4)
+        backgroundColor = .movinDarkGray.withAlphaComponent(0.5)
         
         movieBoxButton.isUserInteractionEnabled = false
     }

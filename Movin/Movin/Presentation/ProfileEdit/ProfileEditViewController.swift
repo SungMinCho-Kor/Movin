@@ -157,13 +157,13 @@ final class ProfileEditViewController: BaseViewController {
         }
         
         mbtiView.snp.makeConstraints { make in
-            make.top.equalTo(alertLabel.snp.bottom).offset(32)
+            make.top.equalTo(alertLabel.snp.bottom).offset(12)
             make.horizontalEdges.equalToSuperview().inset(16)
             make.height.equalTo(mbtiView.collectionView.snp.width).dividedBy(2)
         }
         
         completeButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(24)
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-24)
             make.horizontalEdges.equalToSuperview().inset(16)
             make.height.equalTo(52)
         }
@@ -199,14 +199,6 @@ final class ProfileEditViewController: BaseViewController {
         completeButton.setTitle(
             "완료",
             for: .normal
-        )
-        completeButton.setTitleColor(
-            .movinLabel,
-            for: .normal
-        )
-        completeButton.setTitleColor(
-            .movinLabel,
-            for: .disabled
         )
         completeButton.isEnabled = false
         completeButton.addTarget(
