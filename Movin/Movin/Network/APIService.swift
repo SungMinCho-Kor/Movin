@@ -18,6 +18,9 @@ final class APIService {
         completion: @escaping (Result<U, NetworkError>) -> Void
     ) {
         AF.request(api)
+            .responseString(completionHandler: { response in
+                dump(response)
+            })
             .validate()
             .responseDecodable(of: U.self) { [weak self] response in
                 switch response.result {

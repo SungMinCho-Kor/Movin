@@ -45,7 +45,7 @@ extension DefaultRouter: Router {
         default:
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer \(Environment.accessToken.value)"
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzYwMzY5ODg2MmJhMzcwNjg2MjE0NzYwOTRlMTk3MSIsIm5iZiI6MTczNzk3NTA0Mi40NjIwMDAxLCJzdWIiOiI2Nzk3NjUwMmM3YjAxYjcyYzcyNDA3NTkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Xw0D-sczzmZc7UQThzT6HFheDmRfS2VVo0qU0r-ezsc"
             ]
         }
     }

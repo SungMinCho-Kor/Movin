@@ -2,12 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>www.aladin.co.kr</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 	<key>ACCESS_TOKEN</key>
 	<string>$(ACCESS_TOKEN)</string>
 	<key>BASE_URL</key>
 	<string>$(BASE_URL)</string>
+	<key>ALADIN_BASE_URL</key>
+	<string>$(ALADIN_BASE_URL)</string>
+	<key>TOKEN</key>
+	<string>$(TOKEN)</string>
 	<key>IMAGE_BASE_URL</key>
 	<string>$(IMAGE_BASE_URL)</string>
 	<key>UIApplicationSceneManifest</key>

@@ -11,6 +11,8 @@ enum Environment {
     case baseURL
     case imageBaseURL
     case accessToken
+    case aladinBaseURL
+    case token
     
     var value: String {
         switch self {
@@ -20,6 +22,10 @@ enum Environment {
             return Bundle.main.infoDictionary?["IMAGE_BASE_URL"] as! String
         case .accessToken:
             return Bundle.main.infoDictionary?["ACCESS_TOKEN"] as! String
+        case .aladinBaseURL:
+            return Bundle.main.infoDictionary?["ALADIN_BASE_URL"] as! String
+        case .token:
+            return Bundle.main.infoDictionary?["TOKEN"] as! String
         }
     }
 }
