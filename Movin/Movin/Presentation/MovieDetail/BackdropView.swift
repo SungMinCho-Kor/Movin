@@ -106,19 +106,19 @@ final class BackdropView: BaseView {
             rateImageView,
             genreImageView
         ].forEach {
-            $0.tintColor = .movinDarkGray
+            $0.tintColor = .darkGray
         }
         [
             dateLabel,
             rateLabel,
             genreLabel
         ].forEach {
-            $0.textColor = .movinDarkGray
+            $0.textColor = .darkGray
             $0.font = .systemFont(ofSize: 14)
         }
         
-        firstDivider.backgroundColor = .movinDarkGray
-        secondDivider.backgroundColor = .movinDarkGray
+        firstDivider.backgroundColor = .darkGray
+        secondDivider.backgroundColor = .darkGray
         
         infoStackView.spacing = 8
         infoStackView.alignment = .center
@@ -129,16 +129,16 @@ final class BackdropView: BaseView {
         )
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .movinBackground
+        collectionView.backgroundColor = .white
         
         pageControl.backgroundStyle = .minimal
-        pageControlView.backgroundColor = .movinDarkGray.withAlphaComponent(0.6)
+        pageControlView.backgroundColor = .darkGray.withAlphaComponent(0.6)
         pageControlView.clipsToBounds = true
         
         emptyLabel.text = "백드롭 사진이 없습니다"
         emptyLabel.font = .systemFont(ofSize: 14)
         emptyLabel.textAlignment = .center
-        emptyLabel.textColor = .movinDarkGray
+        emptyLabel.textColor = .darkGray
     }
     
     private func createCollectionViewLayout() -> UICollectionViewLayout {

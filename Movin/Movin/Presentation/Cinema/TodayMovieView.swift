@@ -38,9 +38,9 @@ final class TodayMovieView: BaseView {
             ofSize: 16,
             weight: .bold
         )
-        headerLabel.textColor = .movinLabel
+        headerLabel.textColor = .black
         
-        movieCollectionView.backgroundColor = .movinBackground
+        movieCollectionView.backgroundColor = .white
         movieCollectionView.showsHorizontalScrollIndicator = false
         movieCollectionView.register(
             TodayMovieCollectionViewCell.self,

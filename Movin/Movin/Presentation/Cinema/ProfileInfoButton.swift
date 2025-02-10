@@ -55,7 +55,7 @@ final class ProfileInfoButton: BaseButton {
         labelStackView.isUserInteractionEnabled = false
         
         nicknameLabel.text = UserDefaultsManager.shared.nickname
-        nicknameLabel.textColor = .movinLabel
+        nicknameLabel.textColor = .black
         nicknameLabel.font = .systemFont(
             ofSize: 16,
             weight: .black
@@ -66,11 +66,11 @@ final class ProfileInfoButton: BaseButton {
         let signUpDate = dateFormatter.string(from: UserDefaultsManager.shared.signUpDate)
         signUpDateLabel.text = "\(signUpDate) 가입"
         signUpDateLabel.font = .systemFont(ofSize: 14)
-        signUpDateLabel.textColor = .movinDarkGray
+        signUpDateLabel.textColor = .darkGray
         
         selectionAccessoryImageView.image = UIImage(systemName: "greaterthan")?.withRenderingMode(.alwaysTemplate)
         selectionAccessoryImageView.contentMode = .scaleToFill
-        selectionAccessoryImageView.tintColor = .lightGray
+        selectionAccessoryImageView.tintColor = .black
     }
     
     func refreshView() {

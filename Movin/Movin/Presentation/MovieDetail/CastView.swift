@@ -43,7 +43,7 @@ final class CastView: BaseView {
     
     override func configureViews() {
         headerLabel.text = "Cast"
-        headerLabel.textColor = .movinLabel
+        headerLabel.textColor = .white
         headerLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold
@@ -54,12 +54,12 @@ final class CastView: BaseView {
             forCellWithReuseIdentifier: CastCollectionViewCell.identifier
         )
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .movinBackground
+        collectionView.backgroundColor = .white
         
         emptyLabel.text = "캐스트가 없습니다"
         emptyLabel.font = .systemFont(ofSize: 14)
         emptyLabel.textAlignment = .center
-        emptyLabel.textColor = .movinDarkGray
+        emptyLabel.textColor = .darkGray
         emptyLabel.isHidden = true
     }
     

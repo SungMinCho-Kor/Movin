@@ -81,8 +81,8 @@ final class ProfileEditViewController: BaseViewController {
             self?.alertLabel.text = alert
         }
         
-        output.alertLabelColor.bind { [weak self] color in
-            self?.alertLabel.textColor = color.value
+        output.isAlert.bind { [weak self] isAlert in
+            self?.alertLabel.textColor = isAlert ? .systemRed : .systemBlue
         }
         
         output.isCompleteButtonEnabled.bind { [weak self] isEnabled in
@@ -189,9 +189,9 @@ final class ProfileEditViewController: BaseViewController {
         nicknameTextField.autocorrectionType = .no
         nicknameTextField.autocapitalizationType = .none
         
-        nicknameTextFieldUnderlineView.backgroundColor = .movinLabel
+        nicknameTextFieldUnderlineView.backgroundColor = .black
         
-        alertLabel.textColor = .movinPrimary
+        alertLabel.textColor = .black
         alertLabel.font = .systemFont(ofSize: 14)
         alertLabel.text = " "
         

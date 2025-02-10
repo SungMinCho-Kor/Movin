@@ -16,7 +16,7 @@ final class CastCollectionViewCell: BaseCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         profileImageView.image = nil
-        profileImageView.backgroundColor = .movinDarkGray
+        profileImageView.backgroundColor = .darkGray
         nameLabel.text = ""
         characterLabel.text = ""
     }
@@ -53,20 +53,20 @@ final class CastCollectionViewCell: BaseCollectionViewCell {
     override func configureViews() {
         profileImageView.clipsToBounds = true
         profileImageView.contentMode = .scaleAspectFill
-        profileImageView.backgroundColor = .movinDarkGray
-        profileImageView.tintColor = .movinBackground
+        profileImageView.backgroundColor = .darkGray
+        profileImageView.tintColor = .white
         
         nameStackView.spacing = 8
         nameStackView.alignment = .leading
         nameStackView.axis = .vertical
         
-        nameLabel.textColor = .movinLabel
+        nameLabel.textColor = .black
         nameLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold
         )
         
-        characterLabel.textColor = .movinDarkGray
+        characterLabel.textColor = .darkGray
         characterLabel.font = .systemFont(ofSize: 14)
     }
     
@@ -75,7 +75,7 @@ final class CastCollectionViewCell: BaseCollectionViewCell {
             profileImageView.backgroundColor = .clear
             profileImageView.setImage(with: Environment.imageBaseURL.value + "/w500" + profilePath)
         } else {
-            profileImageView.backgroundColor = .movinDarkGray
+            profileImageView.backgroundColor = .darkGray
             profileImageView.image = UIImage(systemName: "person.fill")
         }
         nameLabel.text = cast.name

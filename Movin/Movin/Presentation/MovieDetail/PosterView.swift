@@ -42,7 +42,7 @@ final class PosterView: BaseView {
     
     override func configureViews() {
         headerLabel.text = "Poster"
-        headerLabel.textColor = .movinLabel
+        headerLabel.textColor = .black
         headerLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold
@@ -53,12 +53,12 @@ final class PosterView: BaseView {
             forCellWithReuseIdentifier: PosterCollectionViewCell.identifier
         )
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .movinBackground
+        collectionView.backgroundColor = .white
         
         emptyLabel.text = "포스터가 없습니다"
         emptyLabel.font = .systemFont(ofSize: 14)
         emptyLabel.textAlignment = .center
-        emptyLabel.textColor = .movinDarkGray
+        emptyLabel.textColor = .darkGray
         emptyLabel.isHidden = true
     }
     

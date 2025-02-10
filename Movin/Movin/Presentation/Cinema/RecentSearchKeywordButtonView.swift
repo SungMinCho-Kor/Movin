@@ -42,11 +42,11 @@ final class RecentSearchKeywordButtonView: BaseView {
     
     override func configureViews() {
         keywordButton.setTitleColor(
-            .movinBackground,
+            .black,
             for: .normal
         )
         
-        removeButton.tintColor = .movinBackground
+        removeButton.tintColor = .black
         removeButton.setImage(
             UIImage(systemName: "xmark"),
             for: .normal
@@ -59,7 +59,7 @@ final class RecentSearchKeywordButtonView: BaseView {
             forImageIn: .normal
         )
         
-        backgroundColor = .white
+        backgroundColor = .lightGray
         clipsToBounds = true
     }
     
@@ -67,7 +67,7 @@ final class RecentSearchKeywordButtonView: BaseView {
         let attributedString = NSAttributedString(
             string: title,
             attributes: [
-                .foregroundColor: UIColor.movinBackground,
+                .foregroundColor: UIColor.black,
                 .font: UIFont.systemFont(ofSize: 14)
             ]
         )

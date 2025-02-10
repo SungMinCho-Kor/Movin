@@ -72,11 +72,11 @@ final class SearchViewController: BaseViewController {
         navigationItem.title = "영화 검색"
         
         let attributedString = NSMutableAttributedString(string: "영화를 검색해보세요.", attributes: [
-            NSAttributedString.Key.foregroundColor: UIColor.movinDarkGray
+            NSAttributedString.Key.foregroundColor: UIColor.darkGray
         ])
         searchBar.searchBarStyle = .minimal
         searchBar.searchTextField.attributedPlaceholder = attributedString
-        searchBar.searchTextField.leftView?.tintColor = .movinDarkGray
+        searchBar.searchTextField.leftView?.tintColor = .darkGray
         searchBar.delegate = self
         
         searchResultTableView.backgroundColor = .clear
@@ -86,7 +86,7 @@ final class SearchViewController: BaseViewController {
         searchResultTableView.prefetchDataSource = self
         searchResultTableView.rowHeight = 160
         searchResultTableView.separatorStyle = .singleLine
-        searchResultTableView.separatorColor = .movinDarkGray
+        searchResultTableView.separatorColor = .darkGray
         searchResultTableView.register(
             SearchTableViewCell.self,
             forCellReuseIdentifier: SearchTableViewCell.identifier
@@ -95,7 +95,7 @@ final class SearchViewController: BaseViewController {
         emptyResultLabel.isHidden = true
         emptyResultLabel.textAlignment = .center
         emptyResultLabel.text = "원하는 검색결과를 찾지 못했습니다."
-        emptyResultLabel.textColor = .movinDarkGray
+        emptyResultLabel.textColor = .darkGray
         emptyResultLabel.font = .systemFont(
             ofSize: 14,
             weight: .light

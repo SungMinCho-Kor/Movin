@@ -25,7 +25,7 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
-        imageView.backgroundColor = .movinDarkGray
+        imageView.backgroundColor = .darkGray
         titleLabel.text = ""
         descriptionLabel.text = "\n"//TODO: 이게 최선일까?
         likeButton.isSelected = false
@@ -67,13 +67,13 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         
-        titleLabel.textColor = .movinLabel
+        titleLabel.textColor = .black
         titleLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold
         )
         
-        descriptionLabel.textColor = .movinLabel
+        descriptionLabel.textColor = .black
         descriptionLabel.font = .systemFont(ofSize: 12)
         descriptionLabel.numberOfLines = 2
         
@@ -85,7 +85,7 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
             UIImage(systemName: "heart.fill"),
             for: .selected
         )
-        likeButton.tintColor = .movinPrimary
+        likeButton.tintColor = .systemRed
     }
     
     func configure(content: TodayMovie) {
@@ -94,9 +94,9 @@ final class TodayMovieCollectionViewCell: BaseCollectionViewCell {
             imageView.contentMode = .scaleAspectFill
             imageView.setImage(with: Environment.imageBaseURL.value + "/w500" + posterPath)
         } else {
-            imageView.backgroundColor = .movinDarkGray
+            imageView.backgroundColor = .darkGray
             imageView.image = UIImage(systemName: "xmark.octagon.fill")
-            imageView.tintColor = .movinBackground
+            imageView.tintColor = .white
             imageView.contentMode = .center
         }
         titleLabel.text = content.title

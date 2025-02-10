@@ -45,10 +45,10 @@ final class ProfileEditButton: BaseButton {
         editImageView.image = UIImage(systemName: "camera.fill")?
             .resizeKeepRatio(newWidth: 20)
             .withTintColor(
-                .movinWhite,
+                .white,
                 renderingMode: .alwaysOriginal
             )
-        editImageView.backgroundColor = .movinPrimary
+        editImageView.backgroundColor = .black
         editImageView.layer.cornerRadius = 15
         editImageView.clipsToBounds = true
     }

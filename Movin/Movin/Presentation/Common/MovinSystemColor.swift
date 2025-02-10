@@ -7,27 +7,24 @@
 
 import UIKit
 
-enum MovinSystemColor {
-    case primary
-    case background
-    case darkGray
-    case label
-    case alert
-}
-
-extension MovinSystemColor {
-    var value: UIColor {
-        switch self {
-        case .primary:
-            return .movinPrimary
-        case .background:
-            return .movinBackground
-        case .darkGray:
-            return .movinDarkGray
-        case .label:
-            return .movinLabel
-        case .alert:
-            return .movinAlert
-        }
-    }
-}
+//enum MovinSystemColor {
+//    case background
+//    case darkGray
+//    case label
+//    case alert
+//}
+//
+//extension MovinSystemColor {
+//    var value: UIColor {
+//        switch self {
+//        case .background:
+//            return .movinBackground
+//        case .darkGray:
+//            return .movinDarkGray
+//        case .label:
+//            return .movinLabel
+//        case .alert:
+//            return .systemRed
+//        }
+//    }
+//}

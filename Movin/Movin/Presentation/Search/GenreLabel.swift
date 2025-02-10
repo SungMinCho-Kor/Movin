@@ -19,8 +19,8 @@ final class GenreLabel: UILabel {
         super.init(frame: .zero)
         
         font = .systemFont(ofSize: 14)
-        textColor = .movinLabel
-        backgroundColor = .movinDarkGray.withAlphaComponent(0.7)
+        textColor = .black
+        backgroundColor = .lightGray
         layer.cornerRadius = 4
         clipsToBounds = true
     }

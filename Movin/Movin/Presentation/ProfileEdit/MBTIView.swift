@@ -36,13 +36,13 @@ final class MBTIView: BaseView {
     
     override func configureViews() {
         headerLabel.text = "MBTI"
-        headerLabel.textColor = .movinLabel
+        headerLabel.textColor = .black
         headerLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold
         )
         
-        collectionView.backgroundColor = .movinBackground
+        collectionView.backgroundColor = .white
         collectionView.isScrollEnabled = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false

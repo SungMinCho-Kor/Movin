@@ -61,7 +61,7 @@ final class RecentSearchView: BaseView {
     
     override func configureViews() {
         headerLabel.text = "최근검색어"
-        headerLabel.textColor = .movinLabel
+        headerLabel.textColor = .black
         headerLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold
@@ -70,7 +70,7 @@ final class RecentSearchView: BaseView {
         let attributedTitle = NSAttributedString(
             string: "전체 삭제",
             attributes: [
-                .foregroundColor: UIColor.movinPrimary,
+                .foregroundColor: UIColor.black,
                 .font: UIFont.systemFont(ofSize: 14)
             ]
         )
@@ -101,7 +101,7 @@ final class RecentSearchView: BaseView {
         
         emptyLabel.text = "최근 검색어 내역이 없습니다."
         emptyLabel.font = .systemFont(ofSize: 14)
-        emptyLabel.textColor = .movinDarkGray
+        emptyLabel.textColor = .darkGray
         emptyLabel.textAlignment = .center
         emptyLabel.isHidden = !UserDefaultsManager.shared.searchHistory.isEmpty
     }

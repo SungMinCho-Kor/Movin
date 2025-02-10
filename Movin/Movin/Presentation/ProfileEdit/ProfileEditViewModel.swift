@@ -14,12 +14,12 @@ final class ProfileEditViewModel: ViewModel {
         case digit = "닉네임에 숫자를 포함할 수 없어요"
         case success = "사용할 수 있는 닉네임이에요"
         
-        var color: MovinSystemColor {
+        var isAlert: Bool {
             switch self {
             case .success:
-                return .primary
+                return false
             default:
-                return .alert
+                return true
             }
         }
     }
@@ -38,7 +38,7 @@ final class ProfileEditViewModel: ViewModel {
         let navigationTitle: Observable<String>
         let profileImage: Observable<MovinProfileImage>
         let alertLabelText: Observable<String>
-        let alertLabelColor: Observable<MovinSystemColor>
+        let isAlert: Observable<Bool>
         let convertToEdit: Observable<Void>
         let isCompleteButtonEnabled: Observable<Bool>
         let complete: Observable<Void>
@@ -62,7 +62,7 @@ final class ProfileEditViewModel: ViewModel {
         let navigationTitle: Observable<String> = Observable("")
         let profileImage: Observable<MovinProfileImage> = Observable(profileImage)
         let alertLabelText: Observable<String> = Observable(" ")
-        let alertLabelColor: Observable<MovinSystemColor> = Observable(.primary)
+        let isAlert: Observable<Bool> = Observable(false)
         let convertToEdit: Observable<Void> = Observable(())
         let isCompleteButtonEnabled: Observable<Bool> = Observable(false)
         let complete: Observable<Void> = Observable(())
@@ -74,7 +74,7 @@ final class ProfileEditViewModel: ViewModel {
             navigationTitle: navigationTitle,
             profileImage: profileImage,
             alertLabelText: alertLabelText,
-            alertLabelColor: alertLabelColor,
+            isAlert: isAlert,
             convertToEdit: convertToEdit,
             isCompleteButtonEnabled: isCompleteButtonEnabled,
             complete: complete,
@@ -128,7 +128,7 @@ final class ProfileEditViewModel: ViewModel {
             let alertCase = self.getAlertCase()
             output.alertLabelText.value = alertCase.rawValue
             output.isCompleteButtonEnabled.value = alertCase == .success && mbtiElement.isFull()
-            output.alertLabelColor.value = alertCase.color
+            output.isAlert.value = alertCase.isAlert
         }
         
         input.completeButtonTapped.bind { [weak self] _ in

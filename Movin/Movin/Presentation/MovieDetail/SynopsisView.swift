@@ -46,14 +46,14 @@ final class SynopsisView: BaseView {
     
     override func configureViews() {
         headerLabel.text = "Synopsis"
-        headerLabel.textColor = .movinLabel
+        headerLabel.textColor = .black
         headerLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold
         )
         
         synopsisLabel.font = .systemFont(ofSize: 14)
-        synopsisLabel.textColor = .movinLabel
+        synopsisLabel.textColor = .black
         synopsisLabel.numberOfLines = 3
         
         var attributedString = AttributedString("More")
@@ -65,7 +65,7 @@ final class SynopsisView: BaseView {
         var buttonConfiguration = UIButton.Configuration.plain()
         buttonConfiguration.titlePadding = .zero
         buttonConfiguration.attributedTitle = attributedString
-        buttonConfiguration.baseForegroundColor = .movinPrimary
+        buttonConfiguration.baseForegroundColor = .black
         buttonConfiguration.titlePadding = .zero
         moreButton.configuration = buttonConfiguration
         
@@ -78,7 +78,7 @@ final class SynopsisView: BaseView {
         emptyLabel.text = "줄거리가 없습니다"
         emptyLabel.font = .systemFont(ofSize: 14)
         emptyLabel.textAlignment = .center
-        emptyLabel.textColor = .movinDarkGray
+        emptyLabel.textColor = .darkGray
         emptyLabel.isHidden = true
     }
     

@@ -43,11 +43,11 @@ final class TabBarController: UITabBarController {
     }
     
     private func configure() {
-        view.backgroundColor = .movinBackground
+        view.backgroundColor = .white
         
         tabBar.isTranslucent = false
-        tabBar.barTintColor = .movinBackground
-        tabBar.tintColor = .movinPrimary
+        tabBar.barTintColor = .white
+        tabBar.tintColor = .black
     }
     
     private func configureTabs() {
@@ -73,9 +73,9 @@ final class TabBarController: UITabBarController {
         navigationController.tabBarItem.image = tabImage
         navigationController.tabBarItem.title = tabTitle
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .movinBackground
+        appearance.backgroundColor = .white
         appearance.titleTextAttributes = [
-            .foregroundColor: UIColor.movinLabel
+            .foregroundColor: UIColor.black
         ]
         appearance.shadowColor = nil
         navigationController.navigationBar.standardAppearance = appearance

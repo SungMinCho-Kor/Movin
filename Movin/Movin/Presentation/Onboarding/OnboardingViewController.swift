@@ -49,10 +49,12 @@ final class OnboardingViewController: BaseViewController {
     }
     
     override func configureViews() {
+        view.backgroundColor = .white
+        
         imageView.image = .onboarding
         
         titleLabel.text = "Movin"
-        titleLabel.textColor = .movinLabel
+        titleLabel.textColor = .black
         titleLabel.textAlignment = .center
         titleLabel.font = .systemFont(
             ofSize: 36,
@@ -60,7 +62,7 @@ final class OnboardingViewController: BaseViewController {
         )
         
         descriptionLabel.text = "당신만의 영화 세상,\nMovin을 시작해보세요."
-        descriptionLabel.textColor = .movinLabel
+        descriptionLabel.textColor = .black
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = .systemFont(

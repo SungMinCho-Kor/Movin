@@ -24,17 +24,17 @@ final class ProfileImageView: UIImageView {
     
     private func configure() {
         clipsToBounds = true
-        layer.borderColor = UIColor.movinDarkGray.cgColor
+        layer.borderColor = UIColor.darkGray.cgColor
         layer.borderWidth = 1
     }
     
     func changeSelection(to isSelected: Bool) {
         if isSelected {
             layer.borderWidth = 3
-            layer.borderColor = UIColor.movinPrimary.cgColor
+            layer.borderColor = UIColor.black.cgColor
             alpha = 1
         } else {
-            layer.borderColor = UIColor.movinDarkGray.cgColor
+            layer.borderColor = UIColor.darkGray.cgColor
             layer.borderWidth = 1
             alpha = 0.5
         }

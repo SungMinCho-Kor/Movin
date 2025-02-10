@@ -100,6 +100,7 @@ final class MovieDetailViewController: BaseViewController {
             target: self,
             action: #selector(likeButtonTapped)
         )
+        likeButton.tintColor = .systemRed
         navigationItem.setRightBarButtonItems(
             [likeButton],
             animated: true

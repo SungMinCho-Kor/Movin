@@ -18,13 +18,13 @@ final class BasicNavigationController: UINavigationController {
     }
     
     private func configureNavigationBar() {
-//        navigationBar.tintColor = .movinPrimary
-        navigationBar.tintColor = .movinLabel
-        navigationBar.barTintColor = .movinBackground
-        navigationBar.backgroundColor = .movinBackground
-        navigationBar.isTranslucent = false
+        navigationBar.tintColor = .black
         navigationBar.titleTextAttributes = [ //TODO: 안 된다
-            .foregroundColor: UIColor.movinLabel
+            .foregroundColor: UIColor.black
         ]
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+        appearance.shadowColor = .clear
+        navigationBar.scrollEdgeAppearance = appearance
     }
 }

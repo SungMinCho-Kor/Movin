@@ -63,8 +63,8 @@ final class ProfileViewController: BaseViewController {
             for: .touchUpInside
         )
         
-        settingTableView.backgroundColor = .movinBackground
-        settingTableView.separatorColor = .movinDarkGray
+        settingTableView.backgroundColor = .white
+        settingTableView.separatorColor = .darkGray
         settingTableView.bounces = false
         settingTableView.rowHeight = 56
         settingTableView.delegate = self
@@ -124,10 +124,10 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell()
         var configuration = cell.defaultContentConfiguration()
         configuration.text = Setting.allCases[indexPath.row].rawValue
-        configuration.textProperties.color = .movinLabel
+        configuration.textProperties.color = .black
         configuration.textProperties.font = .systemFont(ofSize: 16)
         cell.contentConfiguration = configuration
-        cell.backgroundColor = .movinBackground
+        cell.backgroundColor = .white
         cell.selectionStyle = .none
         
         return cell

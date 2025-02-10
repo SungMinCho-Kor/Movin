@@ -27,7 +27,7 @@ final class SearchTableViewCell: BaseTableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         posterImageView.image = nil
-        posterImageView.backgroundColor = .movinDarkGray
+        posterImageView.backgroundColor = .darkGray
         titleLabel.attributedText = NSAttributedString(string: "")
         dateLabel.text = ""
         genreStackView.arrangedSubviews.forEach { subview in
@@ -76,21 +76,21 @@ final class SearchTableViewCell: BaseTableViewCell {
     }
     
     override func configureViews() {
-        backgroundColor = .movinBackground
+        backgroundColor = .white
         selectionStyle = .none
         
         posterImageView.layer.cornerRadius = 10
         posterImageView.clipsToBounds = true
         
         titleLabel.numberOfLines = 2
-        titleLabel.textColor = .movinLabel
+        titleLabel.textColor = .black
         titleLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold
         )
         
         dateLabel.font = .systemFont(ofSize: 14)
-        dateLabel.textColor = .movinDarkGray
+        dateLabel.textColor = .darkGray
         
         genreStackView.spacing = 4
         genreStackView.distribution = .equalSpacing
@@ -103,7 +103,7 @@ final class SearchTableViewCell: BaseTableViewCell {
             UIImage(systemName: "heart.fill"),
             for: .selected
         )
-        likeButton.tintColor = .movinPrimary
+        likeButton.tintColor = .black
     }
     
     func configure(
@@ -115,9 +115,9 @@ final class SearchTableViewCell: BaseTableViewCell {
             posterImageView.contentMode = .scaleAspectFill
             posterImageView.setImage(with: Environment.imageBaseURL.value + "/w500" + posterPath)
         } else {
-            posterImageView.backgroundColor = .movinDarkGray
+            posterImageView.backgroundColor = .darkGray
             posterImageView.image = UIImage(systemName: "xmark.octagon.fill")
-            posterImageView.tintColor = .movinBackground
+            posterImageView.tintColor = .white
             posterImageView.contentMode = .center
         }
         
@@ -152,7 +152,7 @@ final class SearchTableViewCell: BaseTableViewCell {
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(
             .foregroundColor,
-            value: UIColor.movinPrimary,
+            value: UIColor.black,
             range: highlightRange
         )
         titleLabel.attributedText = attributedString
