@@ -9,16 +9,16 @@ import UIKit
 
 final class GenreLabel: UILabel {
     private var padding = UIEdgeInsets(
-        top: 2,
-        left: 4,
-        bottom: 2,
-        right: 4
+        top: 3,
+        left: 6,
+        bottom: 3,
+        right: 6
     )
     
     init() {
         super.init(frame: .zero)
         
-        font = .systemFont(ofSize: 14)
+        font = .systemFont(ofSize: 12)
         textColor = .black
         backgroundColor = .lightGray
         layer.cornerRadius = 4

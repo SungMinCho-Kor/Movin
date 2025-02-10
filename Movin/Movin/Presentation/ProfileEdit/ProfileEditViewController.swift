@@ -210,6 +210,14 @@ final class ProfileEditViewController: BaseViewController {
             action: #selector(completeButtonTapped),
             for: .touchUpInside
         )
+        
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(viewTapped)
+        )
+        tapGesture.cancelsTouchesInView = false
+
+        view.addGestureRecognizer(tapGesture)
     }
     
     @objc private func nicknameTextFieldChanged(_ sender: UITextField) {
@@ -230,6 +238,10 @@ final class ProfileEditViewController: BaseViewController {
     
     @objc private func saveButtonTapped() {
         input.rightBarButtonTapped.value = ()
+    }
+    
+    @objc private func viewTapped() {
+        view.endEditing(true)
     }
     
     @objc private func closeButtonTapped() {
