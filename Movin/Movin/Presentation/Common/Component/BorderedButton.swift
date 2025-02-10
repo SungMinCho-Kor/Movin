@@ -7,28 +7,6 @@
 
 import UIKit
 
-//TODO: Bold Title 구현
-//final class BorderedButton: UIButton {
-//    override init(frame: CGRect) {
-//        super.init(frame: .zero)
-//        configurate()
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//    
-//    private func configurate() {
-//        var buttonConfiguration = UIButton.Configuration.bordered()
-//        buttonConfiguration.baseForegroundColor = .movinPrimary
-//        buttonConfiguration.background.strokeWidth = 3
-//        buttonConfiguration.background.strokeColor = .movinPrimary
-//        buttonConfiguration.background.backgroundColor = .movinBlack
-//        buttonConfiguration.cornerStyle = .capsule
-//        self.configuration = buttonConfiguration
-//    }
-//}
-
 final class BorderedButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -41,9 +19,29 @@ final class BorderedButton: UIButton {
     
     private func configurate() {
         var buttonConfiguration = UIButton.Configuration.filled()
-        buttonConfiguration.baseForegroundColor = .movinBackground
+        buttonConfiguration.baseForegroundColor = .movinWhite
         buttonConfiguration.baseBackgroundColor = .movinPrimary
         buttonConfiguration.cornerStyle = .capsule
         self.configuration = buttonConfiguration
+    }
+    
+    override func setTitle(
+        _ title: String?,
+        for state: UIControl.State
+    ) {
+        guard let title else { return }
+        let attributedString = NSAttributedString(
+            string: title,
+            attributes: [
+                .font: UIFont.systemFont(
+                    ofSize: 18,
+                    weight: .bold
+                )
+            ]
+        )
+        setAttributedTitle(
+            attributedString,
+            for: state
+        )
     }
 }

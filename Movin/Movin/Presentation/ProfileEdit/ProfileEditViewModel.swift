@@ -70,7 +70,7 @@ final class ProfileEditViewModel: ViewModel {
         let presentProfileImageEditViewController: Observable<Int> = Observable(self.profileImage.rawValue)
         let reloadMBTI: Observable<Void> = Observable(())
         
-        var output = Output(
+        let output = Output(
             navigationTitle: navigationTitle,
             profileImage: profileImage,
             alertLabelText: alertLabelText,

@@ -93,7 +93,7 @@ final class MBTICollectionViewCell: BaseCollectionViewCell {
     func configure(index: Int, isSelected: Bool) {
         input.configure.value = index
         backgroundColor = isSelected ? .movinPrimary : .movinBackground
-        titleLabel.textColor = isSelected ? .movinBackground : .movinDarkGray
+        titleLabel.textColor = isSelected ? .movinWhite : .movinDarkGray
         layer.borderWidth = isSelected ? 0 : 1
     }
 }
