@@ -77,6 +77,7 @@ final class MBTICollectionViewCell: BaseCollectionViewCell {
             ofSize: 16,
             weight: .bold
         )
+        titleLabel.isUserInteractionEnabled = true
         
         clipsToBounds = true
     }

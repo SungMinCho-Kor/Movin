@@ -42,7 +42,6 @@ final class MBTIView: BaseView {
             weight: .bold
         )
         
-        collectionView.allowsMultipleSelection = true
         collectionView.backgroundColor = .movinBackground
         collectionView.isScrollEnabled = false
         collectionView.showsHorizontalScrollIndicator = false

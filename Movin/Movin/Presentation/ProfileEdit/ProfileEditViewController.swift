@@ -263,12 +263,14 @@ extension ProfileEditViewController: UICollectionViewDelegate, UICollectionViewD
             return UICollectionViewCell()
         }
         
-        cell.configure(index: indexPath.row, isSelected: viewModel.mbtiElement.getIndexList()[indexPath.row])
+        cell.configure(
+            index: indexPath.row,
+            isSelected: viewModel.mbtiElement.getIndexList()[indexPath.row]
+        )
         
         return cell
     }
     
-    // TODO: 구현의 궁금증 - 일단 select를 false를 주고 검증 후에 select를 실행시키는 것이 좋을까?
     func collectionView(
         _ collectionView: UICollectionView,
         shouldSelectItemAt indexPath: IndexPath

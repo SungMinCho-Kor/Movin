@@ -98,13 +98,29 @@ struct MBTI: Codable {
     
     mutating func select(index: Int) {
         if let newEI = EI(rawValue: index) {
-            ei = newEI
+            if ei != nil, ei == newEI {
+                ei = nil
+            } else {
+                ei = newEI
+            }
         } else if let newSN = SN(rawValue: index) {
-            sn = newSN
+            if sn != nil, sn == newSN {
+                sn = nil
+            } else {
+                sn = newSN
+            }
         } else if let newTF = TF(rawValue: index) {
-            tf = newTF
+            if tf != nil, tf == newTF {
+                tf = nil
+            } else {
+                tf = newTF
+            }
         } else if let newJP = JP(rawValue: index) {
-            jp = newJP
+            if jp != nil, jp == newJP {
+                jp = nil
+            } else {
+                jp = newJP
+            }
         }
     }
     
