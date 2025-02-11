@@ -13,8 +13,13 @@ final class MainViewController: BaseViewController {
         collectionViewLayout: createCollectionViewLayout()
     )
     
+    private let viewModel = MainViewModel()
+    private let input = MainViewModel.Input()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        bind()
+        input.viewDidLoad.value = ()
     }
     
     override func configureHierarchy() {
@@ -36,38 +41,77 @@ final class MainViewController: BaseViewController {
         )
     }
     
-    private func createCollectionViewLayout() -> UICollectionViewLayout {
-        let compositionalLayout = UICollectionViewCompositionalLayout { [weak self] section, environment in
-            switch section {
-            case 0:
-                return self?.createBestSellerSection()
-            case 1:
-                return self?.createBestSellerSection()
-            case 2:
-                return self?.createBestSellerSection()
-            case 3:
-                return self?.createBestSellerSection()
-            case 4:
-                return self?.createBestSellerSection()
-            default:
-                print(#function, "nil")
-                return nil
-            }
-        }
+    private func bind() {
+        let output = viewModel.transform(input: input)
         
-        return compositionalLayout
+        output.fetchList.bind { [weak self] _ in
+            self?.collectionView.reloadData()
+        }
     }
     
-    private func createBestSellerSection() -> NSCollectionLayoutSection {
+    private func createCollectionViewLayout() -> UICollectionViewLayout {
+        let configuration = UICollectionViewCompositionalLayoutConfiguration()
+        configuration.interSectionSpacing = 20
+        let layout = UICollectionViewCompositionalLayout(
+            sectionProvider: { [weak self] section, _ in
+                
+                switch section {
+                case 0:
+                    return self?.createNewSpecialSection()
+                default:
+                    return self?.createListSection()
+                }
+            },
+            configuration: configuration
+        )
+        
+        return layout
+    }
+    
+    private func createListSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(600)
+            heightDimension: .absolute(400)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+      
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(0.4),
+            heightDimension: .absolute(400)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        group.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 8,
+            bottom: 0,
+            trailing: 8
+        )
+      
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 8,
+            bottom: 0,
+            trailing: 8
+        )
+        
+        return section
+    }
+    
+    private func createNewSpecialSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(400)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
       
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.9),
-            heightDimension: .absolute(600)
+            heightDimension: .absolute(400)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
@@ -95,29 +139,54 @@ final class MainViewController: BaseViewController {
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        return QueryType.allCases.count
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return 10
+        let queryType = QueryType.allCases[section]
+        guard let count = viewModel.bookList[queryType]?.count else {
+            print(#function, "No Book List")
+            return 0
+        }
+        
+        return count
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: BookCollectionViewCell.identifier,
-            for: indexPath
-        ) as? BookCollectionViewCell else {
-            print(#function, "BookCollectionViewCell Wrong")
+        let queryType = QueryType.allCases[indexPath.section]
+        guard let book = viewModel.bookList[queryType]?[indexPath.row] else {
+            print(#function, "NoBook")
             return UICollectionViewCell()
         }
-//        cell.configure(content: Book)
         
-        return cell
+        if indexPath.section == 0 {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: BookCollectionViewCell.identifier,
+                for: indexPath
+            ) as? BookCollectionViewCell else {
+                print(#function, "BookCollectionViewCell Wrong")
+                return UICollectionViewCell()
+            }
+            cell.configure(content: book)
+            
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: BookCollectionViewCell.identifier,
+                for: indexPath
+            ) as? BookCollectionViewCell else {
+                print(#function, "BookCollectionViewCell Wrong")
+                return UICollectionViewCell()
+            }
+            cell.configure(content: book)
+            
+            return cell
+        }
     }
 }

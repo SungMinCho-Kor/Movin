@@ -18,15 +18,13 @@ final class APIService {
         completion: @escaping (Result<U, NetworkError>) -> Void
     ) {
         AF.request(api)
-            .responseString(completionHandler: { response in
-                dump(response)
-            })
             .validate()
             .responseDecodable(of: U.self) { [weak self] response in
                 switch response.result {
                 case .success(let data):
                     completion(.success(data))
                 case .failure(let error):
+                    print("Request: ", api.baseURL + api.path, api.parameters)
                     dump(error)
                     let customError = self?.handleWrongStatusCode(response.response?.statusCode) ?? .deinitialized
                     dump(customError.alert)

@@ -18,3 +18,21 @@ struct BookDTO: Decodable {
     let categoryName: String // 카테고리
     let publisher: String // 출판사
 }
+
+extension BookDTO {
+    func toModel() -> Book {
+        return Book(
+            title: title,
+            link: link,
+            author: author,
+            pubDate: pubDate,
+            description: description,
+            isbn13: isbn13,
+            priceSales: priceSales,
+            priceStandard: priceStandard,
+            cover: cover,
+            categoryName: categoryName,
+            publisher: publisher
+        )
+    }
+}

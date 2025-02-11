@@ -22,7 +22,7 @@ struct FetchSearchRequestDTO: Encodable {
     let start: Int
     let maxResults: Int
     let sort: RequestSoryType
-    let cover: String = "Mini"
+    let cover: String = "MidBig"
     let output: String = "JS"
     let version: String = "20131101"
     
