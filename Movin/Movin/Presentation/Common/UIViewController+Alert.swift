@@ -8,10 +8,10 @@
 import UIKit
 
 extension UIViewController {
-    func showErrorAlert() {
+    func showErrorAlert(error: NetworkError? = nil) {
         let alertController = UIAlertController(
             title: "에러",
-            message: "네트워크 에러가 발생했습니다",
+            message: error?.alert ?? "네트워크 에러가 발생했습니다",
             preferredStyle: .alert
         )
         alertController.addAction(

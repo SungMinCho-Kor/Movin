@@ -132,7 +132,7 @@ extension SearchViewController: UISearchBarDelegate {
                 self?.resultList = value.results
             case .failure(let error):
                 dump(error)
-                self?.showErrorAlert()
+                self?.showErrorAlert(error: error)
             }
         }
         if !resultList.isEmpty {
@@ -203,7 +203,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
                     self?.resultList.append(contentsOf: value.results)
                 case .failure(let error):
                     dump(error)
-                    self?.showErrorAlert()
+                    self?.showErrorAlert(error: error)
                 }
             }
         }

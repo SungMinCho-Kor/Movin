@@ -12,11 +12,31 @@ final class CinemaViewController: BaseViewController {
     private let recentSearchView = RecentSearchView()
     private let todayMovieView = TodayMovieView()
     
-    private var todayMovieList: [TodayMovie] = []
+//    private var todayMovieList: [TodayMovie] = []
+    private let viewModel = CinemaViewModel()
+    private let input = CinemaViewModel.Input()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchTodayMovieList()
+        bind()
+        input.viewDidLoad.value = ()
+    }
+    
+    private func bind() {
+        let output = viewModel.transform(input: input)
+        
+        output.fetchTodayList.bind { [weak self] _ in
+            self?.todayMovieView.refreshView()
+        }
+        
+        output.refreshProfileView.bind { [weak self] _ in
+            self?.profileView.refreshView()
+        }
+        
+        output.showErrorAlert.bind { [weak self] error in
+            guard let error else { return }
+            self?.showErrorAlert(error: error)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,20 +99,6 @@ final class CinemaViewController: BaseViewController {
         todayMovieView.movieCollectionView.dataSource = self
     }
     
-    private func fetchTodayMovieList() {
-        APIService.shared.request(
-            api: DefaultRouter.fetchTodayMovie) { [weak self] (result: Result<FetchTodayMovieResponseDTO, NetworkError>) in
-                switch result {
-                case .success(let value):
-                    self?.todayMovieList = value.results
-                    self?.todayMovieView.refreshView()
-                case .failure(let error):
-                    dump(error)
-                    self?.showErrorAlert()
-                }
-            }
-    }
-    
     @objc private func profileInfoButtonTapped() {
         let profileEditViewController = ProfileEditViewController()
         profileEditViewController.delegate = self
@@ -111,8 +117,7 @@ final class CinemaViewController: BaseViewController {
     
     @objc private func likeButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
-        UserDefaultsManager.shared.toggleLikeMovie(movieID: todayMovieList[sender.tag].id)
-        profileView.refreshView()
+        input.likeButtonTapped.value = sender.tag
     }
 }
 
@@ -136,7 +141,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return todayMovieList.count
+        return viewModel.todayMovieList.count
     }
     
     func collectionView(
@@ -150,7 +155,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
             print(#function, "TodayMovieCollectionViewCell Wrong")
             return UICollectionViewCell()
         }
-        cell.configure(content: todayMovieList[indexPath.row])
+        cell.configure(content: viewModel.todayMovieList[indexPath.row])
         cell.likeButton.tag = indexPath.row
         cell.likeButton.addTarget(
             self,
@@ -180,14 +185,14 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
     ) {
         let detailViewController = MovieDetailViewController(
             movieDetail: MovieDetail(
-                movieID: todayMovieList[indexPath.row].id,
-                dateString: todayMovieList[indexPath.row].release_date,
-                rate: todayMovieList[indexPath.row].vote_average,
-                genreList: todayMovieList[indexPath.row].genre_ids?.prefix(2).compactMap { Genre(rawValue: $0) } ?? [],
-                overview: todayMovieList[indexPath.row].overview
+                movieID: viewModel.todayMovieList[indexPath.row].id,
+                dateString: viewModel.todayMovieList[indexPath.row].release_date,
+                rate: viewModel.todayMovieList[indexPath.row].vote_average,
+                genreList: viewModel.todayMovieList[indexPath.row].genre_ids?.prefix(2).compactMap { Genre(rawValue: $0) } ?? [],
+                overview: viewModel.todayMovieList[indexPath.row].overview
             )
         )
-        detailViewController.navigationItem.title = todayMovieList[indexPath.row].title
+        detailViewController.navigationItem.title = viewModel.todayMovieList[indexPath.row].title
         navigationController?.pushViewController(
             detailViewController,
             animated: true
