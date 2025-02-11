@@ -12,7 +12,6 @@ final class CinemaViewController: BaseViewController {
     private let recentSearchView = RecentSearchView()
     private let todayMovieView = TodayMovieView()
     
-//    private var todayMovieList: [TodayMovie] = []
     private let viewModel = CinemaViewModel()
     private let input = CinemaViewModel.Input()
     
@@ -110,7 +109,7 @@ final class CinemaViewController: BaseViewController {
     
     @objc private func searchButtonTapped() {
         navigationController?.pushViewController(
-            SearchViewController(),
+            SearchViewController(viewModel: SearchViewModel()),
             animated: true
         )
     }
@@ -124,7 +123,11 @@ final class CinemaViewController: BaseViewController {
 extension CinemaViewController: RecentSearchViewDelegate {
     func keywordButtonTapped(tag: Int) {
         navigationController?.pushViewController(
-            SearchViewController(searchKeyword: UserDefaultsManager.shared.searchHistory[tag]),
+            SearchViewController(
+                viewModel: SearchViewModel(
+                    searchKeyword: UserDefaultsManager.shared.searchHistory[tag]
+                )
+            ),
             animated: true
         )
     }

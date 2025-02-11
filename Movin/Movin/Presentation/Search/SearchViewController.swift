@@ -8,27 +8,16 @@
 import UIKit
 
 final class SearchViewController: BaseViewController {
+    private let viewModel: SearchViewModel
+    private let input = SearchViewModel.Input()
+    
     private let searchBar = UISearchBar()
     private let searchResultTableView = UITableView()
     private let emptyResultLabel = UILabel()
-    private var resultList: [SearchResult] = [] {
-        didSet {
-            searchResultTableView.reloadData()
-            emptyResultLabel.isHidden = !resultList.isEmpty
-        }
-    }
-    private var page = 0
-    private var paginationEnd = false
-    private var searchKeyword = ""
     
-    override init() {
+    init(viewModel: SearchViewModel) {
+        self.viewModel = viewModel
         super.init()
-    }
-    
-    init(searchKeyword: String) {
-        super.init()
-        self.searchBar.searchTextField.text = searchKeyword
-        searchBarSearchButtonClicked(searchBar)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,8 +27,42 @@ final class SearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if searchKeyword.isEmpty {
-            searchBar.searchTextField.becomeFirstResponder()
+        bind()
+        input.viewDidLoad.value = ()
+    }
+    
+    private func bind() {
+        let output = viewModel.transform(input: input)
+        
+        output.becomeFirstResponder.bind { [weak self] _ in
+            self?.searchBar.searchTextField.becomeFirstResponder()
+        }
+        
+        output.reloadSearchResult.bind { [weak self] _ in
+            self?.searchResultTableView.reloadData()
+        }
+        
+        output.scrollToTop.bind { [weak self] _ in
+            self?.searchResultTableView.scrollToRow(
+                at: IndexPath(
+                    row: 0,
+                    section: 0
+                ),
+                at: .top,
+                animated: false
+            )
+        }
+        
+        output.showErrorAlert.bind { [weak self] error in
+            self?.showErrorAlert(error: error)
+        }
+        
+        output.fillSearchTextField.bind { [weak self] text in
+            self?.searchBar.text = text
+        }
+        
+        output.isShowEmptyView.bind { [weak self] isShow in
+            self?.emptyResultLabel.isHidden = !isShow
         }
     }
     
@@ -105,46 +128,7 @@ final class SearchViewController: BaseViewController {
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text else {
-            print(#function, "SearchBar Text Nil")
-            return
-        }
-        if text == searchKeyword || text.isEmpty {
-            return
-        }
-        paginationEnd = false
-        page = 1
-        searchKeyword = text
-        UserDefaultsManager.shared.appendSearchHistory(keyword: text)
-        APIService.shared.request(
-            api: DefaultRouter.search(
-                dto: SearchRequestDTO(
-                    query: text,
-                    page: page
-                )
-            )
-        ) { [weak self] (result: Result<SearchResponseDTO, NetworkError>) in
-            switch result {
-            case .success(let value):
-                if value.total_pages == value.page {
-                    self?.paginationEnd = true
-                }
-                self?.resultList = value.results
-            case .failure(let error):
-                dump(error)
-                self?.showErrorAlert(error: error)
-            }
-        }
-        if !resultList.isEmpty {
-            searchResultTableView.scrollToRow(
-                at: IndexPath(
-                    row: 0,
-                    section: 0
-                ),
-                at: .top,
-                animated: false
-            )
-        }
+        input.searchButtonTapped.value = searchBar.text
     }
 }
 
@@ -153,7 +137,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return resultList.count
+        return viewModel.searchResult.count
     }
     
     func tableView(
@@ -168,8 +152,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
             return UITableViewCell()
         }
         cell.configure(
-            content: resultList[indexPath.row],
-            searchKeyword: searchKeyword
+            content: viewModel.searchResult[indexPath.row],
+            searchKeyword: viewModel.searchKeyword
         )
         cell.likeButton.tag = indexPath.row
         cell.likeButton.addTarget(
@@ -185,28 +169,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
         _ tableView: UITableView,
         prefetchRowsAt indexPaths: [IndexPath]
     ) {
-        if indexPaths.last?.row == resultList.count - 1, !paginationEnd {
-            page += 1
-            APIService.shared.request(
-                api: DefaultRouter.search(
-                    dto: SearchRequestDTO(
-                        query: searchKeyword,
-                        page: page
-                    )
-                )
-            ) { [weak self] (result: Result<SearchResponseDTO, NetworkError>) in
-                switch result {
-                case .success(let value):
-                    if value.total_pages == value.page {
-                        self?.paginationEnd = true
-                    }
-                    self?.resultList.append(contentsOf: value.results)
-                case .failure(let error):
-                    dump(error)
-                    self?.showErrorAlert(error: error)
-                }
-            }
-        }
+        input.prefetch.value = indexPaths
     }
     
     func tableView(
@@ -215,14 +178,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
     ) {
         let detailViewController = MovieDetailViewController(
             movieDetail: MovieDetail(
-                movieID: resultList[indexPath.row].id,
-                dateString: resultList[indexPath.row].release_date,
-                rate: resultList[indexPath.row].vote_average,
-                genreList: resultList[indexPath.row].genre_ids?.prefix(2).compactMap { Genre(rawValue: $0) } ?? [],
-                overview: resultList[indexPath.row].overview
+                movieID: viewModel.searchResult[indexPath.row].id,
+                dateString: viewModel.searchResult[indexPath.row].release_date,
+                rate: viewModel.searchResult[indexPath.row].vote_average,
+                genreList: viewModel.searchResult[indexPath.row].genre_ids?.prefix(2).compactMap { Genre(rawValue: $0) } ?? [],
+                overview: viewModel.searchResult[indexPath.row].overview
             )
         )
-        detailViewController.navigationItem.title = resultList[indexPath.row].title
+        detailViewController.navigationItem.title = viewModel.searchResult[indexPath.row].title
         navigationController?.pushViewController(
             detailViewController,
             animated: true
@@ -231,6 +194,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
     
     @objc private func likeButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
-        UserDefaultsManager.shared.toggleLikeMovie(movieID: resultList[sender.tag].id)
+        UserDefaultsManager.shared.toggleLikeMovie(movieID: viewModel.searchResult[sender.tag].id)
     }
 }
