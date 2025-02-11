@@ -31,7 +31,7 @@ final class BookCollectionViewCell: BaseCollectionViewCell {
         likeButton.isSelected = false
     }
     
-    override func configureLayout() { //TODO: 아래서부터 잡는 레이아웃이 최선일까?
+    override func configureLayout() {
         descriptionLabel.snp.makeConstraints { make in
             make.bottom.horizontalEdges.equalToSuperview()
         }
@@ -44,7 +44,7 @@ final class BookCollectionViewCell: BaseCollectionViewCell {
         titleLabel.snp.makeConstraints { make in
             make.bottom.equalTo(descriptionLabel.snp.top).offset(-8)
             make.leading.equalToSuperview()
-            make.trailing.equalTo(likeButton.snp.leading)
+            make.trailing.lessThanOrEqualTo(likeButton.snp.leading)
         }
         
         imageView.snp.makeConstraints { make in

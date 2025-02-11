@@ -10,11 +10,13 @@ import Foundation
 final class MainViewModel: ViewModel {
     struct Input {
         let viewDidLoad: Observable<Void> = Observable(())
+        let selectCell: Observable<IndexPath?> = Observable(nil)
     }
     
     struct Output {
         let fetchList: Observable<Void> = Observable(())
         let presentErrorAlert: Observable<NetworkError?> = Observable(nil)
+        let pushDetailView: Observable<String> = Observable("")
     }
     
     var bookList: [QueryType: [Book]] = [:]
@@ -24,6 +26,13 @@ final class MainViewModel: ViewModel {
         
         input.viewDidLoad.bind { [weak self] _ in
             self?.fetchAllList(output: output)
+        }
+        
+        input.selectCell.bind { [weak self] indexPath in
+            guard let indexPath,
+                  let queryType = QueryType(rawValue: indexPath.section),
+                  let list = self?.bookList[queryType] else { return }
+            output.pushDetailView.value = list[indexPath.row].isbn13
         }
         
         return output

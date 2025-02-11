@@ -8,13 +8,13 @@
 import UIKit
 
 enum TabCase: String, CaseIterable {
-    case cinema = "CINEMA"
+    case main = "MAIN"
     case upcoming = "UOCOMING"
     case profile = "PROFILE"
     
     var viewController: UIViewController {
         switch self {
-        case .cinema:
+        case .main:
             return MainViewController()
         case .upcoming:
             return UpcomingViewController()
@@ -25,8 +25,8 @@ enum TabCase: String, CaseIterable {
     
     var tabImage: UIImage? {
         switch self {
-        case .cinema:
-            return UIImage(systemName: "popcorn")
+        case .main:
+            return UIImage(systemName: "house")
         case .upcoming:
             return UIImage(systemName: "film.stack")
         case .profile:

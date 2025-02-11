@@ -19,6 +19,7 @@ final class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
+        
         input.viewDidLoad.value = ()
     }
     
@@ -28,11 +29,24 @@ final class MainViewController: BaseViewController {
     
     override func configureLayout() {
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalToSuperview()
         }
     }
     
     override func configureViews() {
+        navigationItem.title = "BOOKANCE"
+        navigationItem.setRightBarButtonItems(
+            [
+                UIBarButtonItem(
+                    image: UIImage(systemName: "magnifyingglass"),
+                    style: .plain,
+                    target: self,
+                    action: #selector(searchButtonTapped)
+                )
+            ],
+            animated: true
+        )
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(
@@ -47,6 +61,20 @@ final class MainViewController: BaseViewController {
         output.fetchList.bind { [weak self] _ in
             self?.collectionView.reloadData()
         }
+        
+        output.pushDetailView.bind { [weak self] isbn in
+            self?.navigationController?.pushViewController(
+                BookDetailViewController(isbn: isbn),
+                animated: true
+            )
+        }
+    }
+    
+    @objc private func searchButtonTapped() {
+        navigationController?.pushViewController(
+            SearchViewController(),
+            animated: true
+        )
     }
     
     private func createCollectionViewLayout() -> UICollectionViewLayout {
@@ -66,40 +94,6 @@ final class MainViewController: BaseViewController {
         )
         
         return layout
-    }
-    
-    private func createListSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(400)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-      
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.4),
-            heightDimension: .absolute(400)
-        )
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitems: [item]
-        )
-        group.contentInsets = NSDirectionalEdgeInsets(
-            top: 0,
-            leading: 8,
-            bottom: 0,
-            trailing: 8
-        )
-      
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: 0,
-            leading: 8,
-            bottom: 0,
-            trailing: 8
-        )
-        
-        return section
     }
     
     private func createNewSpecialSection() -> NSCollectionLayoutSection {
@@ -135,6 +129,41 @@ final class MainViewController: BaseViewController {
         
         return section
     }
+    
+    private func createListSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(400)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+      
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(0.5),
+            heightDimension: .absolute(400)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        group.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 8,
+            bottom: 0,
+            trailing: 8
+        )
+      
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 8,
+            bottom: 0,
+            trailing: 8
+        )
+        
+        return section
+    }
+    
 }
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -188,5 +217,12 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             
             return cell
         }
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        input.selectCell.value = indexPath
     }
 }
