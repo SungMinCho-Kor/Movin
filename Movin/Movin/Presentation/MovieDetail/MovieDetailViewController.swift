@@ -16,6 +16,9 @@ struct MovieDetail {
 }
 
 final class MovieDetailViewController: BaseViewController {
+    private let viewModel: MovieDetailViewModel
+    private let input = MovieDetailViewModel.Input()
+    
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let backdropView = BackdropView()
@@ -23,21 +26,15 @@ final class MovieDetailViewController: BaseViewController {
     private let castView = CastView()
     private let posterView = PosterView()
     
-    private var posterImageList: [String] = []
-    private var backdropImageList: [String] = []
-    private var castList: [Cast] = []
-    private let movieDetail: MovieDetail
-    
-    private var isErrorAlertShow: Bool = false
-    
-    init(movieDetail: MovieDetail) {
-        self.movieDetail = movieDetail
+    init(viewModel: MovieDetailViewModel) {
+        self.viewModel = viewModel
         super.init()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData()
+        bind()
+        input.viewDidLoad.value = ()
     }
     
     override func configureHierarchy() {
@@ -94,27 +91,8 @@ final class MovieDetailViewController: BaseViewController {
             right: 0
         )
         
-        let likeButton = UIBarButtonItem(
-            image: UIImage(systemName: UserDefaultsManager.shared.likeMovies.contains(movieDetail.movieID) ? "heart.fill" : "heart"),
-            style: .plain,
-            target: self,
-            action: #selector(likeButtonTapped)
-        )
-        likeButton.tintColor = .systemRed
-        navigationItem.setRightBarButtonItems(
-            [likeButton],
-            animated: true
-        )
-        
-        backdropView.configure(
-            dateString: movieDetail.dateString,
-            rate: movieDetail.rate,
-            genreList: movieDetail.genreList
-        )
         backdropView.collectionView.delegate = self
         backdropView.collectionView.dataSource = self
-        
-        synopsisView.configure(synopsis: movieDetail.overview)
         
         castView.collectionView.delegate = self
         castView.collectionView.dataSource = self
@@ -123,74 +101,73 @@ final class MovieDetailViewController: BaseViewController {
         posterView.collectionView.dataSource = self
     }
     
-    private func fetchData() {
-        let group = DispatchGroup()
-        
-        group.enter()
-        DispatchQueue.global().async {
-            self.fetchBackdropImages(group: group)
-        }
-        group.enter()
-        DispatchQueue.global().async {
-            self.fetchCastList(group: group)
-        }
-        group.notify(queue: .main) {
-            if self.backdropImageList.isEmpty {
-                self.backdropView.showEmptyView()
-            } else {
-                self.backdropView.collectionView.reloadData()
-                self.backdropView.pageControl.numberOfPages = self.backdropImageList.count
-            }
-            if self.castList.isEmpty {
-                self.castView.showEmptyView()
-            } else {
-                self.castView.collectionView.reloadData()
-            }
-            if self.posterImageList.isEmpty {
-                self.posterView.showEmptyView()
-            } else {
-                self.posterView.collectionView.reloadData()
-            }
-            
-            if self.isErrorAlertShow {
-                self.showErrorAlert()
-                self.isErrorAlertShow = false
-            }
-        }
-    }
-    
-    private func fetchBackdropImages(group: DispatchGroup) {
-        APIService.shared.request(
-            api: DefaultRouter.fetchMovieImages(movieID: movieDetail.movieID)) { [weak self] (result: Result<FetchImagesResponseDTO, NetworkError>) in
-                switch result {
-                case .success(let value):
-                    self?.backdropImageList = value.backdrops.prefix(5).map { $0.file_path }
-                    self?.posterImageList = value.posters.map { $0.file_path }
-                case .failure(let error):
-                    dump(error)
-                    self?.isErrorAlertShow = true
-                }
-                group.leave()
-            }
-    }
-    
-    private func fetchCastList(group: DispatchGroup) {
-        APIService.shared.request(
-            api: DefaultRouter.fetchCast(movieID: movieDetail.movieID)) { [weak self] (result: Result<FetchCastResponseDTO, NetworkError>) in
-                switch result {
-                case .success(let value):
-                    self?.castList = value.cast
-                case .failure(let error):
-                    dump(error)
-                    self?.isErrorAlertShow = true
-                }
-                group.leave()
-            }
-    }
-    
     @objc private func likeButtonTapped(_ sender: UIBarButtonItem) {
-        UserDefaultsManager.shared.toggleLikeMovie(movieID: movieDetail.movieID)
-        sender.image = UIImage(systemName: UserDefaultsManager.shared.likeMovies.contains(movieDetail.movieID) ? "heart.fill" : "heart")
+        input.likeButtonTapped.value = ()
+    }
+    
+    private func bind() {
+        let output = viewModel.transform(input: input)
+        
+        output.setLikeButton.bind { [weak self] isLiked in
+            guard let self else { return }
+            let likeButton = UIBarButtonItem(
+                image: UIImage(systemName: isLiked ? "heart.fill" : "heart"),
+                style: .plain,
+                target: self,
+                action: #selector(likeButtonTapped)
+            )
+            likeButton.tintColor = .systemRed
+            navigationItem.setRightBarButtonItems(
+                [likeButton],
+                animated: true
+            )
+        }
+        
+        output.configureViews.bind { [weak self] movieDetail in
+            guard let self, let movieDetail else { return }
+            backdropView.configure(
+                dateString: movieDetail.dateString,
+                rate: movieDetail.rate,
+                genreList: movieDetail.genreList
+            )
+            synopsisView.configure(synopsis: movieDetail.overview)
+        }
+        
+        output.toggleLikeButton.bind { [weak self] isLiked in
+            self?.navigationItem.rightBarButtonItem?.image = UIImage(systemName: isLiked ? "heart.fill" : "heart")
+        }
+        
+        output.backdropViewShowEmptyView.bind { [weak self] in
+            self?.backdropView.showEmptyView()
+        }
+        
+        output.castViewShowEmptyView.bind { [weak self] in
+            self?.castView.showEmptyView()
+        }
+        
+        output.posterViewShowEmptyView.bind { [weak self] in
+            self?.posterView.showEmptyView()
+        }
+        
+        output.refreshBackdropView.bind { [weak self] in
+            self?.backdropView.collectionView.reloadData()
+        }
+        
+        output.refreshCastViewShowEmptyView.bind { [weak self] in
+            self?.castView.collectionView.reloadData()
+        }
+        
+        output.refreshPosterViewShowEmptyView.bind { [weak self] in
+            self?.posterView.collectionView.reloadData()
+        }
+        
+        output.setPageControl.bind { [weak self] pageCount in
+            self?.backdropView.pageControl.numberOfPages = pageCount
+        }
+        
+        output.showErrorAlert.bind { [weak self] _ in
+            self?.showErrorAlert()
+        }
     }
 }
 
@@ -200,11 +177,11 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
         numberOfItemsInSection section: Int
     ) -> Int {
         if collectionView == backdropView.collectionView {
-            return backdropImageList.count
+            return viewModel.backdropImageList.count
         } else if collectionView == castView.collectionView {
-            return castList.count
+            return viewModel.castList.count
         } else if collectionView == posterView.collectionView {
-            return posterImageList.count
+            return viewModel.posterImageList.count
         } else {
             print(#function, "Cell Count Wrong")
             return 0
@@ -223,7 +200,7 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
                 print(#function, "BackdropCollectionViewCell Wrong")
                 return UICollectionViewCell()
             }
-            cell.configure(image: backdropImageList[indexPath.row])
+            cell.configure(image: viewModel.backdropImageList[indexPath.row])
             
             return cell
         } else if collectionView == castView.collectionView {
@@ -234,7 +211,7 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
                 print(#function, "CastCollectionViewCell Wrong")
                 return UICollectionViewCell()
             }
-            cell.configure(cast: castList[indexPath.row])
+            cell.configure(cast: viewModel.castList[indexPath.row])
             
             return cell
         } else if collectionView == posterView.collectionView {
@@ -245,7 +222,7 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
                 print(#function, "PosterCollectionViewCell Wrong")
                 return UICollectionViewCell()
             }
-            cell.configure(image: posterImageList[indexPath.row])
+            cell.configure(image: viewModel.posterImageList[indexPath.row])
             
             return cell
         } else {
