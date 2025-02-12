@@ -25,7 +25,6 @@ final class BookCollectionViewCell: BaseCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
-        imageView.backgroundColor = .darkGray
         titleLabel.text = ""
         descriptionLabel.text = "\n"//TODO: 이게 최선일까?
         likeButton.isSelected = false

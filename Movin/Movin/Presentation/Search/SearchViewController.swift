@@ -31,6 +31,11 @@ final class SearchViewController: BaseViewController {
         input.viewDidLoad.value = ()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        input.viewDidAppear.value = ()
+    }
+    
     private func bind() {
         let output = viewModel.transform(input: input)
         
@@ -92,14 +97,10 @@ final class SearchViewController: BaseViewController {
     }
     
     override func configureViews() {
-        navigationItem.title = "영화 검색"
+        navigationItem.title = "검색"
         
-        let attributedString = NSMutableAttributedString(string: "영화를 검색해보세요.", attributes: [
-            NSAttributedString.Key.foregroundColor: UIColor.darkGray
-        ])
         searchBar.searchBarStyle = .minimal
-        searchBar.searchTextField.attributedPlaceholder = attributedString
-        searchBar.searchTextField.leftView?.tintColor = .darkGray
+        searchBar.placeholder = "제목이나 저자를 입력하세요"
         searchBar.delegate = self
         
         searchResultTableView.backgroundColor = .clear
@@ -107,9 +108,10 @@ final class SearchViewController: BaseViewController {
         searchResultTableView.delegate = self
         searchResultTableView.dataSource = self
         searchResultTableView.prefetchDataSource = self
-        searchResultTableView.rowHeight = 160
+        searchResultTableView.rowHeight = 200
         searchResultTableView.separatorStyle = .singleLine
         searchResultTableView.separatorColor = .darkGray
+        searchResultTableView.separatorInset = .zero
         searchResultTableView.register(
             SearchTableViewCell.self,
             forCellReuseIdentifier: SearchTableViewCell.identifier
@@ -117,7 +119,7 @@ final class SearchViewController: BaseViewController {
         
         emptyResultLabel.isHidden = true
         emptyResultLabel.textAlignment = .center
-        emptyResultLabel.text = "원하는 검색결과를 찾지 못했습니다."
+        emptyResultLabel.text = "검색결과를 찾지 못했습니다."
         emptyResultLabel.textColor = .darkGray
         emptyResultLabel.font = .systemFont(
             ofSize: 14,
@@ -129,6 +131,7 @@ final class SearchViewController: BaseViewController {
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         input.searchButtonTapped.value = searchBar.text
+        searchBar.searchTextField.resignFirstResponder()
     }
 }
 
@@ -137,7 +140,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        return viewModel.searchResult.count
+        return viewModel.bookList.count
     }
     
     func tableView(
@@ -152,7 +155,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
             return UITableViewCell()
         }
         cell.configure(
-            content: viewModel.searchResult[indexPath.row],
+            content: viewModel.bookList[indexPath.row],
             searchKeyword: viewModel.searchKeyword
         )
         cell.likeButton.tag = indexPath.row
@@ -176,16 +179,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        let detailViewController = MovieDetailViewController(
-            movieDetail: MovieDetail(
-                movieID: viewModel.searchResult[indexPath.row].id,
-                dateString: viewModel.searchResult[indexPath.row].release_date,
-                rate: viewModel.searchResult[indexPath.row].vote_average,
-                genreList: viewModel.searchResult[indexPath.row].genre_ids?.prefix(2).compactMap { Genre(rawValue: $0) } ?? [],
-                overview: viewModel.searchResult[indexPath.row].overview
-            )
-        )
-        detailViewController.navigationItem.title = viewModel.searchResult[indexPath.row].title
+        let detailViewController = BookDetailViewController(isbn: viewModel.bookList[indexPath.row].isbn13)
+        
         navigationController?.pushViewController(
             detailViewController,
             animated: true
@@ -194,6 +189,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource, UITa
     
     @objc private func likeButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
-        UserDefaultsManager.shared.toggleLikeMovie(movieID: viewModel.searchResult[sender.tag].id)
+        UserDefaultsManager.shared.toggleLikeBook(book: viewModel.bookList[sender.tag])
     }
 }

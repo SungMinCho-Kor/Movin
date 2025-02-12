@@ -26,7 +26,7 @@ final class DateManager {
             print(#function, "worng format")
             return ""
         }
-        dateFormatter.dateFormat = "yyyy. MM. dd"
+        dateFormatter.dateFormat = "yyyy년 MM월"
         return dateFormatter.string(from: date)
     }
 }

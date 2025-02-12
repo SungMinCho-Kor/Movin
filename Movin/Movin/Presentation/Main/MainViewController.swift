@@ -71,10 +71,10 @@ final class MainViewController: BaseViewController {
     }
     
     @objc private func searchButtonTapped() {
-//        navigationController?.pushViewController(
-//            SearchViewController(),
-//            animated: true
-//        )
+        navigationController?.pushViewController(
+            SearchViewController(viewModel: SearchViewModel()),
+            animated: true
+        )
     }
     
     private func createCollectionViewLayout() -> UICollectionViewLayout {

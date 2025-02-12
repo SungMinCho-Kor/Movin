@@ -5,7 +5,7 @@
 //  Created by 조성민 on 2/11/25.
 //
 
-struct Book {
+struct Book: Codable {
     let title: String
     let link: String //알라딘 구매 링크
     let author: String

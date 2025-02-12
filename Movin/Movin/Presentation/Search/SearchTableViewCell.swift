@@ -8,11 +8,12 @@
 import UIKit
 
 final class SearchTableViewCell: BaseTableViewCell {
-    private let posterImageView = UIImageView()
+    private let coverImageView = UIImageView()
     private let titleLabel = UILabel()
-    private let dateLabel = UILabel()
-    private let genreStackView = UIStackView()
-    let likeButton = UIButton()//TODO: private 안 풀고 하는 방법
+    private let publishInfoLabel = UILabel()
+    private let priceLabel = UILabel()
+    private let categoryLabel = UILabel()
+    let likeButton = UIButton()
     
     override init(
         style: UITableViewCell.CellStyle,
@@ -26,61 +27,74 @@ final class SearchTableViewCell: BaseTableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        posterImageView.image = nil
-        posterImageView.backgroundColor = .darkGray
-        titleLabel.attributedText = NSAttributedString(string: "")
-        dateLabel.text = ""
-        genreStackView.arrangedSubviews.forEach { subview in
-            genreStackView.removeArrangedSubview(subview)
-            subview.removeFromSuperview()
-        }
+        coverImageView.image = nil
+        titleLabel.attributedText = nil
+        publishInfoLabel.text = ""
+        priceLabel.text = ""
+        categoryLabel.text = ""
         likeButton.isSelected = false
     }
     
     override func configureHierarchy() {
         [
-            posterImageView,
+            coverImageView,
             titleLabel,
-            dateLabel,
-            genreStackView,
+            publishInfoLabel,
+            priceLabel,
+            categoryLabel,
             likeButton
         ].forEach(contentView.addSubview)
     }
     
     override func configureLayout() {
-        posterImageView.snp.makeConstraints { make in
+        coverImageView.snp.makeConstraints { make in
             make.leading.verticalEdges.equalToSuperview().inset(16)
-            make.width.equalTo(posterImageView.snp.height).multipliedBy(0.75)
+            make.width.equalTo(coverImageView.snp.height).multipliedBy(0.75)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(posterImageView.snp.trailing).offset(16)
+            make.leading.equalTo(coverImageView.snp.trailing).offset(16)
             make.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(posterImageView).offset(8)
+            make.top.equalTo(coverImageView).offset(8)
         }
         
-        dateLabel.snp.makeConstraints { make in
+        publishInfoLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel)
+            make.trailing.equalToSuperview().inset(16)
             make.top.equalTo(titleLabel.snp.bottom).offset(4)
         }
         
-        genreStackView.snp.makeConstraints { make in
+        priceLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel)
-            make.bottom.equalTo(posterImageView)
+            make.top.equalTo(publishInfoLabel.snp.bottom).offset(8)
+        }
+        
+        categoryLabel.snp.makeConstraints { make in
+            make.leading.equalTo(titleLabel)
+            make.bottom.equalTo(coverImageView)
             make.trailing.lessThanOrEqualTo(likeButton.snp.leading).inset(8)
         }
         
         likeButton.snp.makeConstraints { make in
             make.trailing.bottom.equalToSuperview().inset(16)
         }
+        
+        likeButton.setContentCompressionResistancePriority(
+            .defaultHigh,
+            for: .horizontal
+        )
+        categoryLabel.setContentCompressionResistancePriority(
+            .defaultLow,
+            for: .horizontal
+        )
     }
     
     override func configureViews() {
         backgroundColor = .white
         selectionStyle = .none
         
-        posterImageView.layer.cornerRadius = 10
-        posterImageView.clipsToBounds = true
+        coverImageView.layer.cornerRadius = 10
+        coverImageView.clipsToBounds = true
         
         titleLabel.numberOfLines = 2
         titleLabel.textColor = .black
@@ -89,12 +103,19 @@ final class SearchTableViewCell: BaseTableViewCell {
             weight: .bold
         )
         
-        dateLabel.font = .systemFont(ofSize: 14)
-        dateLabel.textColor = .darkGray
+        publishInfoLabel.font = .systemFont(ofSize: 14)
+        publishInfoLabel.textColor = .darkGray
+        publishInfoLabel.numberOfLines = 2
         
-        genreStackView.spacing = 4
-        genreStackView.distribution = .equalSpacing
+        priceLabel.font = .systemFont(
+            ofSize: 20,
+            weight: .bold
+        )
         
+        categoryLabel.font = .systemFont(ofSize: 14)
+        categoryLabel.textColor = .darkGray
+        categoryLabel.numberOfLines = 2
+
         likeButton.setImage(
             UIImage(systemName: "heart"),
             for: .normal
@@ -103,42 +124,19 @@ final class SearchTableViewCell: BaseTableViewCell {
             UIImage(systemName: "heart.fill"),
             for: .selected
         )
-        likeButton.tintColor = .black
+        likeButton.tintColor = .systemRed
     }
     
     func configure(
-        content: SearchResult,
+        content: Book,
         searchKeyword: String
     ) {
-        if let posterPath = content.poster_path {
-            posterImageView.backgroundColor = .clear
-            posterImageView.contentMode = .scaleAspectFill
-            posterImageView.setImage(with: Environment.imageBaseURL.value + "/w500" + posterPath)
-        } else {
-            posterImageView.backgroundColor = .darkGray
-            posterImageView.image = UIImage(systemName: "xmark.octagon.fill")
-            posterImageView.tintColor = .white
-            posterImageView.contentMode = .center
-        }
-        
-        configureHighlightTitle(
-            content.title,
-            searchKeyword: searchKeyword
-        )
-        
-        if let releaseDate = content.release_date, !releaseDate.isEmpty {
-            dateLabel.text = DateManager.shared.searchDateFormat(dateString: releaseDate)
-        }
-        content.genre_ids?.prefix(2).forEach { genreID in
-            guard let genre = Genre(rawValue: genreID) else {
-                print(#function, "Genre Rawvalue Wrong")
-                return
-            }
-            let label = GenreLabel()
-            label.text = genre.name
-            genreStackView.addArrangedSubview(label)
-        }
-        likeButton.isSelected = UserDefaultsManager.shared.likeMovies.contains(content.id)
+        coverImageView.setImage(with: content.cover)
+        titleLabel.text = content.title
+        publishInfoLabel.text = content.author + " | " + content.publisher + " | " + DateManager.shared.searchDateFormat(dateString: content.pubDate)
+        priceLabel.text = content.priceStandard.formatted() + "원"
+        categoryLabel.text = content.categoryName
+        likeButton.isSelected = UserDefaultsManager.shared.likeBooks.contains(where: { $0.isbn13 == content.isbn13 } )
     }
     
     func configureHighlightTitle(
@@ -152,7 +150,7 @@ final class SearchTableViewCell: BaseTableViewCell {
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(
             .foregroundColor,
-            value: UIColor.black,
+            value: UIColor.systemBlue,
             range: highlightRange
         )
         titleLabel.attributedText = attributedString

@@ -7,18 +7,19 @@
 
 import Foundation
 
-enum UserDefaultsKey: String, CaseIterable {
-    case isOnboardingDone
-    case nickname
-    case profileImageIndex
-    case profileImage
-    case signUpDate
-    case likeMovies
-    case searchHistory
-    case mbti
-}
-
 final class UserDefaultsManager {
+    private enum UserDefaultsKey: String, CaseIterable {
+        case isOnboardingDone
+        case nickname
+        case profileImageIndex
+        case profileImage
+        case signUpDate
+        case likeMovies
+        case searchHistory
+        case mbti
+        case likeBooks
+    }
+
     static let shared = UserDefaultsManager()
     
     @UserDefault(
@@ -56,6 +57,11 @@ final class UserDefaultsManager {
         defaultValue: MBTI()
     )
     var mbti: MBTI
+    @UserDefault(
+        key: UserDefaultsKey.likeBooks.rawValue,
+        defaultValue: []
+    )
+    var likeBooks: [Book]
     
     private init() { }
     
@@ -82,6 +88,14 @@ final class UserDefaultsManager {
             likeMovies.removeAll { $0 == movieID }
         } else {
             likeMovies.append(movieID)
+        }
+    }
+    
+    func toggleLikeBook(book: Book) {
+        if let idx = likeBooks.firstIndex(where: { $0.isbn13 == book.isbn13 }) {
+            likeBooks.remove(at: idx)
+        } else {
+            likeBooks.append(book)
         }
     }
     

@@ -10,6 +10,7 @@ import Foundation
 final class SearchViewModel: ViewModel {
     struct Input {
         let viewDidLoad: Observable<Void> = Observable(())
+        let viewDidAppear: Observable<Void> = Observable(())
         let searchButtonTapped: Observable<String?> = Observable(nil)
         let prefetch: Observable<[IndexPath]> = Observable([])
     }
@@ -24,7 +25,7 @@ final class SearchViewModel: ViewModel {
     }
     
     private(set) var searchKeyword: String
-    private(set) var searchResult: [SearchResult] = []
+    private(set) var bookList: [Book] = []
     private var isPagingationEnd: Bool = false
     private var page: Int = 0
     
@@ -44,7 +45,11 @@ final class SearchViewModel: ViewModel {
             if !searchKeyword.isEmpty {
                 search(text: searchKeyword, output: output)
                 output.fillSearchTextField.value = searchKeyword
-            } else {
+            }
+        }
+        
+        input.viewDidAppear.bind { [weak self] _ in
+            if self?.searchKeyword.isEmpty == true {
                 output.becomeFirstResponder.value = ()
             }
         }
@@ -65,28 +70,9 @@ final class SearchViewModel: ViewModel {
                 print(#function, "No Self")
                 return
             }
-            if indexPaths.last?.row == searchResult.count - 1, !isPagingationEnd {
+            if indexPaths.last?.row == bookList.count - 1, !isPagingationEnd {
                 page += 1
-                APIService.shared.request(
-                    api: DefaultRouter.search(
-                        dto: SearchRequestDTO(
-                            query: searchKeyword,
-                            page: page
-                        )
-                    )
-                ) { [weak self] (result: Result<SearchResponseDTO, NetworkError>) in
-                    switch result {
-                    case .success(let value):
-                        if value.total_pages == value.page {
-                            self?.isPagingationEnd = true
-                        }
-                        self?.searchResult.append(contentsOf: value.results)
-                        output.reloadSearchResult.value = ()
-                    case .failure(let error):
-                        dump(error)
-                        output.showErrorAlert.value = error
-                    }
-                }
+                prefetch(output: output)
             }
         }
         
@@ -99,30 +85,64 @@ final class SearchViewModel: ViewModel {
         searchKeyword = text
         UserDefaultsManager.shared.appendSearchHistory(keyword: text)
         APIService.shared.request(
-            api: DefaultRouter.search(
-                dto: SearchRequestDTO(
+            api: AladinRouter.fetchSearch(
+                dto: FetchSearchRequestDTO(
                     query: text,
-                    page: page
+                    start: page,
+                    maxResults: 20,
+                    sort: .accuracy//TODO: 검색창에 필터 버튼 만들기
                 )
-            )
-        ) { [weak self] (result: Result<SearchResponseDTO, NetworkError>) in
-            switch result {
-            case .success(let value):
-                if value.total_pages == value.page {
-                    self?.isPagingationEnd = true
+            )) { [weak self] (result: Result<FetchResponseDTO, NetworkError>) in
+                guard let self else {
+                    print(#function, "No Self")
+                    return
                 }
-                self?.searchResult = value.results
-                output.reloadSearchResult.value = ()
-                if !value.results.isEmpty {
-                    output.scrollToTop.value = ()
-                    output.isShowEmptyView.value = false
-                } else {
-                    output.isShowEmptyView.value = true
+                switch result {
+                case .success(let dto):
+                    bookList = dto.item.map { $0.toModel() }
+                    if bookList.count >= 200 || bookList.count == dto.totalResults {
+                        isPagingationEnd = false
+                    }
+                    output.reloadSearchResult.value = ()
+                    if !bookList.isEmpty {
+                        output.scrollToTop.value = ()
+                        output.isShowEmptyView.value = false
+                    } else {
+                        output.isShowEmptyView.value = true
+                    }
+                case .failure(let error):
+                    dump(error)
+                    output.showErrorAlert.value = error
                 }
-            case .failure(let error):
-                dump(error)
-                output.showErrorAlert.value = error
             }
-        }
+    }
+    
+    private func prefetch(output: Output) {
+        APIService.shared.request(
+            api: AladinRouter.fetchSearch(
+                dto: FetchSearchRequestDTO(
+                    query: searchKeyword,
+                    start: page,
+                    maxResults: 20,
+                    sort: .accuracy
+                )
+            )) { [weak self] (result: Result<FetchResponseDTO, NetworkError>) in
+                guard let self else {
+                    print(#function, "No Self")
+                    return
+                }
+                switch result {
+                case .success(let dto):
+                    self.bookList.append(contentsOf: dto.item.map { $0.toModel() })
+                    if bookList.count >= 200 || bookList.count == dto.totalResults {
+                        isPagingationEnd = true
+                    }
+                    output.reloadSearchResult.value = ()
+                case .failure(let error):
+                    dump(error)
+                    output.showErrorAlert.value = error
+                }
+            }
+        
     }
 }
