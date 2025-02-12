@@ -53,6 +53,11 @@ final class MainViewController: BaseViewController {
             BookCollectionViewCell.self,
             forCellWithReuseIdentifier: BookCollectionViewCell.identifier
         )
+        collectionView.register(
+            BookHeaderReusableView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: BookHeaderReusableView.identifier
+        )
     }
     
     private func bind() {
@@ -65,6 +70,14 @@ final class MainViewController: BaseViewController {
         output.pushDetailView.bind { [weak self] isbn in
             self?.navigationController?.pushViewController(
                 BookDetailViewController(isbn: isbn),
+                animated: true
+            )
+        }
+        
+        output.pushListView.bind { [weak self] type in
+            guard let type else { return }
+            self?.navigationController?.pushViewController(
+                BookListViewController(viewModel: BookListViewModel(type: type)),
                 animated: true
             )
         }
@@ -160,10 +173,23 @@ final class MainViewController: BaseViewController {
             bottom: 0,
             trailing: 8
         )
+        section.boundarySupplementaryItems = [
+            NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .absolute(40)
+                ),
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+        ]
         
         return section
     }
     
+    @objc private func headerTapped(_ sender: UIButton) {
+        input.headerTapped.value = sender.tag
+    }
 }
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -182,6 +208,32 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         return count
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: BookHeaderReusableView.identifier,
+            for: indexPath
+        ) as? BookHeaderReusableView else {
+            print(#function, "BookHeaderReusableView Wrong")
+            return UICollectionReusableView()
+        }
+        if let queryType = QueryType(rawValue: indexPath.section) {
+            header.configure(queryType: queryType)
+            header.titleButton.tag = queryType.rawValue
+            header.titleButton.addTarget(
+                self,
+                action: #selector(headerTapped),
+                for: .touchUpInside
+            )
+        }
+        
+        return header
     }
     
     func collectionView(

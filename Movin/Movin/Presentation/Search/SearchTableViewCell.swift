@@ -29,7 +29,7 @@ final class SearchTableViewCell: BaseTableViewCell {
         super.prepareForReuse()
         coverImageView.image = nil
         titleLabel.attributedText = nil
-        publishInfoLabel.text = ""
+        publishInfoLabel.attributedText = nil
         priceLabel.text = ""
         categoryLabel.text = ""
         likeButton.isSelected = false
@@ -98,12 +98,7 @@ final class SearchTableViewCell: BaseTableViewCell {
         
         titleLabel.numberOfLines = 2
         titleLabel.textColor = .black
-        titleLabel.font = .systemFont(
-            ofSize: 16,
-            weight: .bold
-        )
         
-        publishInfoLabel.font = .systemFont(ofSize: 14)
         publishInfoLabel.textColor = .darkGray
         publishInfoLabel.numberOfLines = 2
         
@@ -129,11 +124,23 @@ final class SearchTableViewCell: BaseTableViewCell {
     
     func configure(
         content: Book,
-        searchKeyword: String
+        searchKeyword: String = ""
     ) {
         coverImageView.setImage(with: content.cover)
-        titleLabel.text = content.title
-        publishInfoLabel.text = content.author + " | " + content.publisher + " | " + DateManager.shared.searchDateFormat(dateString: content.pubDate)
+        titleLabel.attributedText = configureHighlightTitle(
+            content.title,
+            searchKeyword: searchKeyword,
+            font: .systemFont(
+                ofSize: 16,
+                weight: .bold
+            )
+        )
+        let publishInfo = content.author + " | " + content.publisher + " | " + DateManager.shared.searchDateFormat(dateString: content.pubDate)
+        publishInfoLabel.attributedText = configureHighlightTitle(
+            publishInfo,
+            searchKeyword: searchKeyword,
+            font: .systemFont(ofSize: 14)
+        )
         priceLabel.text = content.priceStandard.formatted() + "원"
         categoryLabel.text = content.categoryName
         likeButton.isSelected = UserDefaultsManager.shared.likeBooks.contains(where: { $0.isbn13 == content.isbn13 } )
@@ -141,8 +148,9 @@ final class SearchTableViewCell: BaseTableViewCell {
     
     func configureHighlightTitle(
         _ text: String,
-        searchKeyword: String
-    ) {
+        searchKeyword: String,
+        font: UIFont
+    ) -> NSMutableAttributedString {
         let highlightRange = (text as NSString).range(
             of: searchKeyword,
             options: .caseInsensitive
@@ -153,6 +161,6 @@ final class SearchTableViewCell: BaseTableViewCell {
             value: UIColor.systemBlue,
             range: highlightRange
         )
-        titleLabel.attributedText = attributedString
+        return attributedString
     }
 }

@@ -5,6 +5,7 @@
 //  Created by 조성민 on 2/11/25.
 //
 
+// TODO: DataBase 사용
 struct Book: Codable {
     let title: String
     let link: String //알라딘 구매 링크

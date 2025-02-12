@@ -23,6 +23,19 @@ enum QueryType: Int, CaseIterable {
             return "itemNewAll"
         }
     }
+    
+    var headerTitle: String {
+        switch self {
+        case .itemNewSpecial:
+            return "주목할 만한 신간 도서"
+        case .bestseller:
+            return "베스트셀러"
+        case .blogBest:
+            return "블로그 베스트셀러"
+        case .itemNewAll:
+            return "신간 전체"
+        }
+    }
 }
 
 struct FetchListRequestDTO: Encodable {
