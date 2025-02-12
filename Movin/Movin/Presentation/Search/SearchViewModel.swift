@@ -31,6 +31,11 @@ final class SearchViewModel: ViewModel {
     
     init(searchKeyword: String = "") {
         self.searchKeyword = searchKeyword
+        print(self, #function)
+    }
+    
+    deinit {
+        print(self, #function)
     }
     
     func transform(input: Input) -> Output {

@@ -15,6 +15,15 @@ final class CinemaViewController: BaseViewController {
     private let viewModel = CinemaViewModel()
     private let input = CinemaViewModel.Input()
     
+    override init() {
+        super.init()
+        print(self, #function)
+    }
+    
+    deinit {
+        print(self, #function)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()

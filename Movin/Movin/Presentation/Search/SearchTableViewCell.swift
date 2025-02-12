@@ -93,7 +93,6 @@ final class SearchTableViewCell: BaseTableViewCell {
         backgroundColor = .white
         selectionStyle = .none
         
-        coverImageView.layer.cornerRadius = 10
         coverImageView.clipsToBounds = true
         
         titleLabel.numberOfLines = 2

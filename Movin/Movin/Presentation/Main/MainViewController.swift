@@ -112,13 +112,13 @@ final class MainViewController: BaseViewController {
     private func createNewSpecialSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(400)
+            heightDimension: .absolute(520)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
       
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.9),
-            heightDimension: .absolute(400)
+            heightDimension: .absolute(520)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,

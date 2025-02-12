@@ -18,6 +18,11 @@ final class SearchViewController: BaseViewController {
     init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
         super.init()
+        print(self, #function)
+    }
+    
+    deinit {
+        print(self, #function)
     }
     
     override func viewWillAppear(_ animated: Bool) {

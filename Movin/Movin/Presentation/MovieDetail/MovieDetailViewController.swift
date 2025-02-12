@@ -7,14 +7,6 @@
 
 import UIKit
 
-struct MovieDetail {
-    let movieID: Int
-    let dateString: String?
-    let rate: Double?
-    let genreList: [Genre]
-    let overview: String
-}
-
 final class MovieDetailViewController: BaseViewController {
     private let viewModel: MovieDetailViewModel
     private let input = MovieDetailViewModel.Input()
@@ -238,7 +230,6 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
     ) -> CGSize {
         if collectionView == backdropView.collectionView {
             let width = collectionView.bounds.width
-            
             return CGSize(width: width, height: width * 0.7)
         } else if collectionView == castView.collectionView {
             let height = collectionView.bounds.height
@@ -246,7 +237,6 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
             return CGSize(width: width / 2 , height: height / 2 - 8)
         } else if collectionView == posterView.collectionView {
             let height = collectionView.bounds.height
-            
             return CGSize(width: 100, height: height)
         }
         return .zero

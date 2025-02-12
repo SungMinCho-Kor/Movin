@@ -62,11 +62,11 @@ final class BookCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureViews() {
-        imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleToFill
         
         titleLabel.textColor = .black
+        titleLabel.numberOfLines = 2
         titleLabel.font = .systemFont(
             ofSize: 16,
             weight: .bold

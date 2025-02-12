@@ -12,12 +12,14 @@ final class BookListViewModel: ViewModel {
         let viewDidLoad: Observable<Void> = Observable(())
         let loadBookList: Observable<[IndexPath]> = Observable([])
         let likeButtonTapped: Observable<Int?> = Observable(nil)
+        let cellDidSelected: Observable<Int> = Observable(0)
     }
     
     struct Output {
         let setNavigationTitle: Observable<String> = Observable("")
         let reloadTable: Observable<Void> = Observable(())
         let showErrorAlert: Observable<NetworkError?> = Observable(nil)
+        let pushDetailView: Observable<String> = Observable("")
     }
     
     private let type: QueryType
@@ -61,6 +63,11 @@ final class BookListViewModel: ViewModel {
                 return
             }
             UserDefaultsManager.shared.toggleLikeBook(book: bookList[index])
+        }
+        
+        input.cellDidSelected.bind { [weak self] index in
+            guard let self else { return }
+            output.pushDetailView.value = bookList[index].isbn13
         }
         
         return output

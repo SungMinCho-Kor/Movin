@@ -15,7 +15,7 @@ enum TabCase: String, CaseIterable {
     var viewController: UIViewController {
         switch self {
         case .main:
-            return CinemaViewController()
+            return MainViewController()
         case .upcoming:
             return UpcomingViewController()
         case .profile:

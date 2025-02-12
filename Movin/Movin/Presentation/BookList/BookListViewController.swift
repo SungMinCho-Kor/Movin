@@ -42,6 +42,13 @@ final class BookListViewController: BaseViewController {
         output.setNavigationTitle.bind { [weak self] title in
             self?.navigationItem.title = title
         }
+        
+        output.pushDetailView.bind { [weak self] isbn in
+            self?.navigationController?.pushViewController(
+                BookDetailViewController(isbn: isbn),
+                animated: true
+            )
+        }
     }
     
     override func configureHierarchy() {
@@ -107,6 +114,13 @@ extension BookListViewController: UITableViewDelegate, UITableViewDataSource, UI
         )
         
         return cell
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        input.cellDidSelected.value = indexPath.row
     }
     
     func tableView(
