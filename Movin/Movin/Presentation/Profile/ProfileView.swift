@@ -1,5 +1,5 @@
 //
-//  CinemaProfileView.swift
+//  ProfileView.swift
 //  Movin
 //
 //  Created by 조성민 on 1/29/25.
@@ -7,14 +7,14 @@
 
 import UIKit
 
-final class CinemaProfileView: BaseView {
+final class ProfileView: BaseView {
     let profileInfoButton = ProfileInfoButton()
-    let movieBoxButton = UIButton()
+    let storageButton = UIButton()
     
     override func configureHierarchy() {
         [
             profileInfoButton,
-            movieBoxButton
+            storageButton
         ].forEach(addSubview)
     }
     
@@ -24,7 +24,7 @@ final class CinemaProfileView: BaseView {
             make.height.equalToSuperview().multipliedBy(0.5).offset(-16)
         }
         
-        movieBoxButton.snp.makeConstraints { make in
+        storageButton.snp.makeConstraints { make in
             make.top.equalTo(profileInfoButton.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(16)
@@ -32,7 +32,7 @@ final class CinemaProfileView: BaseView {
     }
     
     override func configureViews() {
-        var attributedString = AttributedString("\(UserDefaultsManager.shared.likeMovies.count) 개의 무비박스 보관중")
+        var attributedString = AttributedString("\(UserDefaultsManager.shared.likeBooks.count) 개의 북캉스 보관중")
         attributedString.font = .systemFont(
             ofSize: 16,
             weight: .bold
@@ -42,21 +42,21 @@ final class CinemaProfileView: BaseView {
         buttonConfiguration.attributedTitle = attributedString
         buttonConfiguration.baseForegroundColor = .white
         buttonConfiguration.baseBackgroundColor = .darkGray.withAlphaComponent(0.7)
-        movieBoxButton.configuration = buttonConfiguration
+        storageButton.configuration = buttonConfiguration
         
         layer.cornerRadius = 20
         backgroundColor = .darkGray.withAlphaComponent(0.5)
         
-        movieBoxButton.isUserInteractionEnabled = false
+        storageButton.isUserInteractionEnabled = false
     }
     
     func refreshView() {
-        var attributedString = AttributedString("\(UserDefaultsManager.shared.likeMovies.count) 개의 무비박스 보관중")
+        var attributedString = AttributedString("\(UserDefaultsManager.shared.likeBooks.count) 개의 북캉스 보관중")
         attributedString.font = .systemFont(
             ofSize: 16,
             weight: .bold
         )
-        movieBoxButton.configuration?.attributedTitle = attributedString
+        storageButton.configuration?.attributedTitle = attributedString
         profileInfoButton.refreshView()
     }
 }

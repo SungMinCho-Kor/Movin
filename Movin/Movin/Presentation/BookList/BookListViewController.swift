@@ -15,11 +15,11 @@ final class BookListViewController: BaseViewController {
     init(viewModel: BookListViewModel) {
         self.viewModel = viewModel
         super.init()
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [UIColor.systemBlue.cgColor, UIColor.systemPurple.cgColor]
-        gradientLayer.startPoint = .init(x: 0.5, y: 0)
-        gradientLayer.endPoint = .init(x: 0.5, y: 1)
-        
+        print(self, #function)
+    }
+    
+    deinit {
+        print(self, #function)
     }
     
     override func viewDidLoad() {

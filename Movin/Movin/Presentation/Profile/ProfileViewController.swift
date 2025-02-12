@@ -15,7 +15,7 @@ enum Setting: String, CaseIterable {
 }
 
 final class ProfileViewController: BaseViewController {
-    private let profileView = CinemaProfileView()
+    private let profileView = ProfileView()
     private let settingTableView = UITableView()
     private let alertController = UIAlertController(
         title: "탈퇴하기",

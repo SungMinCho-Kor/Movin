@@ -11,7 +11,11 @@ final class BookDetailViewController: BaseViewController {
     
     init(isbn: String) {
         super.init()
-        print("BookDetailViewController Init", isbn)
+        print(self, #function)
+    }
+    
+    deinit {
+        print(self, #function)
     }
     
     override func viewDidLoad() {

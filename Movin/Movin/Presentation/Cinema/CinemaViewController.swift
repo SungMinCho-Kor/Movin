@@ -8,7 +8,7 @@
 import UIKit
 
 final class CinemaViewController: BaseViewController {
-    private let profileView = CinemaProfileView()
+    private let profileView = ProfileView()
     private let recentSearchView = RecentSearchView()
     private let todayMovieView = TodayMovieView()
     
@@ -186,7 +186,7 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        let detailViewController = MovieDetailViewController(
+        let detailViewModel = MovieDetailViewModel(
             movieDetail: MovieDetail(
                 movieID: viewModel.todayMovieList[indexPath.row].id,
                 dateString: viewModel.todayMovieList[indexPath.row].release_date,
@@ -194,6 +194,9 @@ extension CinemaViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 genreList: viewModel.todayMovieList[indexPath.row].genre_ids?.prefix(2).compactMap { Genre(rawValue: $0) } ?? [],
                 overview: viewModel.todayMovieList[indexPath.row].overview
             )
+        )
+        let detailViewController = MovieDetailViewController(
+            viewModel: detailViewModel
         )
         detailViewController.navigationItem.title = viewModel.todayMovieList[indexPath.row].title
         navigationController?.pushViewController(

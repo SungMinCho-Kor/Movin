@@ -27,6 +27,7 @@ final class BookListViewModel: ViewModel {
     
     init(type: QueryType) {
         self.type = type
+        print(self, #function)
     }
     
     deinit {
