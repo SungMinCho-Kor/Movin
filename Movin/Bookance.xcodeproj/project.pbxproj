@@ -13,26 +13,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5916F0452D4785F100822291 /* Movin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5916F0452D4785F100822291 /* Bookance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5916F0572D4785F300822291 /* Exceptions for "Movin" folder in "Movin" target */ = {
+		5916F0572D4785F300822291 /* Exceptions for "Bookance" folder in "Bookance" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Info.plist,
 			);
-			target = 5916F0442D4785F100822291 /* Movin */;
+			target = 5916F0442D4785F100822291 /* Bookance */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5916F0472D4785F100822291 /* Movin */ = {
+		5916F0472D4785F100822291 /* Bookance */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5916F0572D4785F300822291 /* Exceptions for "Movin" folder in "Movin" target */,
+				5916F0572D4785F300822291 /* Exceptions for "Bookance" folder in "Bookance" target */,
 			);
-			path = Movin;
+			path = Bookance;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -54,7 +54,7 @@
 		5916F03C2D4785F100822291 = {
 			isa = PBXGroup;
 			children = (
-				5916F0472D4785F100822291 /* Movin */,
+				5916F0472D4785F100822291 /* Bookance */,
 				5916F0462D4785F100822291 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -62,7 +62,7 @@
 		5916F0462D4785F100822291 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5916F0452D4785F100822291 /* Movin.app */,
+				5916F0452D4785F100822291 /* Bookance.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,9 +70,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5916F0442D4785F100822291 /* Movin */ = {
+		5916F0442D4785F100822291 /* Bookance */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5916F0582D4785F300822291 /* Build configuration list for PBXNativeTarget "Movin" */;
+			buildConfigurationList = 5916F0582D4785F300822291 /* Build configuration list for PBXNativeTarget "Bookance" */;
 			buildPhases = (
 				5916F0412D4785F100822291 /* Sources */,
 				5916F0422D4785F100822291 /* Frameworks */,
@@ -83,16 +83,16 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				5916F0472D4785F100822291 /* Movin */,
+				5916F0472D4785F100822291 /* Bookance */,
 			);
-			name = Movin;
+			name = Bookance;
 			packageProductDependencies = (
 				5916F0EF2D479A5E00822291 /* Alamofire */,
 				5916F0F22D479A6C00822291 /* Kingfisher */,
 				5916F0F52D479A7A00822291 /* SnapKit */,
 			);
 			productName = Movin;
-			productReference = 5916F0452D4785F100822291 /* Movin.app */;
+			productReference = 5916F0452D4785F100822291 /* Bookance.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -110,7 +110,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5916F0402D4785F100822291 /* Build configuration list for PBXProject "Movin" */;
+			buildConfigurationList = 5916F0402D4785F100822291 /* Build configuration list for PBXProject "Bookance" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -129,7 +129,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5916F0442D4785F100822291 /* Movin */,
+				5916F0442D4785F100822291 /* Bookance */,
 			);
 		};
 /* End PBXProject section */
@@ -157,7 +157,7 @@
 /* Begin XCBuildConfiguration section */
 		5916F0592D4785F300822291 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 5916F0472D4785F100822291 /* Movin */;
+			baseConfigurationReferenceAnchor = 5916F0472D4785F100822291 /* Bookance */;
 			baseConfigurationReferenceRelativePath = Resources/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -166,7 +166,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7CQAR4CYZX;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Movin/Resources/Info.plist;
+				INFOPLIST_FILE = Bookance/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "조성민";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -195,7 +195,7 @@
 		};
 		5916F05A2D4785F300822291 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 5916F0472D4785F100822291 /* Movin */;
+			baseConfigurationReferenceAnchor = 5916F0472D4785F100822291 /* Bookance */;
 			baseConfigurationReferenceRelativePath = Resources/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -204,7 +204,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7CQAR4CYZX;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Movin/Resources/Info.plist;
+				INFOPLIST_FILE = Bookance/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "조성민";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -356,7 +356,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5916F0402D4785F100822291 /* Build configuration list for PBXProject "Movin" */ = {
+		5916F0402D4785F100822291 /* Build configuration list for PBXProject "Bookance" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5916F05B2D4785F300822291 /* Debug */,
@@ -365,7 +365,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5916F0582D4785F300822291 /* Build configuration list for PBXNativeTarget "Movin" */ = {
+		5916F0582D4785F300822291 /* Build configuration list for PBXNativeTarget "Bookance" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5916F0592D4785F300822291 /* Debug */,

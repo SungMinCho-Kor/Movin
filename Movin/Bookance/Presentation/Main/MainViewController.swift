@@ -16,6 +16,18 @@ final class MainViewController: BaseViewController {
     private let viewModel = MainViewModel()
     private let input = MainViewModel.Input()
     
+    override init() {
+        super.init()
+        
+        print(#function, UIScreen.main.bounds)
+    }
+    
+    override func loadView() {
+        print(#function, UIScreen.main.bounds)
+        super.loadView()
+        print(#function, UIScreen.main.bounds)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
